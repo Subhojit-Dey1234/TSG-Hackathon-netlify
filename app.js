@@ -2,6 +2,7 @@ require("dotenv").config();
 const bcrypt = require('bcrypt')
 const jwt = require("jsonwebtoken");
 const Students = require('./models/Students.js')
+const path = require('path')
 const express = require("express");
 const mongoos = require("mongoose")
 const app = express();
@@ -49,4 +50,7 @@ app.post('/signup', async (req, res) => {
 
 app.use('/auth',login)
 app.use('/student',StudentsData);
-app.listen(5000);
+
+
+const PORT = process.env.port || 5000
+app.listen(PORT);
