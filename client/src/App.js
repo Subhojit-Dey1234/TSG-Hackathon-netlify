@@ -23,7 +23,7 @@ function App() {
 			<Router>
 				<Routes>
 					<Route path = "*" element={<NotFound/>}/>
-					<Route path="/home" element={<Home />} />
+					<Route path="/" element={<Home />} />
 					<Route path="/loginstudent" element={<StudentLogin />} />
 					<Route path="/loginofficials" element={<OfficialLogin />} />
 					<Route path="/otp" element={<Otp />} />

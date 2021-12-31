@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const Students = require("../models/Students.js");
@@ -8,14 +9,17 @@ const Verify = require("../models/Verify.js");
 
 router.use("/", Officials);
 
+const sendingEmail = process.env.SENDING_EMAIL
+const sendEmailPassword = process.env.EMAIL_PASSWORD
+
 // For sending Mail
 const transporter = nodemailer.createTransport({
 	service: "gmail",
 	port: 465,
 	secure: true,
 	auth: {
-		user: "pcgaming1882020@gmail.com",
-		pass: "6gQLum2$JMEHB6",
+		user: sendingEmail,
+		pass: sendEmailPassword,
 	},
 	tls: {
 		rejectUnauthorized: false,
@@ -34,7 +38,7 @@ router.post("/login", async (req, res) => {
 		const mail = req.body.mail;
 		var val = Math.floor(1000 + Math.random() * 9000);
 		let info = {
-			from: "pcgaming1882020@gmail.com", // sender address
+			from: sendingEmail, // sender address
 			to: mail, // list of receivers
 			subject: "Otp for Login", // Subject line
 			html: `<h2 style="text-align:center;font-size:35px">Login Otp </h2><div><h1 style="text-align:center;font-size:40px;border-radius:10px;background:#eaeaff;border:1px dashed black;"> ${val} <h1>`, // html body
@@ -43,6 +47,9 @@ router.post("/login", async (req, res) => {
 		await transporter.sendMail(info, async (err, success) => {
 			if (err) {
 				console.log(err);
+				res.json({
+					err
+				})
 			} else {
 				console.log("Success");
 				let verifyObj = await Verify.findOne({

@@ -34,7 +34,7 @@ export default function Navbar() {
 					style={{ visibility: isHam ? "visible" : "hidden" }}
 				>
 					<ul>
-						<a href="/home" style={{textDecoration:"none", color:"black", display:isAuthenticated ? "none" : ""}}>
+						<a href="/" style={{textDecoration:"none", color:"black", display:isAuthenticated ? "none" : ""}}>
 							<li>Home</li>
 						</a>
 						<a href="/dashboard" style={{textDecoration:"none", color:"black" , display:isAuthenticated ? "" : "none"}}>
@@ -57,9 +57,9 @@ export default function Navbar() {
 							<li>News</li>
 						</a>
 						
-						<a className="logout" href="/home" onClick={()=>{
+						<a className="logout" href="/" onClick={()=>{
 							localStorage.clear();
-						}} style={{textDecoration:"none", color:"black", display:isAuthenticated ? "" : "none"}}>
+						}} style={{textDecoration:"none", color:"#727dbd", display:isAuthenticated ? "" : "none"}}>
 							<li>Logout</li>
 						</a>
 					</ul>

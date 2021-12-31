@@ -1,15 +1,14 @@
 require("dotenv").config();
-const bcrypt = require('bcrypt')
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const Students = require('./models/Students.js')
-const path = require('path')
+const Students = require("./models/Students.js");
+const path = require("path");
 const express = require("express");
-const mongoos = require("mongoose")
+const mongoos = require("mongoose");
 const app = express();
-const cors = require('cors');
-const login = require('./auth/Login.js');
+const cors = require("cors");
+const login = require("./auth/Login.js");
 const StudentsData = require("./views/Students/StudentsData.js");
-
 
 app.use(cors());
 
@@ -18,39 +17,21 @@ app.use(express.json());
 // Connecting to Database
 const db = require("./config/keys.js").mongoURI;
 
+mongoos
+	.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+	.then(() => console.log("...Connected"))
+	.catch((err) => console.log("Error", err));
 
-mongoos.connect(db,{ useNewUrlParser: true , useUnifiedTopology: true })
-.then(()=>console.log("...Connected"))
-.catch((err)=>console.log("Error",err))
+app.use("/auth", login);
+app.use("/student", StudentsData);
 
-app.post('/signup', async (req, res) => {
-    try {
-      if(!req.body.mail) return res.status(500).send("Invalid User")
-      const user = { mail: req.body.mail}
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static("client/build"));
 
-      const newUser = new Students(user);
-
-      newUser.save().then(item => res.json({item : item,success:true}))
-    } catch (err){
-        console.log(err)
-        res.status(500).send(err)
-    }
-  })
-
-
-  if(process.env.NODE_ENV === "production"){
-    app.use(express.static('client/build'))
-
-    app.get('*',(req,res)=>{
-        res.sendFile(path.resolve(__dirname,'client','build','index.html'))
-    })
+	app.get("*", (req, res) => {
+		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+	});
 }
 
 
-
-app.use('/auth',login)
-app.use('/student',StudentsData);
-
-
-const PORT = process.env.port || 5000
-app.listen(PORT);
+app.listen(process.env.PORT || 5000);

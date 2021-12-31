@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export const loginStudent = (data,callback) =>{
     return dispatch => {
-        return axios.post('http://localhost:5000/auth/login/',data,{
+        return axios.post('/auth/login/',data,{
         "Content-Type": "application/json",
     })
         .then(res=>{
@@ -23,7 +23,7 @@ export const loginStudent = (data,callback) =>{
 
 export const verifyOtp = (data,callback)=>{
     return dispatch=>{
-        return axios.post('http://localhost:5000/auth/verify/',data,{
+        return axios.post('/auth/verify/',data,{
             "Content-Type": "application/json",
         })
         .then(res=>{
