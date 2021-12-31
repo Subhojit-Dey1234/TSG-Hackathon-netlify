@@ -1,0 +1,77 @@
+.topCircle {
+  position: absolute;
+  width: 220px;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  animation: floating 4s ease-in-out infinite;
+}
+.topCircle1 {
+  position: absolute;
+  width: 150px;
+  left: 70vw;
+  z-index: -1;
+  animation: floating 3s ease-in-out infinite;
+}
+.topCircle2 {
+  position: absolute;
+  width: 150px;
+  top: 10vh;
+  left: 35vw;
+  z-index: -1;
+  animation: floating-1 3s ease-in-out infinite;
+}
+.triangle{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 90vh;
+  z-index: -1;
+}
+@keyframes floating {
+  0% {
+    top: 0em;
+  }
+  50% {
+    top: -1em;
+  }
+  100% {
+    top: 0em;
+  }
+}
+@keyframes floating-1 {
+  0% {
+    top: 10em;
+  }
+  50% {
+    top: 9em;
+  }
+  100% {
+    top: 10em;
+  }
+}
+
+@media  screen and (max-width: 500px){
+  .topCircle{
+    width: 150px;
+  }
+  .topCircle1{
+    width: 80px;
+  }
+  .topCircle2{
+    width: 80px;
+  }
+}
+
+@media  screen and (min-width: 500px) and (max-width: 800px){
+  .topCircle{
+    width: 150px;
+  }
+  .topCircle1{
+    width: 80px;
+  }
+  .topCircle2{
+    width: 80px;
+  }
+}
