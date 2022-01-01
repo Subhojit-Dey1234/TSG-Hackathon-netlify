@@ -1,0 +1,16 @@
+.footer{
+    background-color: #7882BD;
+    height: fit-content;
+    position: relative;
+    top: 25vh;
+}
+.footer-header{
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.footer-card{
+    background-color: transparent !important;
+    border: none;
+    color: white;
+}
