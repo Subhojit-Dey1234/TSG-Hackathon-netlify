@@ -13,7 +13,7 @@ export default function Navbar() {
 	return (
 		<div>
 			<div>
-				<a href="/home" >
+				<a href="/" >
 					<img src={logo} alt="logo" className="logo" />
 				</a>
 			</div>
