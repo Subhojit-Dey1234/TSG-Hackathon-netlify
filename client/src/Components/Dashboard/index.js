@@ -17,6 +17,7 @@ import logo2 from "./logo2.png";
 // import logo3 from "./logo3.png";
 import logo4 from "./logo4.png";
 import { Row, Col } from "reactstrap";
+import { useSelector  } from "react-redux";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import main from "../../Images/FormImage.png";
@@ -54,8 +55,9 @@ const participatedEvents = {
   ],
   poster: [logo1, logo2, logo1, logo2],
 };
-const userType = "Student";
+
 const Example = (props) => {
+  const userType = useSelector((state)=>state.userDetails.user.type);
   return (
     <div>
       <br />
@@ -93,7 +95,7 @@ const Example = (props) => {
       </Card>
       <br />
       <br />
-      {userType !== "Student" ? (
+      {userType !== "student" ? (
       <div style={{ padding: "3% 5%" }}>
         <h2 style={{ textAlign: "left", fontWeight: "bolder" }}>
           Some Reads For You

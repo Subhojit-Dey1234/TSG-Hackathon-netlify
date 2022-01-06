@@ -11,9 +11,9 @@ import Footer from "./Components/Footer/Footer";
 import StudentLogin from "./Components/Login/StudentLogin";
 import OfficialLogin from "./Components/Login/OfficialLogin";
 import ProtectedRoute from "./ProtectedRoute";
+import ProtectedNotAuth from "./ProtectedNotAuth";
 import Dashboard from "./Components/Dashboard/index";
 import NotFound from "./NotFound";
-
 
 function App() {
 	return (
@@ -22,11 +22,17 @@ function App() {
 			<Navbar />
 			<Router>
 				<Routes>
-					<Route path = "*" element={<NotFound/>}/>
+					<Route path="*" element={<NotFound />} />
 					<Route path="/" element={<Home />} />
-					<Route path="/loginstudent" element={<StudentLogin />} />
-					<Route path="/loginofficials" element={<OfficialLogin />} />
-					<Route path="/otp" element={<Otp />} />
+					<Route path="/loginstudent" element={<ProtectedNotAuth />}>
+						<Route path="/loginstudent" element={<StudentLogin />} />
+					</Route>
+					<Route path="/loginofficials" element={<ProtectedNotAuth />}>
+						<Route path="/loginofficials" element={<OfficialLogin />} />
+					</Route>
+					<Route path="/otp" element={<ProtectedNotAuth />}>
+						<Route path="/otp" element={<Otp />} />
+					</Route>
 					<Route exact path={"/studentPoint"} element={<ProtectedRoute />}>
 						<Route path="/studentPoint" element={<StudentPoint />} />
 					</Route>

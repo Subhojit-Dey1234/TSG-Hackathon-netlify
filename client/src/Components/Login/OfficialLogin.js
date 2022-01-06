@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./style.css";
 import {
 	Card,
@@ -11,8 +11,29 @@ import {
 	Input,
 	CardSubtitle,
 } from "reactstrap";
+import { loginOfficial } from "./Actions";
+import { useDispatch } from "react-redux";
 
 export default function OfficialLogin() {
+	const [email, setEmail] = useState(null);
+	const dispatch = useDispatch();
+	function Login(e) {
+		e.preventDefault();
+		let data = {
+			mail: email,
+			password: "123#abc%$pq",
+		};
+
+		console.log(data);
+		dispatch(
+			loginOfficial(data, (res) => {
+				if (!localStorage.getItem("access-token")) {
+					localStorage.setItem("access-token", res.data.accessToken);
+					// window.location.href = "/dashboard";
+				}
+			}),
+		);
+	}
 	return (
 		<div className="container-form">
 			<Card className="form">
@@ -27,7 +48,7 @@ export default function OfficialLogin() {
 					</div>
 					<br />
 					<br />
-					<Form>
+					<Form onSubmit={Login}>
 						<FormGroup>
 							<Label for="exampleEmail">User</Label>
 							<Input
@@ -35,6 +56,9 @@ export default function OfficialLogin() {
 								name="user"
 								id="exampleEmail"
 								placeholder="Username"
+								onChange={(e) => {
+									setEmail(e.target.value);
+								}}
 							/>
 							<Label for="exampleEmail">Password</Label>
 							<Input
@@ -44,9 +68,11 @@ export default function OfficialLogin() {
 								placeholder="Password"
 							/>
 							<br />
-							<Button style={{ backgroundColor: "#727dbd" }} block onClick={(e)=>{
-								e.preventDefault()
-							}}>
+							<Button
+								type="submit"
+								style={{ backgroundColor: "#727dbd" }}
+								block
+							>
 								Login
 							</Button>
 						</FormGroup>

@@ -4,14 +4,69 @@ const router = express.Router();
 const Students = require("../models/Students.js");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
-const Officials = require("./OfficialsLogin");
 const Verify = require("../models/Verify.js");
+const Officials = require("../models/Officials.js")
 
-router.use("/", Officials);
+router.post('/login-officials', async(req,res)=>{
+    let officials = await Officials.findOne({
+        mail : req.body.mail
+    })
+
+	let user = {
+		mail : req.body.mail,
+		password : req.body.password
+	}
+
+    if(officials){
+		let userData = {
+			mail : officials.mail,
+			name : officials.name,
+			username : officials.username,
+			type : officials.type
+		}	
+        if(officials.password === req.body.password){
+            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+
+            res.json({
+                success : "Password Matched.",
+                accessToken,
+				user : userData
+            })
+        }
+    }
+    else{
+		console.log("No User Found")
+        res.send(404)
+    }
+})
+
 
 const sendingEmail = process.env.SENDING_EMAIL
 const sendEmailPassword = process.env.EMAIL_PASSWORD
 
+
+// router.post('/login-officials', async(req,res)=>{
+//     console.log(req.body)
+//     let officials = await Officials.findOne({
+//         mail : req.body.mail,
+//         username: req.body.username
+//     })
+
+//     if(officials){
+//         if(officials.password === req.body.password){
+//             const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+//             res.send(200).json({
+//                 success : "Password Matched.",
+//                 accessToken,
+//             })
+//         }
+//     }
+//     else{
+//         res.json(404).send("No user found")
+//     }
+// })
+
+module.exports = router
 // For sending Mail
 const transporter = nodemailer.createTransport({
 	service: "gmail",
