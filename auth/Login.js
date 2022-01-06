@@ -44,6 +44,7 @@ router.post('/login-officials', async(req,res)=>{
 const sendingEmail = process.env.SENDING_EMAIL
 const sendEmailPassword = process.env.EMAIL_PASSWORD
 
+<<<<<<< HEAD
 
 // router.post('/login-officials', async(req,res)=>{
 //     console.log(req.body)
@@ -67,6 +68,8 @@ const sendEmailPassword = process.env.EMAIL_PASSWORD
 // })
 
 module.exports = router
+=======
+>>>>>>> b9ec2d681d0442bcb40b46635b5bbf79def7c644
 // For sending Mail
 const transporter = nodemailer.createTransport({
 	service: "gmail",
