@@ -12,12 +12,12 @@ import {
   Form,
   FormGroup,
 } from "reactstrap";
-import logo1 from "./logo1.png";
-import logo2 from "./logo2.png";
-// import logo3 from "./logo3.png";
-import logo4 from "./logo4.png";
+import logo1 from "../../Images/logo1.png";
+import logo2 from "../../Images/logo2.png";
+// import logo3 from "../../Images/logo3.png";
+import logo4 from "../../Images/logo4.png";
 import { Row, Col } from "reactstrap";
-import { useSelector  } from "react-redux";
+import { useSelector } from "react-redux";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import main from "../../Images/FormImage.png";
@@ -57,14 +57,16 @@ const participatedEvents = {
 };
 
 const Example = (props) => {
-  const userType = useSelector((state)=>state.userDetails.user.type);
+  const fileInput = React.useRef(null);
+  const userType = "tsgOfficial";
+  // const userType = useSelector((state)=>state.userDetails.user.type);
   return (
     <div>
       <br />
       <br />
       <br />
       <h2 style={{ textAlign: "left", margin: "3% 5%", fontWeight: "bolder" }}>
-        Recent Events!
+        Posted Events!
       </h2>
       <Card
         style={{ textAlign: "left", boxShadow: "2px grey", margin: "3% 5%" }}
@@ -82,12 +84,49 @@ const Example = (props) => {
               <CardText>
                 {eventDescription}
                 <br />
-                <a
-                  href="/"
-                  style={{ color: "#727dbd", textDecoration: "none" }}
-                >
-                  View More
-                </a>
+                <br />
+
+                {userType !== "student" ? (
+                  <div>
+                    <a
+                      href="#"
+                      style={{ color: "#727dbd", textDecoration: "none" }}
+                    >
+                      Download Report
+                    </a>{" "}
+                    |{" "}
+                    <a
+                      onClick={() => fileInput.current.click()}
+                      style={{
+                        color: "red",
+                        textDecoration: "none",
+                        cursor:"pointer",
+                      }}
+                    >
+                      Upload Report
+                    </a>
+                    <input ref={fileInput} type="file" style={{visibility:"hidden"}}/>
+                  </div>
+                ) : (
+                  <div>
+                    <a
+                      href="#"
+                      style={{ color: "#727dbd", textDecoration: "none" }}
+                    >
+                      Download Report
+                    </a>{" "}
+                    |{" "}
+                    <a
+                      href="#"
+                      style={{
+                        color: "red",
+                        textDecoration: "none",
+                      }}
+                    >
+                      Participate Now
+                    </a>
+                  </div>
+                )}
               </CardText>
             </CardBody>
           </Col>
@@ -96,119 +135,123 @@ const Example = (props) => {
       <br />
       <br />
       {userType !== "student" ? (
-      <div style={{ padding: "3% 5%" }}>
-        <h2 style={{ textAlign: "left", fontWeight: "bolder" }}>
-          Some Reads For You
-        </h2>
-        <p style={{ textAlign: "left" }}>
-          Learn more about research in the other IITs
-        </p>
-        <CardGroup style={{ padding: "3%" }}>
-          <Card style={{ margin: "0 1%", border: "none" }}>
-            <CardImg top width="10%" src={logo1} alt="Card image cap" />
-            <CardBody>
-              <CardTitle tag="h6">
-                Flying high with the best drone tech : The inspiring tale of
-                Urban Matrix
-              </CardTitle>
-            </CardBody>
-          </Card>
-          <Card style={{ margin: "0 1%", border: "none" }}>
-            <CardImg top width="10%" src={logo2} alt="Card image cap" />
-            <CardBody>
-              <CardTitle tag="h6">
-                Dioxane: A Harmful Pollutant and the Search for its Sensor
-              </CardTitle>
-            </CardBody>
-          </Card>
-          <Card style={{ margin: "0 1%", border: "none" }}>
-            <CardImg top width="10%" src={logo1} alt="Card image cap" />
-            <CardBody>
-              <CardTitle tag="h6">
-                Breaking a Virus 2: COVIRAP and where it goes from here
-              </CardTitle>
-            </CardBody>
-          </Card>
-        </CardGroup>
-      </div>) :
-      (<div style={{ padding: "3% 5%" }}>
-        <h2 style={{ textAlign: "left", fontWeight: "bolder" }}>
-          Participated Events
-        </h2>
-        <p style={{ textAlign: "left" }}>
-          Click On The Event's Title To Download Your Certificate
-        </p>
-        {/* <CardGroup style={{ padding: "3%" }}> */}
-        <Carousel responsive={responsive}>
-          <div>
+        <div style={{ padding: "3% 5%" }}>
+          <h2 style={{ textAlign: "left", fontWeight: "bolder" }}>
+            Some Reads For You
+          </h2>
+          <p style={{ textAlign: "left" }}>
+            Learn more about research in the other IITs
+          </p>
+          <CardGroup style={{ padding: "3%" }}>
             <Card style={{ margin: "0 1%", border: "none" }}>
-              <CardImg
-                top
-                width="10%"
-                src={participatedEvents.poster[0]}
-                alt="Card image cap"
-              />
+              <CardImg top width="10%" src={logo1} alt="Card image cap" />
               <CardBody>
-                <CardTitle tag="h6" style={{ textAlign: "center" }}>
-                  {participatedEvents.title[0]}: Organized By{" "}
-                  {participatedEvents.organizer[0]}
+                <CardTitle tag="h6">
+                  Flying high with the best drone tech : The inspiring tale of
+                  Urban Matrix
                 </CardTitle>
               </CardBody>
             </Card>
-          </div>
-          <div>
             <Card style={{ margin: "0 1%", border: "none" }}>
-              <CardImg
-                top
-                width="10%"
-                src={participatedEvents.poster[1]}
-                alt="Card image cap"
-              />
+              <CardImg top width="10%" src={logo2} alt="Card image cap" />
               <CardBody>
-                <CardTitle tag="h6" style={{ textAlign: "center" }}>
-                  {participatedEvents.title[1]}: Organized By{" "}
-                  {participatedEvents.organizer[1]}
+                <CardTitle tag="h6">
+                  Dioxane: A Harmful Pollutant and the Search for its Sensor
                 </CardTitle>
               </CardBody>
             </Card>
-          </div>
-          <div>
             <Card style={{ margin: "0 1%", border: "none" }}>
-              <CardImg
-                top
-                width="10%"
-                src={participatedEvents.poster[2]}
-                alt="Card image cap"
-              />
+              <CardImg top width="10%" src={logo1} alt="Card image cap" />
               <CardBody>
-                <CardTitle tag="h6" style={{ textAlign: "center" }}>
-                  {participatedEvents.title[2]}: Organized By{" "}
-                  {participatedEvents.organizer[2]}
+                <CardTitle tag="h6">
+                  Breaking a Virus 2: COVIRAP and where it goes from here
                 </CardTitle>
               </CardBody>
             </Card>
-          </div>
-          <div>
-            <Card style={{ margin: "0 1%", border: "none" }}>
-              <CardImg
-                top
-                width="10%"
-                src={participatedEvents.poster[3]}
-                alt="Card image cap"
-              />
-              <CardBody>
-                <CardTitle tag="h6" style={{ textAlign: "center" }}>
-                  {participatedEvents.title[3]}: Organized By{" "}
-                  {participatedEvents.organizer[3]}
-                </CardTitle>
-              </CardBody>
-            </Card>
-          </div>
-        </Carousel>
-        {/* </CardGroup> */}
-        <br />
-        <br />
-        <br />
+          </CardGroup>
+        </div>
+      ) : (
+        <div style={{ padding: "3% 5%" }}>
+          <h2 style={{ textAlign: "left", fontWeight: "bolder" }}>
+            Participated Events
+          </h2>
+          <p style={{ textAlign: "left" }}>
+            Click On The Event's Title To Download Your Certificate
+          </p>
+          {/* <CardGroup style={{ padding: "3%" }}> */}
+          <Carousel responsive={responsive}>
+            <div>
+              <Card style={{ margin: "0 1%", border: "none" }}>
+                <CardImg
+                  top
+                  width="10%"
+                  src={participatedEvents.poster[0]}
+                  alt="Card image cap"
+                />
+                <CardBody>
+                  <CardTitle tag="h6" style={{ textAlign: "center" }}>
+                    {participatedEvents.title[0]}: Organized By{" "}
+                    {participatedEvents.organizer[0]}
+                  </CardTitle>
+                </CardBody>
+              </Card>
+            </div>
+            <div>
+              <Card style={{ margin: "0 1%", border: "none" }}>
+                <CardImg
+                  top
+                  width="10%"
+                  src={participatedEvents.poster[1]}
+                  alt="Card image cap"
+                />
+                <CardBody>
+                  <CardTitle tag="h6" style={{ textAlign: "center" }}>
+                    {participatedEvents.title[1]}: Organized By{" "}
+                    {participatedEvents.organizer[1]}
+                  </CardTitle>
+                </CardBody>
+              </Card>
+            </div>
+            <div>
+              <Card style={{ margin: "0 1%", border: "none" }}>
+                <CardImg
+                  top
+                  width="10%"
+                  src={participatedEvents.poster[2]}
+                  alt="Card image cap"
+                />
+                <CardBody>
+                  <CardTitle tag="h6" style={{ textAlign: "center" }}>
+                    {participatedEvents.title[2]}: Organized By{" "}
+                    {participatedEvents.organizer[2]}
+                  </CardTitle>
+                </CardBody>
+              </Card>
+            </div>
+            <div>
+              <Card style={{ margin: "0 1%", border: "none" }}>
+                <CardImg
+                  top
+                  width="10%"
+                  src={participatedEvents.poster[3]}
+                  alt="Card image cap"
+                />
+                <CardBody>
+                  <CardTitle tag="h6" style={{ textAlign: "center" }}>
+                    {participatedEvents.title[3]}: Organized By{" "}
+                    {participatedEvents.organizer[3]}
+                  </CardTitle>
+                </CardBody>
+              </Card>
+            </div>
+          </Carousel>
+          {/* </CardGroup> */}
+          <br />
+          <br />
+          <br />
+        </div>
+      )}
+      {userType !== "tsgOfficial" ? (
         <Row
           style={{
             alignItems: "center",
@@ -220,15 +263,109 @@ const Example = (props) => {
             <br />
             <img src={main} alt="MainImage" style={{ width: "100%" }} />
           </Col>
-          <Col sm="6" style={{alignItems:"center", justifyContent:"center"}}>
+          <Col
+            sm="6"
+            style={{ alignItems: "center", justifyContent: "center" }}
+          >
             <Form>
               <Row>
                 <Col sm="6">
                   <FormGroup>
                     <Input
-                      name="name"
-                      placeholder="Other Events You Have Participated"
+                      name="firstName"
+                      placeholder="First Name"
                       type="name"
+                    />
+                  </FormGroup>
+                </Col>
+                <Col sm="6">
+                  <FormGroup>
+                    <Input
+                      name="lastName"
+                      placeholder="Last Name"
+                      type="name"
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <FormGroup>
+                <Input name="mail" placeholder="Your Mail" type="email" />
+              </FormGroup>
+              <Row>
+                <Col sm="6">
+                  <FormGroup>
+                    <Input name="roll" placeholder="Your Roll" type="name" />
+                  </FormGroup>
+                </Col>
+                <Col sm="6">
+                  <FormGroup>
+                    <Input
+                      name="hall"
+                      placeholder="Your Hall of Residence"
+                      type="name"
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <FormGroup>
+                <Input
+                  name="subject"
+                  placeholder="Request Subject"
+                  type="name"
+                />
+              </FormGroup>
+              <FormGroup>
+                <Input name="message" placeholder="Your Message" type="name" />
+              </FormGroup>
+              <br />
+              <center>
+                <Button
+                  style={{
+                    width: "200px",
+                    height: "50px",
+                    backgroundColor: "#727dbd",
+                    color: "white",
+                    border: "none",
+                  }}
+                >
+                  Update Information
+                </Button>
+              </center>
+            </Form>
+            <br />
+          </Col>
+        </Row>
+      ) : (
+        <Row
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "0 5%",
+          }}
+        >
+          <Col sm="6">
+            <br />
+            <img src={main} alt="MainImage" style={{ width: "100%" }} />
+          </Col>
+          <Col
+            sm="6"
+            style={{ alignItems: "center", justifyContent: "center" }}
+          >
+            <Form>
+              <FormGroup>
+                <Input
+                  name="name"
+                  placeholder="Name of The Event"
+                  type="name"
+                />
+              </FormGroup>
+              <Row>
+                <Col sm="6">
+                  <FormGroup>
+                    <Input
+                      name="date"
+                      placeholder="Schedule of The Event"
+                      type="datetime-local"
                     />
                   </FormGroup>
                 </Col>
@@ -250,12 +387,9 @@ const Example = (props) => {
                 />
               </FormGroup>
               <FormGroup>
-                <InputGroup>
-                  <Input placeholder="Update Your Certificate" />
-                  <Button style={{ backgroundColor: "#727dbd" }}>
-                    Upload Certificate
-                  </Button>
-                </InputGroup>
+              <FormGroup>
+                <Input placeholder="Update Event Image" type="file"/>
+              </FormGroup>
               </FormGroup>
               <br />
               <center>
@@ -272,10 +406,9 @@ const Example = (props) => {
                 </Button>
               </center>
             </Form>
-            <br />
           </Col>
         </Row>
-      </div>)}
+      )}
     </div>
   );
 };
