@@ -44,6 +44,29 @@ router.post('/login-officials', async(req,res)=>{
 const sendingEmail = process.env.SENDING_EMAIL
 const sendEmailPassword = process.env.EMAIL_PASSWORD
 
+
+router.post('/login-officials', async(req,res)=>{
+    console.log(req.body)
+    let officials = await Officials.findOne({
+        mail : req.body.mail,
+        username: req.body.username
+    })
+
+    if(officials){
+        if(officials.password === req.body.password){
+            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+            res.send(200).json({
+                success : "Password Matched.",
+                accessToken,
+            })
+        }
+    }
+    else{
+        res.json(404).send("No user found")
+    }
+})
+
+module.exports = router
 // For sending Mail
 const transporter = nodemailer.createTransport({
 	service: "gmail",
