@@ -9,13 +9,14 @@ const app = express();
 const cors = require("cors");
 const login = require("./auth/Login.js");
 const StudentsData = require("./views/Students/StudentsData.js");
-
+const db = require("./config/keys.js").mongoURI;
+const events = require("./views/Events/Events.js")
 app.use(cors());
 
 app.use(express.json());
 
 // Connecting to Database
-const db = require("./config/keys.js").mongoURI;
+
 
 mongoos
 	.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -24,6 +25,7 @@ mongoos
 
 app.use("/auth", login);
 app.use("/student", StudentsData);
+app.use("/events", events);
 
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static("client/build"));

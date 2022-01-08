@@ -14,18 +14,18 @@ const EventSchema = new Schema({
         type:String,
         required: true
     },
-    report : {},
-    image : {},
+    reports: {},
+    images : {},
     description : {
         type: String
     },
     eventStartTime : {
         type: Date,
-        required: true
+        // required: true
     },
     eventEndTime:{
         type: Date,
-        required:true
+        // required:true
     }
 })
 
