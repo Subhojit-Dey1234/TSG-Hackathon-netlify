@@ -31,7 +31,6 @@ export const verifyOtp = (data,callback)=>{
             callback(res);
         })
         .catch(err=>{
-            console.log(err)
             callback(err.response)
         })
     }

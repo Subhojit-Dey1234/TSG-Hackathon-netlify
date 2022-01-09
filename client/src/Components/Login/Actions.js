@@ -7,7 +7,6 @@ export const loginOfficial = (data,callback)=>{
             "Content-Type": "application/json",
         })
         .then((res)=>{
-            console.log(res.data)
             dispatch({
                 type: USER_TYPE,
                 payload : res.data.user

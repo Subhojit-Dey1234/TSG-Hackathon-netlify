@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 
 export default function OfficialLogin() {
 	const [email, setEmail] = useState(null);
+	const [ password , setPassword] = useState(null)
 	const dispatch = useDispatch();
 	function Login(e) {
 		e.preventDefault();
@@ -24,7 +25,6 @@ export default function OfficialLogin() {
 			password: "123#abc%$pq",
 		};
 
-		console.log(data);
 		dispatch(
 			loginOfficial(data, (res) => {
 				if (!localStorage.getItem("access-token")) {
@@ -53,6 +53,7 @@ export default function OfficialLogin() {
 							<Label for="exampleEmail">User</Label>
 							<Input
 								type="text"
+								required={true}
 								name="user"
 								id="exampleEmail"
 								placeholder="Username"
@@ -62,10 +63,14 @@ export default function OfficialLogin() {
 							/>
 							<Label for="exampleEmail">Password</Label>
 							<Input
+							required={true}
 								type="password"
 								name="password"
 								id="exampleEmail"
 								placeholder="Password"
+								onChange={(e) => {
+									setPassword(e.target.value);
+								}}
 							/>
 							<br />
 							<Button

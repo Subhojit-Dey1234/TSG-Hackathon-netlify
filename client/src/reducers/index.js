@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
 import userDetails from './userDetails'
-
-console.log(userDetails)
+import eventDetails from "../Components/Events_TSG/events_details";
 
 export default combineReducers({
-    userDetails : userDetails
+    userDetails : userDetails,
+    eventDetails : eventDetails
 })

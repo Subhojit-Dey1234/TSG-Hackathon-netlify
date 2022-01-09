@@ -1,1 +1,6 @@
 export const USER_TYPE = "USER_TYPE"
+export const ADD_EVENTS = "ADD_EVENTS"
+export const GET_EVENTS = "GET_EVENTS"
+export const DELETE_ITEM = "DELETE_ITEM"
+export const UPDATE_EVENT = "UPDATE_EVENT"
+export const SEARCH_BAR = "SEARCH_BAR"

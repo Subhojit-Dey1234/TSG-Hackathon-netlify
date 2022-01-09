@@ -1,7 +1,4 @@
 require("dotenv").config();
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const Students = require("./models/Students.js");
 const path = require("path");
 const express = require("express");
 const mongoos = require("mongoose");
@@ -11,6 +8,8 @@ const login = require("./auth/Login.js");
 const StudentsData = require("./views/Students/StudentsData.js");
 const db = require("./config/keys.js").mongoURI;
 const events = require("./views/Events/Events.js")
+const societyPoint = require("./views/SocietyPoint/SocietyPoint.js")
+const news = require('./views/News/News.js')
 app.use(cors());
 
 app.use(express.json());
@@ -23,9 +22,12 @@ mongoos
 	.then(() => console.log("...Connected"))
 	.catch((err) => console.log("Error", err));
 
+app.use('/public', express.static('media'));
 app.use("/auth", login);
 app.use("/student", StudentsData);
 app.use("/events", events);
+app.use("/bill_reimbursements", societyPoint);
+app.use("/news",news)
 
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static("client/build"));

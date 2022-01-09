@@ -12,13 +12,12 @@ const storage = multer.diskStorage({
 const upload = multer({
 	storage: storage,
 	dest: "uploads/",
-}).fields([{ name: "reports" }, { name: "images" }]);
-
+}).fields([{ name: "reports",maxCount:1 }, { name: "images",maxCount:1 }]);
+ 
 const obj = (req, res) => {
-	console.log("Helnska");
+	const url = req.protocol + '://' + req.get('host')
 	upload(req, res, (err) => {
 		if (err) {
-			console.log("ERROR", err);
 			res.json({
 				err: err,
 			});
@@ -30,8 +29,10 @@ const obj = (req, res) => {
 			events.description = req.body.description;
 			events.eventStartTime = req.body.eventStartTime;
 			events.eventEndTime = req.body.eventEndTime;
-			events.reports = req.files.reports;
-			events.images = req.files.images;
+			if(req.files.reports)
+				events.reports = url + '/public/events/' +  req.files.reports[0].filename;
+			if(req.files.images)
+				events.images = url + '/public/events/' +  req.files.images[0].filename;
 			events.save().then(() => {
 				res.send({ events, message: "uploaded successfully" });
 			});
@@ -50,6 +51,7 @@ router.patch("/:id", async (req, res) => {
             res.json(err)
         }else{
 		let events = await Events.findOne({ _id: req.params.id });
+		events.date = new Date();
 		events.name = req.body.name ? req.body.name : events.name;
 		events.eventType = req.body.eventType
 			? req.body.eventType
@@ -69,7 +71,7 @@ router.patch("/:id", async (req, res) => {
 		events.save().then(() => {
 			res.send({
 				message: "uploaded successfully",
-				studentAcheivementProfile: events,
+				events: events,
 			});
 		});
     }
@@ -82,16 +84,26 @@ router.delete('/:id',async(req,res)=>{
 	res.send("Delete Completed")
 })
 
+router.get("/downloads/:id", async(req,res)=>{
+	try{
+		let events = await Events.find({_id : req.params.id})
+		res.download(events[0].reports[0].path)
+	}
+	catch(err){
+		res.json(err);
+	}
+})
 
 //get all the events
-router.get("/", (req, res) => {
-	Events.find({}, (err, r) => {
-		if (err) {
-			res.send(500).json(err);
-		} else {
-			res.json(r);
-		}
-	});
+router.get("/", async (req, res) => {
+
+	try{
+		let events = await Events.find({}).sort({date:-1})
+		res.json(events)
+	}
+	catch(err){
+		res.send(500).json(err);
+	}
 });
 
 router.get("/:id", async (req, res) => {

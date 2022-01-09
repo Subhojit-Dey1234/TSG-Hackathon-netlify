@@ -46,7 +46,6 @@ const sendEmailPassword = process.env.EMAIL_PASSWORD
 
 
 router.post('/login-officials', async(req,res)=>{
-    console.log(req.body)
     let officials = await Officials.findOne({
         mail : req.body.mail,
         username: req.body.username
@@ -101,7 +100,6 @@ router.post("/login", async (req, res) => {
 
 		await transporter.sendMail(info, async (err, success) => {
 			if (err) {
-				console.log(err);
 				res.json({
 					err
 				})

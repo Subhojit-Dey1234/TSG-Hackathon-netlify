@@ -89,13 +89,14 @@ const Example = (props) => {
                 {userType !== "student" ? (
                   <div>
                     <a
-                      href="#"
+                      href={() => false}
                       style={{ color: "#727dbd", textDecoration: "none" }}
                     >
                       Download Report
                     </a>{" "}
                     |{" "}
                     <a
+                    href={() => false}
                       onClick={() => fileInput.current.click()}
                       style={{
                         color: "red",
@@ -110,14 +111,14 @@ const Example = (props) => {
                 ) : (
                   <div>
                     <a
-                      href="#"
+                      href={() => false}
                       style={{ color: "#727dbd", textDecoration: "none" }}
                     >
                       Download Report
                     </a>{" "}
                     |{" "}
                     <a
-                      href="#"
+                      href={() => false}
                       style={{
                         color: "red",
                         textDecoration: "none",

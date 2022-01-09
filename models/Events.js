@@ -12,20 +12,25 @@ const EventSchema = new Schema({
     },
     status : {
         type:String,
-        required: true
+        // required: true
     },
     reports: {},
     images : {},
     description : {
-        type: String
+        type: String,
+        required:true
     },
     eventStartTime : {
         type: Date,
-        // required: true
+        required: true
     },
     eventEndTime:{
         type: Date,
-        // required:true
+        required:true
+    },
+    date: {
+        type:Date,
+        default:Date.now
     }
 })
 

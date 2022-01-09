@@ -19,7 +19,6 @@ export default function Otp() {
 	const [load, setLoad] = useState(false);
 	const [err, setErr] = useState(false);
 	const userMail = useSelector((state) => state.userDetails.user.mail);
-	console.log(userMail);
 	const dispatch = useDispatch();
 	const [otp, setOtp] = useState("");
 	function Login(e) {

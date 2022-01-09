@@ -43,7 +43,7 @@ function App() {
 						<Route path="/dashboard" element={<Dashboard />} />
 					</Route>
 					{/* <Route path="/dashboard" element={<Dashboard />} /> */}
-					<Route path="/eventsTSG" element={<Events_TSG />} />
+					<Route path="/events-tsg" element={<Events_TSG />} />
 					<Route path="/societyPoint" element={<Society_Point />} />
 				</Routes>
 			</Router>

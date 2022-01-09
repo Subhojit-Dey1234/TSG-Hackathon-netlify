@@ -33,7 +33,6 @@ export default function StudentLogin() {
 			};
 			dispatch(
 				loginStudent(data, (res) => {
-					console.log(res)
 					if (res.status === 200) {
 						setLoad(false);
 						setMsg(true);
