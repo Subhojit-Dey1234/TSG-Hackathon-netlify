@@ -1,4 +1,4 @@
-import { ADD_EVENTS, GET_EVENTS, DELETE_ITEM, UPDATE_EVENT,SEARCH_BAR } from "../../actions/types";
+import { ADD_EVENTS, GET_EVENTS, DELETE_EVENT, UPDATE_EVENT,SEARCH_BAR, PARTICIPATED_EVENTS } from "../../actions/types";
 
 const initialState = {
 	events: [],
@@ -22,7 +22,7 @@ export default function eventDetails(state = initialState, action) {
 				events:[action.payload,...state.events.filter(event => action.payload._id !== event._id)]
 			}
 		}
-		case DELETE_ITEM:
+		case DELETE_EVENT:
 			return {
 				...state,
 				events: state.events.filter((event) => event._id !== action.payload),

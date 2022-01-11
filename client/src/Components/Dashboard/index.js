@@ -58,6 +58,9 @@ const participatedEvents = {
 
 const Example = (props) => {
   const userType = useSelector((state)=>state.userDetails.user.type);
+  const participatedEvents = useSelector(
+		(state) => state.userDetails.user.participatedEvents,
+	);
   return (
     <div>
       <br />
@@ -140,72 +143,26 @@ const Example = (props) => {
         </p>
         {/* <CardGroup style={{ padding: "3%" }}> */}
         <Carousel responsive={responsive}>
+        {participatedEvents.map((participatedEvent) => (
           <div>
             <Card style={{ margin: "0 1%", border: "none" }}>
               <CardImg
                 top
                 width="10%"
-                src={participatedEvents.poster[0]}
+                src={participatedEvent.images}
                 alt="Card image cap"
               />
               <CardBody>
-                <CardTitle tag="h6" style={{ textAlign: "center" }}>
-                  {participatedEvents.title[0]}: Organized By{" "}
-                  {participatedEvents.organizer[0]}
-                </CardTitle>
+              <CardTitle tag="h6" style={{ textAlign: "center" }}>
+											{participatedEvent.name}:
+											<i style={{ fontWeight: "lighter" }}> Organized By </i>
+											{participatedEvent.eventType}
+										</CardTitle>
               </CardBody>
             </Card>
           </div>
-          <div>
-            <Card style={{ margin: "0 1%", border: "none" }}>
-              <CardImg
-                top
-                width="10%"
-                src={participatedEvents.poster[1]}
-                alt="Card image cap"
-              />
-              <CardBody>
-                <CardTitle tag="h6" style={{ textAlign: "center" }}>
-                  {participatedEvents.title[1]}: Organized By{" "}
-                  {participatedEvents.organizer[1]}
-                </CardTitle>
-              </CardBody>
-            </Card>
-          </div>
-          <div>
-            <Card style={{ margin: "0 1%", border: "none" }}>
-              <CardImg
-                top
-                width="10%"
-                src={participatedEvents.poster[2]}
-                alt="Card image cap"
-              />
-              <CardBody>
-                <CardTitle tag="h6" style={{ textAlign: "center" }}>
-                  {participatedEvents.title[2]}: Organized By{" "}
-                  {participatedEvents.organizer[2]}
-                </CardTitle>
-              </CardBody>
-            </Card>
-          </div>
-          <div>
-            <Card style={{ margin: "0 1%", border: "none" }}>
-              <CardImg
-                top
-                width="10%"
-                src={participatedEvents.poster[3]}
-                alt="Card image cap"
-              />
-              <CardBody>
-                <CardTitle tag="h6" style={{ textAlign: "center" }}>
-                  {participatedEvents.title[3]}: Organized By{" "}
-                  {participatedEvents.organizer[3]}
-                </CardTitle>
-              </CardBody>
-            </Card>
-          </div>
+          ))}
         </Carousel>
-        {/* </CardGroup> */}
         <br />
         <br />
         <br />

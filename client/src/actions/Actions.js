@@ -1,4 +1,4 @@
-import { USER_TYPE } from "./types";
+import { SET_ID, USER_TYPE } from "./types";
 import axios from 'axios'
 
 export const loginStudent = (data,callback) =>{
@@ -11,6 +11,9 @@ export const loginStudent = (data,callback) =>{
                 dispatch({
                     type: USER_TYPE,
                     payload : res.data.user
+                },{
+                    type: SET_ID,
+                    payload: res.data.user._id
                 })
                 callback(res)
             }

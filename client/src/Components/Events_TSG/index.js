@@ -15,6 +15,7 @@ import {
 	ModalHeader,
 	ModalBody,
 	ModalFooter,
+	Alert,
 } from "reactstrap";
 import logo1 from "../../Images/logo1.png";
 import logo2 from "../../Images/logo2.png";
@@ -29,11 +30,15 @@ import "react-multi-carousel/lib/styles.css";
 import main from "../../Images/FormImage.png";
 
 import {
+	deleteEvents,
 	downloadReport,
 	getEvents,
+	participateEvent,
+	reloadParticipatedEvents,
 	searchAction,
 	uploadEvents,
 	uploadReport,
+	uploadGrievances
 } from "./actions";
 
 const responsive = {
@@ -54,33 +59,27 @@ const responsive = {
 		items: 1,
 	},
 };
-const eventTitle = "Event Title";
-const eventDescription =
-	"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
 const eventDate = "22nd November 2022";
-const eventOrganizer = "TSG IIT Kharagpur";
-const eventPoster = logo4;
-const participatedEvents = {
-	title: ["Event One", "Event Two", "Event Three", "Event Four"],
-	organizer: [
-		"TSG IIT Kharagpur",
-		"Debsoc IIT Kharagpur",
-		"TDS IIT Kharagpur",
-		"Spectra IIT Kharagpur",
-	],
-	poster: [logo1, logo2, logo1, logo2],
-};
 
 const Example = (props) => {
 	const dispatch = useDispatch();
 
+	const eventsData = useSelector((state) => state.eventDetails.events);
+	const userId = useSelector((state) => state.userDetails.user._id);
+	const participatedEvent = useSelector((state)=>state.userDetails.user.participatedEvents)
+	console.log(participatedEvent)
 
-	const events = useSelector((state) => state.eventDetails.events);
-
+	console.log(userId);
 	useEffect(() => {
-		dispatch(getEvents());
-		// setEventData(eventData)
+		dispatch(reloadParticipatedEvents(userId));
+		dispatch(
+			getEvents((res) => {
+				// setEventData(res);
+			}),
+		);
 	}, []);
+
+	const user = useSelector((state) => state.userDetails.user);
 
 	const [nameEvent, setNameEvent] = useState(null);
 	const [startDate, setStartDate] = useState(null);
@@ -89,11 +88,37 @@ const Example = (props) => {
 	const [description, setDescription] = useState(null);
 	const [image, setImage] = useState(null);
 	const [reportUpload, setReportUpload] = useState(null);
-	const [searchString, setSearch] = useState("")
-	// const [events, setEventData] = useState([])
-	const [ isPressed, setPressed ] = useState(false)
-
+	const [searchString, setSearch] = useState("");
+	// const [eventsData, setEventData] = useState([]);
+	const [isPressed, setPressed] = useState(false);
+	const [alartView, setalartView] = useState(false);
 	const scrollForm = useRef(null);
+
+	// Grievance
+	const [subject, setSubject] = useState(null);
+	const [grievanceDescription, setGrievanceDescription] = useState(null);
+
+	function uploadGrievance(e) {
+		e.preventDefault();
+		var form = new FormData();
+		form.append("rollNumber", user.rollNumber);
+		form.append("hallOfResidence",user.hallOfResidence)
+		form.append("mail", user.mail);
+		form.append("studentName", user.name);
+		form.append("grievanceDescription", grievanceDescription);
+		form.append("subject", subject);
+
+		console.log(subject, grievanceDescription);
+
+		dispatch(
+			uploadGrievances(form, (res) => {
+				if(res.status === 200){
+					setSubject(null)
+					setGrievanceDescription(null)
+				}
+			}),
+		);
+	}
 
 	function UploadEvent(e) {
 		e.preventDefault();
@@ -106,28 +131,45 @@ const Example = (props) => {
 		form.append("eventType", organizer);
 		form.append("images", image[0]);
 
+		console.log(imageInput.current.value);
+
 		dispatch(
 			uploadEvents(form, (res) => {
 				if (res.status === 200) {
+					// setEventData([res.data.events, ...eventsData]);
 					setNameEvent(null);
 					setDescription(null);
 					setStartDate(null);
 					setEndDate(null);
 					setOrganizer(null);
 					setImage(null);
+					imageInput.current.value = "";
 				}
 			}),
 		);
 	}
 
 	const UploadReport = (_id) => {
+		console.log(_id);
+		console.log(reportUpload);
 		var form = new FormData();
 		form.append("reports", reportUpload[0]);
 
 		dispatch(
 			uploadReport(_id, form, (res) => {
 				if (res.status === 200) {
-					setModalOpen(false);
+					setalartView(true);
+					setTimeout(() => {
+						setModalOpen(false);
+						setalartView(false);
+					}, 1000);
+					// setEventData([
+					// 	res.data.events,
+					// 	...eventsData.filter((event) => event._id !== res.data.events._id),
+					// ]);
+
+					setReportUpload(null);
+					fileInput.current.value = "";
 				}
 			}),
 		);
@@ -137,8 +179,6 @@ const Example = (props) => {
 		if (window.navigator && window.navigator.msSaveOrOpenBlob)
 			return window.navigator.msSaveOrOpenBlob(blob);
 
-		// For other browsers:
-		// Create a link pointing to the ObjectURL containing the blob.
 		var binaryData = [];
 		binaryData.push(blob);
 		const data = window.URL.createObjectURL(
@@ -149,7 +189,6 @@ const Example = (props) => {
 		link.href = data;
 		link.download = name;
 
-		// this is necessary as link.click() does not work on the latest firefox
 		link.dispatchEvent(
 			new MouseEvent("click", {
 				bubbles: true,
@@ -163,28 +202,39 @@ const Example = (props) => {
 	// 	if (e.target.value === "") {
 	// 		dispatch(getEvents());
 	// 	} else {
-	// 		const res = eventData.filter((event) => {
+	// 		const res = events.filter((event) => {
 	// 			let val = event.description + event.eventType;
 	// 			if (val.toLowerCase().includes(e.target.value.toLowerCase())) {
 	// 				return event;
 	// 			}
 	// 		});
-	// 		// setEventData(res)
+	// 		setEventData(res);
 	// 	}
-
 	// }
 
 	const fileInput = React.useRef(null);
 	const imageInput = React.useRef(null);
 	const [isModalOpen, setModalOpen] = useState(false);
-	const userType = "tsgOfficial";
-	// const userType = useSelector((state)=>state.userDetails.user.type);
+	const [isParticipateModal, setParticipateModal] = useState(false);
+	const userType = "student";
+	const participatedEvents = useSelector(
+		(state) => state.userDetails.user.participatedEvents,
+	);
+
+	console.log(user);
+
+	// if(participateEvent === undefined){
+	// 	return <j1
+	// }
+	console.log(participatedEvents);
+	console.log(eventsData);
 	return (
 		<div>
 			<br />
 			<br />
 			<br />
-			<Button
+
+			{/* <Button
 				style={{ margin: "0 5%", background: "#727dbd" }}
 				onClick={() => {
 					scrollForm.current.scrollIntoView({
@@ -193,17 +243,56 @@ const Example = (props) => {
 				}}
 			>
 				Upload Events
-			</Button>
-			<h2 style={{ textAlign: "left", margin: "3% 5%", fontWeight: "bolder" }}>
-				Posted Events!
-			</h2>
-			<Input
-				type="text"
-				onChange={(e) => {
-					// search(e);
-				}}
-			/>
-			{events.map((event) => (
+			</Button> */}
+			<Row>
+				<Col sm="6">
+					<h2
+						style={{
+							textAlign: "left",
+							margin: "3% 5% 0 5%",
+							fontWeight: "bolder",
+						}}
+					>
+						See Posted Events!
+					</h2>
+					<a
+						href={() => false}
+						onClick={() => {
+							scrollForm.current.scrollIntoView({
+								behavior: "smooth",
+							});
+						}}
+						style={{
+							textDecoration: "none",
+							margin: "3% 5% 0 5%",
+							color: "blue",
+							cursor: "pointer",
+						}}
+					>
+						Want to Create An Event Now?
+					</a>
+				</Col>
+				<Col sm="6">
+					<Input
+						style={{
+							borderRadius: "10px",
+							border: "6px solid #eaeaea",
+							margin: "5%",
+							width: "87.5%",
+						}}
+						placeholder="Search Your Event By Typing..."
+						type="text"
+						onChange={(e) => {
+							// search(e);
+						}}
+					/>
+				</Col>
+			</Row>
+
+			<br />
+			<br />
+
+			{eventsData.map((event) => (
 				<Card
 					key={event._id}
 					style={{ textAlign: "left", boxShadow: "2px grey", margin: "3% 5%" }}
@@ -227,8 +316,7 @@ const Example = (props) => {
 									{event.description}
 									<br />
 									<br />
-
-									{userType !== "student" ? (
+									<div>
 										<div>
 											<Button
 												disabled={!event.reports}
@@ -261,13 +349,54 @@ const Example = (props) => {
 													textDecoration: "none",
 													border: "none",
 													cursor: "pointer",
+													display: userType === "student" ? "none" : "",
 												}}
 											>
 												Upload Report
-											</Button>
+											</Button>{" "}
 											<Button
-												style={{ position: "absolute", right: "10px" }}
+												onClick={(e) => {
+													let isConfirmed = window.confirm(
+														"Are you Sure???" + event._id,
+													);
+													if (isConfirmed) {
+														dispatch(
+															participateEvent(event._id, {
+																rollNumber: "19ME10087",
+															}),
+														);
+													}
+												}}
 												color="danger"
+												style={{
+													textDecoration: "none",
+													display: userType === "student" ? "" : "none",
+												}}
+											>
+												Participate Now
+											</Button>{" "}
+											<Button
+												style={{
+													position: "absolute",
+													right: "10px",
+													display: userType === "student" ? "none" : "",
+												}}
+												color="danger"
+												onClick={(e) => {
+													console.log(e);
+													dispatch(
+														deleteEvents(event._id, (res) => {
+															console.log(res);
+															if (res.status === 200) {
+																// setEventData(
+																// 	eventsData.filter(
+																// 		(ev) => ev._id !== event._id,
+																// 	),
+																// );
+															}
+														}),
+													);
+												}}
 											>
 												Delete
 											</Button>
@@ -302,6 +431,11 @@ const Example = (props) => {
 															fileInput.current.click();
 														}}
 													/>
+													<div
+														style={{ display: alartView ? "block" : "none" }}
+													>
+														<Alert>PDF Uploaded Successfully</Alert>
+													</div>
 													<ModalFooter>
 														<Button
 															disabled={!reportUpload}
@@ -316,31 +450,23 @@ const Example = (props) => {
 												</ModalBody>
 											</Modal>
 											<input
+												accept="image/png, image/jpeg,"
 												ref={fileInput}
 												type="file"
 												style={{ visibility: "hidden" }}
 											/>
-										</div>
-									) : (
-										<div>
-											<a
-												href={() => false}
-												style={{ color: "#727dbd", textDecoration: "none" }}
+											<Modal
+												isOpen={isParticipateModal}
+												toggle={() => setParticipateModal(false)}
 											>
-												Download Report
-											</a>{" "}
-											|{" "}
-											<a
-												href={() => false}
-												style={{
-													color: "red",
-													textDecoration: "none",
-												}}
-											>
-												Participate Now
-											</a>
+												<ModalHeader>Confirm</ModalHeader>
+												<ModalBody>{event._id}</ModalBody>
+												<ModalFooter>
+													<Button>Confirm</Button>
+												</ModalFooter>
+											</Modal>
 										</div>
-									)}
+									</div>
 								</CardText>
 							</CardBody>
 						</Col>
@@ -395,23 +521,26 @@ const Example = (props) => {
 					</p>
 					{/* <CardGroup style={{ padding: "3%" }}> */}
 					<Carousel responsive={responsive}>
-						<div>
-							<Card style={{ margin: "0 1%", border: "none" }}>
-								<CardImg
-									top
-									width="10%"
-									src={participatedEvents.poster[0]}
-									alt="Card image cap"
-								/>
-								<CardBody>
-									<CardTitle tag="h6" style={{ textAlign: "center" }}>
-										{participatedEvents.title[0]}: Organized By{" "}
-										{participatedEvents.organizer[0]}
-									</CardTitle>
-								</CardBody>
-							</Card>
-						</div>
-						<div>
+						{participatedEvents.map((participatedEvent) => (
+							<div>
+								<Card style={{ margin: "0 1%", border: "none" }}>
+									<CardImg
+										top
+										width="10%"
+										src={participatedEvent.images}
+										alt="Card image cap"
+									/>
+									<CardBody>
+										<CardTitle tag="h6" style={{ textAlign: "center" }}>
+											{participatedEvent.name}:
+											<i style={{ fontWeight: "lighter" }}> Organized By </i>
+											{participatedEvent.eventType}
+										</CardTitle>
+									</CardBody>
+								</Card>
+							</div>
+						))}
+						{/* <div>
 							<Card style={{ margin: "0 1%", border: "none" }}>
 								<CardImg
 									top
@@ -426,8 +555,8 @@ const Example = (props) => {
 									</CardTitle>
 								</CardBody>
 							</Card>
-						</div>
-						<div>
+						</div> */}
+						{/* <div>
 							<Card style={{ margin: "0 1%", border: "none" }}>
 								<CardImg
 									top
@@ -442,8 +571,8 @@ const Example = (props) => {
 									</CardTitle>
 								</CardBody>
 							</Card>
-						</div>
-						<div>
+						</div> */}
+						{/* <div>
 							<Card style={{ margin: "0 1%", border: "none" }}>
 								<CardImg
 									top
@@ -458,7 +587,7 @@ const Example = (props) => {
 									</CardTitle>
 								</CardBody>
 							</Card>
-						</div>
+						</div> */}
 					</Carousel>
 					{/* </CardGroup> */}
 					<br />
@@ -467,89 +596,117 @@ const Example = (props) => {
 				</div>
 			)}
 			{userType !== "tsgOfficial" ? (
-				<Row
-					style={{
-						alignItems: "center",
-						justifyContent: "center",
-						padding: "0 5%",
-					}}
-				>
-					<Col sm="6">
-						<br />
-						<img src={main} alt="MainImage" style={{ width: "100%" }} />
-					</Col>
-					<Col
-						sm="6"
-						style={{ alignItems: "center", justifyContent: "center" }}
+				<div ref={scrollForm}>
+					<Row
+						style={{
+							alignItems: "center",
+							justifyContent: "center",
+							padding: "0 5%",
+						}}
 					>
-						<Form>
-							<Row>
-								<Col sm="6">
-									<FormGroup>
-										<Input
-											name="firstName"
-											placeholder="First Name"
-											type="name"
-										/>
-									</FormGroup>
-								</Col>
-								<Col sm="6">
-									<FormGroup>
-										<Input
-											name="lastName"
-											placeholder="Last Name"
-											type="name"
-										/>
-									</FormGroup>
-								</Col>
-							</Row>
-							<FormGroup>
-								<Input name="mail" placeholder="Your Mail" type="email" />
-							</FormGroup>
-							<Row>
-								<Col sm="6">
-									<FormGroup>
-										<Input name="roll" placeholder="Your Roll" type="name" />
-									</FormGroup>
-								</Col>
-								<Col sm="6">
-									<FormGroup>
-										<Input
-											name="hall"
-											placeholder="Your Hall of Residence"
-											type="name"
-										/>
-									</FormGroup>
-								</Col>
-							</Row>
-							<FormGroup>
-								<Input
-									name="subject"
-									placeholder="Request Subject"
-									type="name"
-								/>
-							</FormGroup>
-							<FormGroup>
-								<Input name="message" placeholder="Your Message" type="name" />
-							</FormGroup>
+						<h2 style={{ textAlign: "left", fontWeight: "bolder" }}>
+							Upload Your Grievances
+						</h2>
+						<Col sm="6">
 							<br />
-							<center>
-								<Button
-									style={{
-										width: "200px",
-										height: "50px",
-										backgroundColor: "#727dbd",
-										color: "white",
-										border: "none",
-									}}
-								>
-									Update Information
-								</Button>
-							</center>
-						</Form>
-						<br />
-					</Col>
-				</Row>
+							<img src={main} alt="MainImage" style={{ width: "100%" }} />
+						</Col>
+						<Col
+							sm="6"
+							style={{ alignItems: "center", justifyContent: "center" }}
+						>
+							<Form onSubmit={uploadGrievance}>
+								<Row>
+									<Col sm="12">
+										<FormGroup>
+											<Input
+												value={user.name}
+												disabled
+												required={true}
+												name="firstName"
+												placeholder="Name"
+												type="name"
+											/>
+										</FormGroup>
+									</Col>
+								</Row>
+								<FormGroup>
+									<Input
+										disabled
+										value={user.mail}
+										name="mail"
+										placeholder="Your Mail"
+										type="email"
+									/>
+								</FormGroup>
+								<Row>
+									<Col sm="6">
+										<FormGroup>
+											<Input
+												disabled
+												value={user.rollNumber}
+												name="roll"
+												placeholder="Your Roll"
+												type="name"
+											/>
+										</FormGroup>
+									</Col>
+									<Col sm="6">
+										<FormGroup>
+											<Input
+												value={user.hallOfResidence}
+												disabled
+												name="hall"
+												placeholder="Your Hall of Residence"
+												type="name"
+											/>
+										</FormGroup>
+									</Col>
+								</Row>
+								<FormGroup>
+									<Input
+										required={true}
+										value={subject ? subject : ""}
+										name="subject"
+										placeholder="Request Subject"
+										type="name"
+										onChange={(e) => {
+											setSubject(e.target.value);
+										}}
+									/>
+								</FormGroup>
+								<FormGroup>
+									<Input
+										required={true}
+										value={grievanceDescription ? grievanceDescription : ""}
+										name="message"
+										placeholder="Your Message"
+										type="textarea"
+										onChange={(e) => {
+											setGrievanceDescription(e.target.value);
+										}}
+									/>
+								</FormGroup>
+								<br />
+								<center>
+									<Button
+										type="submit"
+										style={{
+											width: "200px",
+											height: "50px",
+											backgroundColor: "#727dbd",
+											color: "white",
+											border: "none",
+										}}
+									>
+										Upload Grievances
+									</Button>
+								</center>
+							</Form>
+							<br />
+						</Col>
+					</Row>
+				</div>
 			) : (
 				<div ref={scrollForm}>
 					<Row
@@ -631,8 +788,9 @@ const Example = (props) => {
 								</FormGroup>
 								<FormGroup>
 									<FormGroup>
-										<Input
+										<input
 											required={true}
+											accept="image/png,image/jpeg,image/jpg"
 											placeholder="Update Event Image"
 											type="file"
 											ref={imageInput}
@@ -645,6 +803,7 @@ const Example = (props) => {
 								<br />
 								<center>
 									<Button
+										disabled={!image}
 										type="submit"
 										style={{
 											width: "200px",
