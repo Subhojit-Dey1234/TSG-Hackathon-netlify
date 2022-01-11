@@ -6,7 +6,7 @@ const adminAccessMiddleWare = require("../../auth/adminAccessMiddleware");
 const router = require("express").Router();
 
 // return all the grievances if admin / staffs
-router.get("/", adminAccessMiddleWare, (req, res) => {
+router.get("/", (req, res) => {
 	StudentGrievance.find({}, (err, docs) => {
 		if (err) {
 			res.send(500).json({
@@ -62,18 +62,18 @@ const upload = multer({
 router.post("/", (req, res) => {
 	upload(req, res, () => {
 		try {
-			const studentAcheivementProfile = new StudentGrievance();
-			studentAcheivementProfile.rollNumber = req.body.rollNumber;
-			studentAcheivementProfile.studentName = req.body.studentName;
-			studentAcheivementProfile.mail = req.body.mail;
-			studentAcheivementProfile.hallOfResidence = req.body.hallOfResidence;
-			studentAcheivementProfile.subject = req.body.subject;
-			studentAcheivementProfile.grievanceDescription =
+			const studentGrievances = new StudentGrievance();
+			studentGrievances.rollNumber = req.body.rollNumber;
+			studentGrievances.studentName = req.body.studentName;
+			studentGrievances.mail = req.body.mail;
+			studentGrievances.hallOfResidence = req.body.hallOfResidence;
+			studentGrievances.subject = req.body.subject;
+			studentGrievances.grievanceDescription =
 				req.body.grievanceDescription;
 
-			studentAcheivementProfile.supportingFiles = req.files;
-			studentAcheivementProfile.save().then(() => {
-				res.send({studentAcheivementProfile, message: "uploaded successfully" });
+			studentGrievances.supportingFiles = req.files;
+			studentGrievances.save().then(() => {
+				res.send({studentGrievances, message: "uploaded successfully" });
 			})
 		} catch (err) {
 			res.send({ message: "There is an error" });

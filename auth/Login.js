@@ -65,7 +65,6 @@ router.post('/login-officials', async(req,res)=>{
     }
 })
 
-module.exports = router
 // For sending Mail
 const transporter = nodemailer.createTransport({
 	service: "gmail",
@@ -82,7 +81,10 @@ const transporter = nodemailer.createTransport({
 
 router.post("/login", async (req, res) => {
 	let user;
-	await Students.findOne({ mail: req.body.mail }).then((r) => {
+	await Students.findOne({ mail: req.body.mail }).populate({
+		path : "participatedEvents",
+		model : "Events"
+	}).then((r) => {
 		user = r;
 	});
 	if (user === null) {
