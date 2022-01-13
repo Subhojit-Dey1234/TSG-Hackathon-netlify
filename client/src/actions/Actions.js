@@ -30,7 +30,6 @@ export const verifyOtp = (data,callback)=>{
             "Content-Type": "application/json",
         })
         .then(res=>{
-            
             callback(res);
         })
         .catch(err=>{

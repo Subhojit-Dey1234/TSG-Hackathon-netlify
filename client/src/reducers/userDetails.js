@@ -13,6 +13,12 @@ export default function userDetails(state = initialState, action) {
 				id : action.payload
 			}
 		}
+		case "USER_TYPE_POINTER" : {
+			return {
+				...state,
+				type : action.payload
+			}
+		}
 		case USER_TYPE: {
 			return {
 				...state,

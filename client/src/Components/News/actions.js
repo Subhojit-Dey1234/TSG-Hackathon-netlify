@@ -1,12 +1,12 @@
 import axios from "axios";
-import { ADD_EVENTS, DELETE_EVENT, GET_EVENTS, PARTICIPATED_EVENTS, SEARCH_BAR, UPDATE_EVENT,  } from "../../actions/types";
+import { ADD_EVENTS, ADD_NEWS, DELETE_EVENT, GET_NEWS, PARTICIPATED_EVENTS, SEARCH_BAR, UPDATE_EVENT,  } from "../../actions/types";
 
-export const getEvents = (callback) => {
+export const getNews = (callback) => {
 	return (dispatch) => {
-		return axios.get("/events").then((res) => {
+		return axios.get("/news").then((res) => {
 			if(res.status === 200){
 				dispatch({
-					type: GET_EVENTS,
+					type: GET_NEWS,
 					payload: res.data,
 				});
 			}
@@ -16,17 +16,17 @@ export const getEvents = (callback) => {
 	};
 };
 
-export const uploadEvents = (data, callback) => {
+export const uploadNewsFunc = (data, callback) => {
 	return (dispatch) => {
 		return axios
-			.post("/events", data, {
+			.post("/news", data, {
 				"Content-Type": "multipart/form-data",
 			})
 			.then((res) => {
-                
+				console.log(res.data)
 				dispatch({
-					type: ADD_EVENTS,
-					payload: res.data.events,
+					type: ADD_NEWS,
+					payload: res.data.news,
 				});
 				callback(res);
 			})

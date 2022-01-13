@@ -6,7 +6,7 @@ const router = require("express").Router();
 const storage = multer.diskStorage({
 	destination: "./media/news/",
 	filename: function (req, file, cb) {
-		cb(null, "CERTIFICATES" + Date.now() + path.extname(file.originalname));
+		cb(null, "NEWS" + Date.now() + path.extname(file.originalname));
 	},
 });
 const upload = multer({
@@ -15,6 +15,7 @@ const upload = multer({
 }).fields([{ name: "image" }]);
 
 const obj = (req, res) => {
+	const url = req.protocol + "://" + req.get("host");
 	upload(req, res, (err) => {
 		if (err) {
 			res.json({
@@ -24,8 +25,11 @@ const obj = (req, res) => {
 			const news = new News();
 			news.name = req.body.name;
 			news.author = req.body.author;
-			news.text = req.body.text;
-			news.image = req.files.image;
+			news.description = req.body.description;
+			news.topic = req.body.topic;
+			// news.image = req.files.image;
+			if (req.files.image !== undefined)
+				news.image = url + "/public/news/" + req.files.image[0].filename;
 			news.save().then(() => {
 				res.send({ news, message: "uploaded successfully" });
 			});

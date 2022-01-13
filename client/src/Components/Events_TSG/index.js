@@ -21,7 +21,8 @@ import logo1 from "../../Images/logo1.png";
 import logo2 from "../../Images/logo2.png";
 import upload from "../../Images/upload.svg";
 // import logo3 from "../../Images/logo3.png";
-import logo4 from "../../Images/logo4.png";
+import deleteImg from "../../Images/delete.svg";
+import editImg from "../../Images/edit.svg";
 import { Row, Col } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import loadingUpload from "../../Images/loader.gif";
@@ -38,7 +39,7 @@ import {
 	searchAction,
 	uploadEvents,
 	uploadReport,
-	uploadGrievances
+	uploadGrievances,
 } from "./actions";
 
 const responsive = {
@@ -59,27 +60,28 @@ const responsive = {
 		items: 1,
 	},
 };
-const eventDate = "22nd November 2022";
 
 const Example = (props) => {
 	const dispatch = useDispatch();
 
 	const eventsData = useSelector((state) => state.eventDetails.events);
 	const userId = useSelector((state) => state.userDetails.user._id);
-	const participatedEvent = useSelector((state)=>state.userDetails.user.participatedEvents)
-	console.log(participatedEvent)
-
-	console.log(userId);
+	const userType = useSelector((state) => state.userDetails.user.type);
+	// const userType = "student";
 	useEffect(() => {
-		dispatch(reloadParticipatedEvents(userId));
 		dispatch(
 			getEvents((res) => {
-				// setEventData(res);
+				// console.log(res)
 			}),
 		);
+		if (userType === "student" && userId) {
+			dispatch(reloadParticipatedEvents(userId));
+		}
 	}, []);
 
 	const user = useSelector((state) => state.userDetails.user);
+
+	const imageInput = React.useRef(null);
 
 	const [nameEvent, setNameEvent] = useState(null);
 	const [startDate, setStartDate] = useState(null);
@@ -89,10 +91,12 @@ const Example = (props) => {
 	const [image, setImage] = useState(null);
 	const [reportUpload, setReportUpload] = useState(null);
 	const [searchString, setSearch] = useState("");
-	// const [eventsData, setEventData] = useState([]);
 	const [isPressed, setPressed] = useState(false);
 	const [alartView, setalartView] = useState(false);
 	const scrollForm = useRef(null);
+	const [eventId, setEventId] = useState(null);
+
+	const [updateModal, setUpdateModal] = useState(false);
 
 	// Grievance
 	const [subject, setSubject] = useState(null);
@@ -102,7 +106,7 @@ const Example = (props) => {
 		e.preventDefault();
 		var form = new FormData();
 		form.append("rollNumber", user.rollNumber);
-		form.append("hallOfResidence",user.hallOfResidence)
+		form.append("hallOfResidence", user.hallOfResidence);
 		form.append("mail", user.mail);
 		form.append("studentName", user.name);
 		form.append("grievanceDescription", grievanceDescription);
@@ -112,9 +116,9 @@ const Example = (props) => {
 
 		dispatch(
 			uploadGrievances(form, (res) => {
-				if(res.status === 200){
-					setSubject(null)
-					setGrievanceDescription(null)
+				if (res.status === 200) {
+					setSubject(null);
+					setGrievanceDescription(null);
 				}
 			}),
 		);
@@ -131,12 +135,9 @@ const Example = (props) => {
 		form.append("eventType", organizer);
 		form.append("images", image[0]);
 
-		console.log(imageInput.current.value);
-
 		dispatch(
 			uploadEvents(form, (res) => {
 				if (res.status === 200) {
-					// setEventData([res.data.events, ...eventsData]);
 					setNameEvent(null);
 					setDescription(null);
 					setStartDate(null);
@@ -149,8 +150,36 @@ const Example = (props) => {
 		);
 	}
 
+
+	function UpdateEvent(e) {
+		e.preventDefault();
+
+		var form = new FormData();
+		form.append("name", nameEvent);
+		form.append("description", description);
+		form.append("eventStartTime", startDate);
+		form.append("eventEndTime", endDate);
+		form.append("eventType", organizer);
+		if(image)
+			form.append("images", image[0]);
+
+		dispatch(
+			uploadReport(eventId,form, (res) => {
+				if (res.status === 200) {
+					setNameEvent(null);
+					setDescription(null);
+					setStartDate(null);
+					setEndDate(null);
+					setOrganizer(null);
+					setImage(null);
+					imageInput.current.value = "";
+					setUpdateModal(false)
+				}
+			}),
+		);
+	}
+
 	const UploadReport = (_id) => {
-		console.log(_id);
 		console.log(reportUpload);
 		var form = new FormData();
 		form.append("reports", reportUpload[0]);
@@ -162,11 +191,8 @@ const Example = (props) => {
 					setTimeout(() => {
 						setModalOpen(false);
 						setalartView(false);
+						
 					}, 1000);
-					// setEventData([
-					// 	res.data.events,
-					// 	...eventsData.filter((event) => event._id !== res.data.events._id),
-					// ]);
 
 					setReportUpload(null);
 					fileInput.current.value = "";
@@ -213,21 +239,31 @@ const Example = (props) => {
 	// }
 
 	const fileInput = React.useRef(null);
-	const imageInput = React.useRef(null);
+
 	const [isModalOpen, setModalOpen] = useState(false);
 	const [isParticipateModal, setParticipateModal] = useState(false);
-	const userType = "student";
+	const s = useSelector((state) => state.userDetails.user);
+	console.log(s);
+
 	const participatedEvents = useSelector(
-		(state) => state.userDetails.user.participatedEvents,
+		(state) => state.userDetails.user.tsgParticipatedEvents,
 	);
 
-	console.log(user);
-
-	// if(participateEvent === undefined){
-	// 	return <j1
-	// }
-	console.log(participatedEvents);
-	console.log(eventsData);
+	const monthNames = [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December",
+	];
+	console.log(startDate)
 	return (
 		<div>
 			<br />
@@ -299,18 +335,16 @@ const Example = (props) => {
 				>
 					<Row>
 						<Col sm="3">
-							<CardImg
-								top
-								width="auto"
-								src={event.images}
-								alt="Card image cap"
-							/>
+							<CardImg top src={event.images} alt="Card image cap" />
 						</Col>
 						<Col sm="9">
 							<CardBody>
 								<CardTitle tag="h5">{event.name}</CardTitle>
 								<p>
-									{eventDate} | {event.eventType}
+									{new Date(event.eventStartTime).getDate()}-
+									{monthNames[new Date(event.eventStartTime).getMonth()]}{" "}
+									{new Date(event.eventStartTime).getFullYear()} |{" "}
+									{event.eventType}
 								</p>
 								<CardText>
 									{event.description}
@@ -343,7 +377,10 @@ const Example = (props) => {
 											</Button>{" "}
 											<Button
 												href={() => false}
-												onClick={() => setModalOpen(true)}
+												onClick={() => {
+													setModalOpen(true);
+													setEventId(event._id);
+												}}
 												style={{
 													background: "#ab0000",
 													textDecoration: "none",
@@ -356,16 +393,8 @@ const Example = (props) => {
 											</Button>{" "}
 											<Button
 												onClick={(e) => {
-													let isConfirmed = window.confirm(
-														"Are you Sure???" + event._id,
-													);
-													if (isConfirmed) {
-														dispatch(
-															participateEvent(event._id, {
-																rollNumber: "19ME10087",
-															}),
-														);
-													}
+													setEventId(event._id);
+													setParticipateModal(true);
 												}}
 												color="danger"
 												style={{
@@ -379,9 +408,10 @@ const Example = (props) => {
 												style={{
 													position: "absolute",
 													right: "10px",
+													top: "10px",
 													display: userType === "student" ? "none" : "",
 												}}
-												color="danger"
+												color="warning"
 												onClick={(e) => {
 													console.log(e);
 													dispatch(
@@ -398,73 +428,28 @@ const Example = (props) => {
 													);
 												}}
 											>
-												Delete
+												<img src={deleteImg} style={{ width: "20px" }} />
 											</Button>
-											<Modal
-												isOpen={isModalOpen}
-												toggle={() => setModalOpen(false)}
-												centered={true}
+											<Button
+												style={{
+													position: "absolute",
+													right: "60px",
+													top: "10px",
+													display: userType === "student" ? "none" : "",
+												}}
+												color="success"
+												onClick={(e) => {
+													setUpdateModal(true);
+													setEventId(event._id)
+													setNameEvent(event.name)
+													setStartDate(event.eventStartTime.slice(0,event.eventStartTime.length-1))
+													setEndDate(event.eventEndTime.slice(0,event.eventEndTime.length-1))
+													setOrganizer(event.eventType)
+													setDescription(event.description)
+												}}
 											>
-												<ModalHeader>Upload the Report</ModalHeader>
-												<ModalBody>
-													<input
-														accept="application/pdf, image/png, image/jpeg,"
-														ref={fileInput}
-														type="file"
-														style={{ display: "none" }}
-														onChange={(e) => {
-															setReportUpload(e.target.files);
-														}}
-													/>
-													<img
-														src={upload}
-														alt="upload-image"
-														style={{
-															width: "100px",
-															position: "relative",
-															left: "50%",
-															transform: "translateX(-50%)",
-															opacity: "0.9",
-															cursor: "pointer",
-														}}
-														onClick={() => {
-															fileInput.current.click();
-														}}
-													/>
-													<div
-														style={{ display: alartView ? "block" : "none" }}
-													>
-														<Alert>PDF Uploaded Successfully</Alert>
-													</div>
-													<ModalFooter>
-														<Button
-															disabled={!reportUpload}
-															onClick={(e) => {
-																UploadReport(event._id);
-															}}
-															style={{ background: "#727dbd" }}
-														>
-															Upload
-														</Button>
-													</ModalFooter>
-												</ModalBody>
-											</Modal>
-											<input
-												accept="image/png, image/jpeg,"
-												ref={fileInput}
-												type="file"
-												style={{ visibility: "hidden" }}
-											/>
-											<Modal
-												isOpen={isParticipateModal}
-												toggle={() => setParticipateModal(false)}
-											>
-												<ModalHeader>Confirm</ModalHeader>
-												<ModalBody>{event._id}</ModalBody>
-												<ModalFooter>
-													<Button>Confirm</Button>
-												</ModalFooter>
-											</Modal>
+												<img src={editImg} style={{ width: "20px" }} />
+											</Button>
 										</div>
 									</div>
 								</CardText>
@@ -473,6 +458,194 @@ const Example = (props) => {
 					</Row>
 				</Card>
 			))}
+			<Modal
+				isOpen={isModalOpen}
+				toggle={() => setModalOpen(false)}
+				centered={true}
+			>
+				<ModalHeader>Upload the Report</ModalHeader>
+				<ModalBody>
+					<input
+						accept="application/pdf, image/png, image/jpeg,"
+						ref={fileInput}
+						type="file"
+						style={{ display: "none" }}
+						onChange={(e) => {
+							setReportUpload(e.target.files);
+						}}
+					/>
+					<img
+						src={upload}
+						alt="upload-image"
+						style={{
+							width: "100px",
+							position: "relative",
+							left: "50%",
+							transform: "translateX(-50%)",
+							opacity: "0.9",
+							cursor: "pointer",
+						}}
+						onClick={() => {
+							fileInput.current.click();
+						}}
+					/>
+					<div style={{ display: alartView ? "block" : "none" }}>
+						<Alert>PDF Uploaded Successfully</Alert>
+					</div>
+					<ModalFooter>
+						<Button
+							disabled={!reportUpload}
+							onClick={(e) => {
+								UploadReport(eventId);
+							}}
+							style={{ background: "#727dbd" }}
+						>
+							Upload
+						</Button>
+					</ModalFooter>
+				</ModalBody>
+			</Modal>
+			<input
+				accept="image/png, image/jpeg,"
+				ref={fileInput}
+				type="file"
+				style={{ visibility: "hidden" }}
+			/>
+			<Modal
+				isOpen={isParticipateModal}
+				toggle={() => setParticipateModal(false)}
+				centered={true}
+			>
+				<ModalHeader>Confirm to Continue</ModalHeader>
+				<ModalFooter>
+					<Button
+						color="success"
+						onClick={() => {
+							dispatch(
+								participateEvent(
+									eventId,
+									{
+										rollNumber: "19ME10087",
+									},
+									(res) => {
+										if (res.status === 200) {
+											setParticipateModal(false);
+										}
+									},
+								),
+							);
+						}}
+					>
+						Confirm
+					</Button>
+				</ModalFooter>
+			</Modal>
+			<Modal
+				centered
+				isOpen={updateModal}
+				toggle={() => {
+					setUpdateModal(false);
+				}}
+			>
+				<ModalHeader>Edit</ModalHeader>
+				<ModalBody>
+					<Form onSubmit={UpdateEvent}>
+						<FormGroup>
+							<Input
+								required={true}
+								value={nameEvent ? nameEvent : ""}
+								name="name"
+								placeholder="Name of The Event"
+								type="name"
+								onChange={(e) => setNameEvent(e.target.value)}
+							/>
+						</FormGroup>
+						<Row>
+							<Col sm="6">
+								<FormGroup>
+									<Input
+										required={true}
+										value={startDate ? startDate : ""}
+										name="date"
+										placeholder="Schedule of The Event"
+										type="datetime-local"
+										onChange={(e) => setStartDate(e.target.value)}
+									/>
+								</FormGroup>
+							</Col>
+							<Col sm="6">
+								<FormGroup>
+									<Input
+										required={true}
+										value={endDate ? endDate : ""}
+										name="date"
+										placeholder="Schedule of The Event"
+										type="datetime-local"
+										onChange={(e) => setEndDate(e.target.value)}
+									/>
+								</FormGroup>
+							</Col>
+							<Col>
+								<FormGroup>
+									<Input
+										required={true}
+										value={organizer ? organizer : ""}
+										name="organizer"
+										placeholder="Enter Organizing Body"
+										type="name"
+										onChange={(e) => setOrganizer(e.target.value)}
+									/>
+								</FormGroup>
+							</Col>
+						</Row>
+						<FormGroup>
+							<Input
+								required={true}
+								value={description ? description : ""}
+								name="description"
+								placeholder="Enter Event Description"
+								type="textarea"
+								onChange={(e) => setDescription(e.target.value)}
+							/>
+						</FormGroup>
+						<FormGroup>
+							<FormGroup>
+								<input
+									// required={true}
+									accept="image/png,image/jpeg,image/jpg"
+									placeholder="Update Event Image"
+									type="file"
+									ref={imageInput}
+									onChange={(e) => {
+										setImage(e.target.files);
+									}}
+								/>
+							</FormGroup>
+						</FormGroup>
+						<br />
+						<center>
+							<Button
+								// disabled={!image}
+								type="submit"
+								style={{
+									width: "200px",
+									height: "50px",
+									backgroundColor: "#727dbd",
+									color: "white",
+									border: "none",
+								}}
+							>
+								{/* <img
+										style={{ height: "100%" }}
+										src={loadingUpload}
+										alt="loader"
+									/> */}
+								Upload
+							</Button>
+						</center>
+					</Form>
+				</ModalBody>
+			</Modal>
 			<br />
 			<br />
 			{userType !== "student" ? (
@@ -520,75 +693,32 @@ const Example = (props) => {
 						Click On The Event's Title To Download Your Certificate
 					</p>
 					{/* <CardGroup style={{ padding: "3%" }}> */}
-					<Carousel responsive={responsive}>
-						{participatedEvents.map((participatedEvent) => (
-							<div>
-								<Card style={{ margin: "0 1%", border: "none" }}>
-									<CardImg
-										top
-										width="10%"
-										src={participatedEvent.images}
-										alt="Card image cap"
-									/>
-									<CardBody>
-										<CardTitle tag="h6" style={{ textAlign: "center" }}>
-											{participatedEvent.name}:
-											<i style={{ fontWeight: "lighter" }}> Organized By </i>
-											{participatedEvent.eventType}
-										</CardTitle>
-									</CardBody>
-								</Card>
-							</div>
-						))}
-						{/* <div>
-							<Card style={{ margin: "0 1%", border: "none" }}>
-								<CardImg
-									top
-									width="10%"
-									src={participatedEvents.poster[1]}
-									alt="Card image cap"
-								/>
-								<CardBody>
-									<CardTitle tag="h6" style={{ textAlign: "center" }}>
-										{participatedEvents.title[1]}: Organized By{" "}
-										{participatedEvents.organizer[1]}
-									</CardTitle>
-								</CardBody>
-							</Card>
-						</div> */}
-						{/* <div>
-							<Card style={{ margin: "0 1%", border: "none" }}>
-								<CardImg
-									top
-									width="10%"
-									src={participatedEvents.poster[2]}
-									alt="Card image cap"
-								/>
-								<CardBody>
-									<CardTitle tag="h6" style={{ textAlign: "center" }}>
-										{participatedEvents.title[2]}: Organized By{" "}
-										{participatedEvents.organizer[2]}
-									</CardTitle>
-								</CardBody>
-							</Card>
-						</div> */}
-						{/* <div>
-							<Card style={{ margin: "0 1%", border: "none" }}>
-								<CardImg
-									top
-									width="10%"
-									src={participatedEvents.poster[3]}
-									alt="Card image cap"
-								/>
-								<CardBody>
-									<CardTitle tag="h6" style={{ textAlign: "center" }}>
-										{participatedEvents.title[3]}: Organized By{" "}
-										{participatedEvents.organizer[3]}
-									</CardTitle>
-								</CardBody>
-							</Card>
-						</div> */}
-					</Carousel>
+					{participatedEvents === undefined ? (
+						<div>Empty</div>
+					) : (
+						<Carousel responsive={responsive}>
+							{participatedEvents.map((participatedEvent) => (
+								<div style={{height:"40em"}}>
+									<Card style={{ margin: "0 1%", border: "none" }}>
+										<div style={{height:"25em",width:"25em",margin:"auto"}}>
+										<CardImg
+											top
+											style={{objectFit:"contain"}}
+											src={participatedEvent.images}
+											alt="Card image cap"
+										/></div>
+										<CardBody >
+											<CardTitle tag="h6" style={{ textAlign: "center" }}>
+												{participatedEvent.name}:
+												<i style={{ fontWeight: "lighter" }}> Organized By </i>
+												{participatedEvent.eventType}
+											</CardTitle>
+										</CardBody>
+									</Card>
+								</div>
+							))}
+						</Carousel>
+					)}
 					{/* </CardGroup> */}
 					<br />
 					<br />

@@ -5,8 +5,7 @@ const jwt = require("jsonwebtoken");
 // login
 router.post('/login-officials', async(req,res)=>{
     let officials = await Officials.findOne({
-        mail : req.body.mail,
-        username: req.body.username
+        mail : req.body.mail
     })
 
     if(officials){

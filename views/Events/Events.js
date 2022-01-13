@@ -50,6 +50,7 @@ router.post("/", obj);
 
 // update
 router.patch("/:id", async (req, res) => {
+	const url = req.protocol + "://" + req.get("host");
 	upload(req, res, async (err) => {
 		if (err) {
 			res.json(err);
@@ -70,8 +71,11 @@ router.patch("/:id", async (req, res) => {
 			events.eventEndTime = req.body.eventEndTime
 				? req.body.eventEndTime
 				: events.eventEndTime;
-			events.reports = req.files.reports ? req.files.reports : events.reports;
-			events.images = req.files.images ? req.files.images : events.images;
+			if (req.files.reports)
+				events.reports =
+					url + "/public/events/" + req.files.reports[0].filename;
+			if (req.files.images)
+				events.images = url + "/public/events/" + req.files.images[0].filename;
 			events.save().then(() => {
 				res.send({
 					message: "uploaded successfully",
@@ -133,7 +137,31 @@ router.get("/:id", async (req, res) => {
 
 // participated events by students
 
-router.post("/participate/:id", async (req, res) => {
+router.post("/tsg-participate/:id", async (req, res) => {
+	try {
+		let event = await Events.findOne({ _id: req.params.id });
+		let student = await Students.findOneAndUpdate(
+			{
+				rollNumber: req.body.rollNumber,
+			},
+			{
+				$addToSet: {
+					tsgParticipatedEvents: event._id,
+				},
+			},
+			{ new: true, useFindAndModify: false },
+		).populate({
+			path: "tsgParticipatedEvents",
+			model: "Events",
+		});
+
+		res.json(student);
+	} catch (err) {
+		res.json(err);
+	}
+});
+
+router.post("/society-participate/:id", async (req, res) => {
 	try {
 		let event = await Events.findOne({ _id: req.params.id });
 		console.log(event, req.params.id);
@@ -143,12 +171,12 @@ router.post("/participate/:id", async (req, res) => {
 			},
 			{
 				$addToSet: {
-					participatedEvents: event._id,
+					societyParticipatedEvents: event._id,
 				},
 			},
 			{ new: true, useFindAndModify: false },
 		).populate({
-			path: "participatedEvents",
+			path: "societyParticipatedEvents",
 			model: "Events",
 		});
 

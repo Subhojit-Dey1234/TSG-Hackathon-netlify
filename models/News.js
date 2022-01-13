@@ -10,7 +10,11 @@ const News = new Schema({
         type: String,
         required:true
     },
-    text:{
+    topic:{
+        type:String,
+        required: true
+    },
+    description:{
         type:String,
         required: true
     },

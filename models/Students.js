@@ -14,7 +14,13 @@ const Students = new Schema({
     },
     rollNumber: String,
     type : String,
-    participatedEvents : [
+    tsgParticipatedEvents : [
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Events"
+        }
+    ],
+    societyParticipatedEvents : [
         {
             type:mongoose.Schema.Types.ObjectId,
             ref:"Events"

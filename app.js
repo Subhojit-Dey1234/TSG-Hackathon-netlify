@@ -10,6 +10,8 @@ const db = require("./config/keys.js").mongoURI;
 const events = require("./views/Events/Events.js")
 const societyPoint = require("./views/SocietyPoint/SocietyPoint.js")
 const news = require('./views/News/News.js')
+const search = require('./views/Search.js')
+const academicPoint = require('./views/AcademicPoint/AcademicPoint.js')
 app.use(cors());
 
 app.use(express.json());
@@ -28,6 +30,8 @@ app.use("/student", StudentsData);
 app.use("/events", events);
 app.use("/bill_reimbursements", societyPoint);
 app.use("/news",news)
+app.use("/academics",academicPoint)
+app.use("/search", search)
 
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static("client/build"));

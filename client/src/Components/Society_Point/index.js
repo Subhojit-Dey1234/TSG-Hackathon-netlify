@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardImg,
@@ -11,16 +11,23 @@ import {
   Button,
   Form,
   FormGroup,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Alert
 } from "reactstrap";
 import logo1 from "../../Images/logo1.png";
 import logo2 from "../../Images/logo2.png";
 // import logo3 from "../../Images/logo3.png";
 import logo4 from "../../Images/logo4.png";
 import { Row, Col } from "reactstrap";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import main from "../../Images/FormImage.png";
+import { downloadReport, uploadGrievances, participateEventSocio } from '../Events_TSG/actions'
+
+
 const responsive = {
   superLargeDesktop: {
     breakpoint: { max: 4000, min: 3000 },
@@ -45,20 +52,67 @@ const eventDescription =
 const eventDate = "22nd November 2022";
 const eventOrganizer = "TSG IIT Kharagpur";
 const eventPoster = logo4;
-const participatedEvents = {
-  title: ["Event One", "Event Two", "Event Three", "Event Four"],
-  organizer: [
-    "TSG IIT Kharagpur",
-    "Debsoc IIT Kharagpur",
-    "TDS IIT Kharagpur",
-    "Spectra IIT Kharagpur",
-  ],
-  poster: [logo1, logo2, logo1, logo2],
-};
 
 const Example = (props) => {
+  const dispatch = useDispatch();
   const fileInput = React.useRef(null);
+  const [subject, setSubject] = useState(null);
+	const [grievanceDescription, setGrievanceDescription] = useState(null);
   const userType = "student";
+  // const userType = "societyOfficial";
+  const eventsData = useSelector((state) => state.eventDetails.events);
+  const user = useSelector((state) => state.userDetails.user);
+
+  const participatedEvents = useSelector(
+		(state) => state.userDetails.user.societyParticipatedEvents,
+	);
+
+  function uploadGrievance(e) {
+		e.preventDefault();
+		var form = new FormData();
+		form.append("rollNumber", user.rollNumber);
+		form.append("hallOfResidence",user.hallOfResidence)
+		form.append("mail", user.mail);
+		form.append("studentName", user.name);
+		form.append("grievanceDescription", grievanceDescription);
+		form.append("subject", subject);
+
+		console.log(subject, grievanceDescription);
+
+		dispatch(
+			uploadGrievances(form, (res) => {
+				if(res.status === 200){
+					setSubject(null)
+					setGrievanceDescription(null)
+				}
+			}),
+		);
+	}
+
+
+  function downloadReportFrontend(blob, name) {
+		if (window.navigator && window.navigator.msSaveOrOpenBlob)
+			return window.navigator.msSaveOrOpenBlob(blob);
+
+		var binaryData = [];
+		binaryData.push(blob);
+		const data = window.URL.createObjectURL(
+			new Blob(binaryData, { type: "application/pdf" }),
+		);
+
+		const link = document.createElement("a");
+		link.href = data;
+		link.download = name;
+
+		link.dispatchEvent(
+			new MouseEvent("click", {
+				bubbles: true,
+				cancelable: true,
+				view: window,
+			}),
+		);
+	}
+
   // const userType = useSelector((state)=>state.userDetails.user.type);
   return (
     <div>
@@ -66,73 +120,70 @@ const Example = (props) => {
       <br />
       <br />
       <h2 style={{ textAlign: "left", margin: "3% 5%", fontWeight: "bolder" }}>
-        Posted Events!
+        Recent Events!
       </h2>
-      <Card
+      {eventsData.map((event)=>(
+      <Card key={event._id}
         style={{ textAlign: "left", boxShadow: "2px grey", margin: "3% 5%" }}
       >
         <Row>
           <Col sm="3">
-            <CardImg top width="auto" src={eventPoster} alt="Card image cap" />
+            <CardImg top width="auto" src={event.images} alt="Card image cap" />
           </Col>
           <Col sm="9">
             <CardBody>
               <CardTitle tag="h5">{eventTitle}</CardTitle>
               <p>
-                {eventDate} | {eventOrganizer}
+                {eventDate} | {event.eventType}
               </p>
               <CardText>
-                {eventDescription}
+              {event.description}
                 <br />
                 <br />
-
-                {userType !== "student" ? (
-                  <div>
-                    <a
-                      href={() => false}
-                      style={{ color: "#727dbd", textDecoration: "none" }}
-                    >
-                      Download Report
-                    </a>{" "}
-                    |{" "}
-                    <a
-                    href={() => false}
-                      onClick={() => fileInput.current.click()}
-                      style={{
-                        color: "red",
-                        textDecoration: "none",
-                        cursor:"pointer",
-                      }}
-                    >
-                      Upload Report
-                    </a>
-                    <input ref={fileInput} type="file" style={{visibility:"hidden"}}/>
-                  </div>
-                ) : (
-                  <div>
-                    <a
-                      href={() => false}
-                      style={{ color: "#727dbd", textDecoration: "none" }}
-                    >
-                      Download Report
-                    </a>{" "}
-                    |{" "}
-                    <a
-                      href={() => false}
-                      style={{
-                        color: "red",
-                        textDecoration: "none",
-                      }}
-                    >
-                      Participate Now
-                    </a>
-                  </div>
-                )}
+                <div>
+										<div>
+											<Button
+												disabled={!event.reports}
+												style={{
+													background: "#727dbd",
+													color: "white",
+													textDecoration: "none",
+													cursor: "pointer",
+												}}
+												onClick={(e) => {
+													if (event.reports) {
+														dispatch(
+															downloadReport(event._id, (res) => {
+																downloadReportFrontend(
+																	res,
+																	`${event.reports[0].filename}`,
+																);
+															}),
+														);
+													}
+												}}
+											>
+												Download Report
+											</Button>{" "}
+                      <Button onClick={()=>{
+                        let isConfirmed = window.confirm(
+                          "Are you Sure???"
+                        );
+                        if (isConfirmed) {
+                          dispatch(
+                            participateEventSocio(event._id, {
+                              rollNumber: "19ME10087",
+                            }),
+                          );
+                        }
+                      }} color="warning">Participate Now</Button>
+										</div>
+									</div>
               </CardText>
             </CardBody>
           </Col>
         </Row>
-      </Card>
+      </Card>))}
       <br />
       <br />
       {userType !== "student" ? (
@@ -181,70 +232,25 @@ const Example = (props) => {
           </p>
           {/* <CardGroup style={{ padding: "3%" }}> */}
           <Carousel responsive={responsive}>
-            <div>
-              <Card style={{ margin: "0 1%", border: "none" }}>
-                <CardImg
-                  top
-                  width="10%"
-                  src={participatedEvents.poster[0]}
-                  alt="Card image cap"
-                />
-                <CardBody>
-                  <CardTitle tag="h6" style={{ textAlign: "center" }}>
-                    {participatedEvents.title[0]}: Organized By{" "}
-                    {participatedEvents.organizer[0]}
-                  </CardTitle>
-                </CardBody>
-              </Card>
-            </div>
-            <div>
-              <Card style={{ margin: "0 1%", border: "none" }}>
-                <CardImg
-                  top
-                  width="10%"
-                  src={participatedEvents.poster[1]}
-                  alt="Card image cap"
-                />
-                <CardBody>
-                  <CardTitle tag="h6" style={{ textAlign: "center" }}>
-                    {participatedEvents.title[1]}: Organized By{" "}
-                    {participatedEvents.organizer[1]}
-                  </CardTitle>
-                </CardBody>
-              </Card>
-            </div>
-            <div>
-              <Card style={{ margin: "0 1%", border: "none" }}>
-                <CardImg
-                  top
-                  width="10%"
-                  src={participatedEvents.poster[2]}
-                  alt="Card image cap"
-                />
-                <CardBody>
-                  <CardTitle tag="h6" style={{ textAlign: "center" }}>
-                    {participatedEvents.title[2]}: Organized By{" "}
-                    {participatedEvents.organizer[2]}
-                  </CardTitle>
-                </CardBody>
-              </Card>
-            </div>
-            <div>
-              <Card style={{ margin: "0 1%", border: "none" }}>
-                <CardImg
-                  top
-                  width="10%"
-                  src={participatedEvents.poster[3]}
-                  alt="Card image cap"
-                />
-                <CardBody>
-                  <CardTitle tag="h6" style={{ textAlign: "center" }}>
-                    {participatedEvents.title[3]}: Organized By{" "}
-                    {participatedEvents.organizer[3]}
-                  </CardTitle>
-                </CardBody>
-              </Card>
-            </div>
+            {participatedEvents.map((participatedEvent) => (
+							<div>
+								<Card style={{ margin: "0 1%", border: "none" }}>
+									<CardImg
+										top
+										width="10%"
+										src={participatedEvent.images}
+										alt="Card image cap"
+									/>
+									<CardBody>
+										<CardTitle tag="h6" style={{ textAlign: "center" }}>
+											{participatedEvent.name}:
+											<i style={{ fontWeight: "lighter" }}> Organized By </i>
+											{participatedEvent.eventType}
+										</CardTitle>
+									</CardBody>
+								</Card>
+							</div>
+						))}
           </Carousel>
           {/* </CardGroup> */}
           <br />
@@ -268,69 +274,92 @@ const Example = (props) => {
             sm="6"
             style={{ alignItems: "center", justifyContent: "center" }}
           >
-            <Form>
+            <Form onSubmit={uploadGrievance}>
               <Row>
-                <Col sm="6">
+                <Col sm="12">
                   <FormGroup>
-                    <Input
-                      name="firstName"
-                      placeholder="First Name"
-                      type="name"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col sm="6">
-                  <FormGroup>
-                    <Input
-                      name="lastName"
-                      placeholder="Last Name"
-                      type="name"
-                    />
+                  <Input
+												value={user.name}
+												disabled
+												required={true}
+												name="firstName"
+												placeholder="Name"
+												type="name"
+											/>
                   </FormGroup>
                 </Col>
               </Row>
               <FormGroup>
-                <Input name="mail" placeholder="Your Mail" type="email" />
+              <Input
+										disabled
+										value={user.mail}
+										name="mail"
+										placeholder="Your Mail"
+										type="email"
+									/>
               </FormGroup>
               <Row>
                 <Col sm="6">
-                  <FormGroup>
-                    <Input name="roll" placeholder="Your Roll" type="name" />
-                  </FormGroup>
+                <FormGroup>
+											<Input
+												disabled
+												value={user.rollNumber}
+												name="roll"
+												placeholder="Your Roll"
+												type="name"
+											/>
+										</FormGroup>
                 </Col>
                 <Col sm="6">
                   <FormGroup>
-                    <Input
-                      name="hall"
-                      placeholder="Your Hall of Residence"
-                      type="name"
-                    />
+                  <Input
+												value={user.hallOfResidence}
+												disabled
+												name="hall"
+												placeholder="Your Hall of Residence"
+												type="name"
+											/>
                   </FormGroup>
                 </Col>
               </Row>
               <FormGroup>
-                <Input
-                  name="subject"
-                  placeholder="Request Subject"
-                  type="name"
-                />
+              <Input
+										required={true}
+										value={subject ? subject : ""}
+										name="subject"
+										placeholder="Request Subject"
+										type="name"
+										onChange={(e) => {
+											setSubject(e.target.value);
+										}}
+									/>
               </FormGroup>
               <FormGroup>
-                <Input name="message" placeholder="Your Message" type="name" />
-              </FormGroup>
+									<Input
+										required={true}
+										value={grievanceDescription ? grievanceDescription : ""}
+										name="message"
+										placeholder="Your Message"
+										type="textarea"
+										onChange={(e) => {
+											setGrievanceDescription(e.target.value);
+										}}
+									/>
+								</FormGroup>
               <br />
               <center>
-                <Button
-                  style={{
-                    width: "200px",
-                    height: "50px",
-                    backgroundColor: "#727dbd",
-                    color: "white",
-                    border: "none",
-                  }}
-                >
-                  Update Information
-                </Button>
+              <Button
+										type="submit"
+										style={{
+											width: "200px",
+											height: "50px",
+											backgroundColor: "#727dbd",
+											color: "white",
+											border: "none",
+										}}
+									>
+										Upload Grievances
+									</Button>
               </center>
             </Form>
             <br />

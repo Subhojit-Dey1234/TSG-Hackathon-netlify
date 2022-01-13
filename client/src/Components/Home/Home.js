@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import main from "../../Images/MainImage.png";
 import "./style.css";
 import logo from "./logo.svg";
@@ -14,12 +14,13 @@ import {
 } from "reactstrap";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-// import Calendar from "react-calendar";
+import { useSelector, useDispatch } from 'react-redux'
 import "react-calendar/dist/Calendar.css";
 import { Calendar } from "@natscale/react-calendar";
 import "@natscale/react-calendar/dist/main.css";
 import Gallery from "react-photo-gallery";
 import { photos } from "./Photos";
+import { getEvents } from "../Events_TSG/actions";
 const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
@@ -41,7 +42,19 @@ const responsive = {
 };
 
 export default function Home() {
+  const dispatch = useDispatch();
   const [value, setValue] = useState();
+  let events = useSelector(state=>state.eventDetails.events)
+  events = events.slice(0,2);
+  
+  useEffect(()=>{
+    dispatch(getEvents(res=>{
+      console.log(res)
+    }))
+  },[])
+  
+
+  const months = [ "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec" ]
 
   const onChange = useCallback(
     (value) => {
@@ -249,45 +262,31 @@ export default function Home() {
               <div>
                 <h4 style={{ textAlign: "left" }}>Upcoming Events</h4>
                 <br />
-                <Row style={{ alignItems: "center", justifyContent: "center" }}>
+                {events.map((event)=>(
+                <Row style={{ alignItems: "center", justifyContent: "center", marginTop:"10px", width:"auto"}}>
                   <Col
-                    xs="3"
+                    xs="6"
                     style={{
                       backgroundColor: "#7882bd",
-                      borderRadius: "48%",
+                      borderRadius: "5px",
                       padding: "1% 0%",
                       color: "white",
                     }}
                   >
-                    <div style={{ textAlign: "center" }}>
-                      <h1>13</h1>
-                      <p style={{ lineHeight: "0%" }}>Jan</p>
+                    <div style={{ textAlign: "center", width:"100%"}}>
+                      <h1>{new Date(event.eventStartTime).getDate()}</h1>
+                      <p style={{ lineHeight: "0%" }}>{months[new Date(event.eventStartTime).getMonth()]}</p>
                     </div>
                   </Col>
-                  <Col xs="9" style={{ padding: "5%" }}>
-                    <CardTitle tag="h5">Lorem Ipsum Dog Headline</CardTitle>
+                  <Col xs="6" style={{ padding: "5%" }}>
+                    <CardTitle tag="h5">{event.name}</CardTitle>
                   </Col>
                 </Row>
+                ))}
                 <br />
-                <Row style={{ alignItems: "center", justifyContent: "center" }}>
-                  <Col
-                    xs="3"
-                    style={{
-                      backgroundColor: "#7882bd",
-                      borderRadius: "48%",
-                      padding: "1% 0%",
-                      color: "white",
-                    }}
-                  >
-                    <div style={{ textAlign: "center" }}>
-                      <h1>13</h1>
-                      <p style={{ lineHeight: "0%" }}>Jan</p>
-                    </div>
-                  </Col>
-                  <Col xs="9" style={{ padding: "5%" }}>
-                    <CardTitle tag="h5">Lorem Ipsum Dog Headline</CardTitle>
-                  </Col>
-                </Row>
+                <div style={{border:"#7882bd solid 2px",textAlign:"right", padding:"0.4em",width:"100px",position:"absolute",right:"20px",borderRadius:"5px"}}>
+                  <a style={{color:"white", textDecoration:"none", fontWeight:"bolder" , color:"#7882bd"}} href="events-tsg">...More</a>
+                </div>
               </div>
             </CardBody>
           </Card>

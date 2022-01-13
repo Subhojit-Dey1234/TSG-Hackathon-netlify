@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import {
 	Card,
@@ -12,12 +12,27 @@ import {
 	CardSubtitle,
 } from "reactstrap";
 import { loginOfficial } from "./Actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function OfficialLogin() {
 	const [email, setEmail] = useState(null);
 	const [ password , setPassword] = useState(null)
 	const dispatch = useDispatch();
+
+	const st = useSelector(
+		(state) => state
+	);
+
+	console.log(st)
+
+	useEffect(()=>{
+		dispatch({
+			type : "USER_TYPE_POINTER",
+			payload : "student"
+		})
+	},[])
+
+
 	function Login(e) {
 		e.preventDefault();
 		let data = {
@@ -27,13 +42,18 @@ export default function OfficialLogin() {
 
 		dispatch(
 			loginOfficial(data, (res) => {
-				if (!localStorage.getItem("access-token")) {
-					localStorage.setItem("access-token", res.data.accessToken);
-					// window.location.href = "/dashboard";
+
+				if(res.status === 200){
+					if (!localStorage.getItem("access-token")) {
+						localStorage.setItem("access-token", res.data.accessToken);
+					}
+					window.location.href = "/dashboard";
 				}
 			}),
 		);
 	}
+
+
 	return (
 		<div className="container-form">
 			<Card className="form">

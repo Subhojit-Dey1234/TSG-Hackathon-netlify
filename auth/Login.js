@@ -19,6 +19,7 @@ router.post('/login-officials', async(req,res)=>{
 
     if(officials){
 		let userData = {
+			_id : officials._id,
 			mail : officials.mail,
 			name : officials.name,
 			username : officials.username,
@@ -44,27 +45,6 @@ router.post('/login-officials', async(req,res)=>{
 const sendingEmail = process.env.SENDING_EMAIL
 const sendEmailPassword = process.env.EMAIL_PASSWORD
 
-
-router.post('/login-officials', async(req,res)=>{
-    let officials = await Officials.findOne({
-        mail : req.body.mail,
-        username: req.body.username
-    })
-
-    if(officials){
-        if(officials.password === req.body.password){
-            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-            res.send(200).json({
-                success : "Password Matched.",
-                accessToken,
-            })
-        }
-    }
-    else{
-        res.json(404).send("No user found")
-    }
-})
-
 // For sending Mail
 const transporter = nodemailer.createTransport({
 	service: "gmail",
@@ -82,7 +62,10 @@ const transporter = nodemailer.createTransport({
 router.post("/login", async (req, res) => {
 	let user;
 	await Students.findOne({ mail: req.body.mail }).populate({
-		path : "participatedEvents",
+		path : "tsgParticipatedEvents",
+		model : "Events"
+	}).populate({
+		path : "societyParticipatedEvents",
 		model : "Events"
 	}).then((r) => {
 		user = r;

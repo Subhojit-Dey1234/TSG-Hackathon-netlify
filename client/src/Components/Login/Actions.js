@@ -7,10 +7,12 @@ export const loginOfficial = (data,callback)=>{
             "Content-Type": "application/json",
         })
         .then((res)=>{
-            dispatch({
-                type: USER_TYPE,
-                payload : res.data.user
-            })
+            if(res.status === 200){
+                dispatch({
+                    type: USER_TYPE,
+                    payload : res.data.user
+                })
+            }
             callback(res)
         })
         .catch(err=>{

@@ -6,3 +6,8 @@ export const DELETE_EVENT = "DELETE_EVENT"
 export const UPDATE_EVENT = "UPDATE_EVENT"
 export const SEARCH_BAR = "SEARCH_BAR"
 export const PARTICIPATED_EVENTS = "PARTICIPATED_EVENTS"
+
+export const ADD_NEWS = "ADD_NEWS"
+export const GET_NEWS = "GET_NEWS"
+export const DELETE_NEWS = "DELETE_NEWS"
+export const UPDATE_NEWS = "UPDATE_NEWS"

@@ -18,7 +18,10 @@ router.get("/user/:id",async(req,res)=>{
         let student = await Students.findOne({
             _id : req.params.id
         }).populate({
-            path: "participatedEvents",
+            path: "tsgParticipatedEvents",
+            model: "Events",
+        }).populate({
+            path: "societyParticipatedEvents",
             model: "Events",
         })
 

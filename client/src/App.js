@@ -43,8 +43,10 @@ function App() {
 						<Route path="/dashboard" element={<Dashboard />} />
 					</Route>
 					{/* <Route path="/dashboard" element={<Dashboard />} /> */}
-					<Route path="/events-tsg" element={<Events_TSG />} />
-					<Route path="/societyPoint" element={<Society_Point />} />
+					<Route exact path="/events-tsg" element={<ProtectedRoute />}>
+						<Route path="/events-tsg" element={<Events_TSG />} />
+					</Route>
+					<Route path="/society-point" element={<Society_Point />} />
 				</Routes>
 			</Router>
 			<br />
