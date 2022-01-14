@@ -23,7 +23,7 @@ const Students = new Schema({
     societyParticipatedEvents : [
         {
             type:mongoose.Schema.Types.ObjectId,
-            ref:"Events"
+            ref:"SocietyPoint"
         }
     ]
 })

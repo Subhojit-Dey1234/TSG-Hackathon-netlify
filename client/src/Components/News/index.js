@@ -18,7 +18,7 @@ import logo1 from "../../Images/logo1.png";
 import logo2 from "../../Images/logo2.png";
 import logo4 from "../../Images/logo4.png";
 import formImage from "../../Images/FormImage.png";
-import { getNews, updateNews, uploadNewsFunc } from "./actions";
+import { deleteNews, getNews, updateNews, uploadNewsFunc } from "./actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col } from "reactstrap";
 import deleteImg from "../../Images/delete.svg";
@@ -42,6 +42,8 @@ const Example = (props) => {
 	});
 
 	console.log(userType);
+
+  const isAuthenticated = localStorage.getItem("access-token")
 
 	const news = useSelector((state) => state.news.news);
 	useEffect(() => {
@@ -430,11 +432,16 @@ const Example = (props) => {
 								{/* <Button>Delete</Button>
                 <Button>Edit</Button> */}
 								<Button
+                onClick={()=>{
+                  dispatch(deleteNews(ne._id,res=>{
+                    console.log(res)
+                  }))
+                }}
 									style={{
 										position: "absolute",
 										right: "10px",
 										top: "10px",
-										display: userType === "student" ? "none" : "",
+										display: (!isAuthenticated || userType === "student") ? "none" : "",
 									}}
 									color="danger"
 								>
@@ -453,7 +460,7 @@ const Example = (props) => {
 										position: "absolute",
 										right: "60px",
 										top: "10px",
-										display: userType === "student" ? "none" : "",
+										display: (!isAuthenticated || userType === "student") ? "none" : "",
 									}}
 									color="warning"
 								>

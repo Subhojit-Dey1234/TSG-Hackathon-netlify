@@ -28,7 +28,7 @@ app.use('/public', express.static('media'));
 app.use("/auth", login);
 app.use("/student", StudentsData);
 app.use("/events", events);
-app.use("/bill_reimbursements", societyPoint);
+app.use("/society-point", societyPoint);
 app.use("/news",news)
 app.use("/academics",academicPoint)
 app.use("/search", search)

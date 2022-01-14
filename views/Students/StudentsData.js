@@ -22,7 +22,7 @@ router.get("/user/:id",async(req,res)=>{
             model: "Events",
         }).populate({
             path: "societyParticipatedEvents",
-            model: "Events",
+            model: "SocietyPoint",
         })
 
         res.json(student)

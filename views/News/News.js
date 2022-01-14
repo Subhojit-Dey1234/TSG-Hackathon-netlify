@@ -67,11 +67,16 @@ router.patch("/:id", async (req, res) => {
 	});
 });
 
-router.delete('/:id',async(req,res)=>{
-	let news = await News.find({ _id : req.params.id});
-	news.remove();
-	res.send("Delete Completed")
-})
+router.delete("/:id", async (req, res) => {
+	try {
+		News.deleteOne({ _id: req.params.id }, function (err, model) {
+			if (!err) res.send("Delete Completed");
+		});
+	} catch (err) {
+		console.log(err);
+		res.send(err);
+	}
+});
 
 
 //get all the events

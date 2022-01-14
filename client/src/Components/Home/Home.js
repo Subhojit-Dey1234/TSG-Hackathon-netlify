@@ -50,14 +50,14 @@ export default function Home() {
  
   const news = useSelector((state) => state.news.news);
  
-  console.log(news)
+  // console.log(news)
  
   useEffect(()=>{
     dispatch(getNews(res=>{
-      console.log(res)
+      // console.log(res)
     }))
     dispatch(getEvents(res=>{
-      console.log(res)
+      // console.log(res)
     }))
   },[])
  
@@ -185,7 +185,7 @@ export default function Home() {
           >
             <CardBody style={{height:"15em"}}>
             <h4 style={{textAlign:"center",marginBottom:"2em"}}>News</h4>
-            {news.slice(0,3).map((ne)=>(
+            {news.slice(0,2).map((ne)=>(
             <Card
               style={{
                 textAlign: "left",
@@ -261,6 +261,10 @@ export default function Home() {
           </Card>
         </CardGroup>
         <br />
+        
+        {/* <center>
+          <h2 style={{ color: "#7882bd" }}>CDC Reports</h2>
+        </center> */}
         <center>
           <h2 style={{ color: "#7882bd" }}>Highlights</h2>
         </center>

@@ -115,7 +115,7 @@ const Example = (props) => {
 		form.append("grievanceDescription", grievanceDescription);
 		form.append("subject", subject);
 
-		console.log(subject, grievanceDescription);
+		// console.log(subject, grievanceDescription);
 
 		dispatch(
 			uploadGrievances(form, (res) => {
@@ -181,7 +181,7 @@ const Example = (props) => {
 	}
 
 	const UploadReport = (_id) => {
-		console.log(reportUpload);
+		// console.log(reportUpload);
 		var form = new FormData();
 		form.append("reports", reportUpload[0]);
 
@@ -244,7 +244,7 @@ const Example = (props) => {
 	const [isExtended, setExtendedModalOpen] = useState(false);
 	const [isParticipateModal, setParticipateModal] = useState(false);
 	const s = useSelector((state) => state.userDetails.user);
-	console.log(s);
+	// console.log(s);
 
 	const participatedEvents = useSelector(
 		(state) => state.userDetails.user.tsgParticipatedEvents,
@@ -264,7 +264,7 @@ const Example = (props) => {
 		"November",
 		"December",
 	];
-	console.log(startDate);
+	// console.log(startDate);
 	return (
 		<div>
 			<br />
@@ -450,7 +450,6 @@ const Example = (props) => {
 												}}
 												color="danger"
 												onClick={(e) => {
-													console.log(e);
 													dispatch(
 														deleteEvents(event._id, (res) => {
 															console.log(res);

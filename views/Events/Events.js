@@ -2,6 +2,7 @@ const path = require("path");
 const multer = require("multer");
 const Events = require("../../models/Events");
 const Students = require("../../models/Students");
+const SocietyPoint = require("../../models/SocietyPoint");
 const router = require("express").Router();
 
 const storage = multer.diskStorage({
@@ -151,6 +152,9 @@ router.post("/tsg-participate/:id", async (req, res) => {
 		).populate({
 			path: "tsgParticipatedEvents",
 			model: "Events",
+		}).populate({
+			path: "societyParticipatedEvents",
+			model: "SocietyPoint",
 		});
 
 		res.json(student);
@@ -161,8 +165,7 @@ router.post("/tsg-participate/:id", async (req, res) => {
 
 router.post("/society-participate/:id", async (req, res) => {
 	try {
-		let event = await Events.findOne({ _id: req.params.id });
-		console.log(event, req.params.id);
+		let event = await SocietyPoint.findOne({ _id: req.params.id });
 		let student = await Students.findOneAndUpdate(
 			{
 				rollNumber: req.body.rollNumber,
@@ -175,6 +178,9 @@ router.post("/society-participate/:id", async (req, res) => {
 			{ new: true, useFindAndModify: false },
 		).populate({
 			path: "societyParticipatedEvents",
+			model: "SocietyPoint",
+		}).populate({
+			path: "tsgParticipatedEvents",
 			model: "Events",
 		});
 

@@ -2,17 +2,35 @@ const mongoose = require("mongoose")
 const Schema  = mongoose.Schema;
 
 const SocietyPoint = new Schema({
-    rollNumber : {
+    name : {
         type:String,
+        required: true
+    },
+    eventType : {
+        type:String,
+        required: true
+    },
+    status : {
+        type:String,
+        // required: true
+    },
+    reports: {},
+    images : {},
+    description : {
+        type: String,
         required:true
     },
-    document : {},
-    verificationStatus : {
-        type:String,
+    eventStartTime : {
+        type: Date,
+        required: true
+    },
+    eventEndTime:{
+        type: Date,
         required:true
     },
-    remarks:{
-        type:String
+    date: {
+        type:Date,
+        default:Date.now
     }
 })
 
