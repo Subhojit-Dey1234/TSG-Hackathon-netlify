@@ -219,7 +219,17 @@ const Example = (props) => {
         >
           <Row>
             <Col sm="3">
-              <CardImg top width="auto" src={ne.image} alt="Card image cap" />
+			<CardImg
+                top
+                src={ne.image}
+                alt="Card image cap"
+                style={{
+                  objectFit: "cover",
+                  width: "20vw",
+                  height: "20vw",
+                  display: window.innerWidth < 900 ? "none" : "block",
+                }}
+              />
             </Col>
             <Col sm="9">
               <CardBody>
@@ -230,7 +240,13 @@ const Example = (props) => {
                   {ne.topic} | By - <i>{ne.author}</i>
                 </p>
                 <p></p>
-                <CardText>{ne.description}</CardText>
+                <CardText>
+                  {ne.description.length < 475
+                    ? `${ne.description}`
+                    : `${ne.description.substring(0, 476)}...`}
+				<br/>
+				<a href="#" style={{display: ne.description.length < 475 ? "none" : "", textDecoration:"none"}}>Read More</a>
+                </CardText>
                 {/* <Button>Delete</Button>
                 <Button>Edit</Button> */}
                 <Button

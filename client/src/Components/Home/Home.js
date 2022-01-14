@@ -21,6 +21,7 @@ import "@natscale/react-calendar/dist/main.css";
 import Gallery from "react-photo-gallery";
 import { photos } from "./Photos";
 import { getEvents } from "../Events_TSG/actions";
+import { getNews } from "../News/actions";
 const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
@@ -40,22 +41,29 @@ const responsive = {
     items: 1,
   },
 };
-
+ 
 export default function Home() {
   const dispatch = useDispatch();
   const [value, setValue] = useState();
   let events = useSelector(state=>state.eventDetails.events)
-  events = events.slice(0,2);
-  
+  events = events.slice(0,3);
+ 
+  const news = useSelector((state) => state.news.news);
+ 
+  console.log(news)
+ 
   useEffect(()=>{
+    dispatch(getNews(res=>{
+      console.log(res)
+    }))
     dispatch(getEvents(res=>{
       console.log(res)
     }))
   },[])
-  
-
+ 
+ 
   const months = [ "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec" ]
-
+ 
   const onChange = useCallback(
     (value) => {
       setValue(value);
@@ -175,6 +183,9 @@ export default function Home() {
               justifyContent: "center",
             }}
           >
+            <CardBody style={{height:"15em"}}>
+            <h4 style={{textAlign:"center",marginBottom:"2em"}}>News</h4>
+            {news.slice(0,3).map((ne)=>(
             <Card
               style={{
                 textAlign: "left",
@@ -182,73 +193,31 @@ export default function Home() {
                 margin: "2% 5%",
               }}
             >
+             
               <Row>
                 <Col
-                  sm="3"
+                  sm="4"
                   style={{
                     alignItems: "center",
                     justifyContent: "center",
                     paddingTop: "2%",
                   }}
                 >
-                  <CardImg top width="auto" src={logo} alt="Card image cap" />
+                  <CardImg top width="auto" src={ne.image} alt="Card image cap" />
                 </Col>
-                <Col sm="9">
+                <Col sm="8">
                   <CardBody>
-                    <CardTitle tag="h5">Lorem Ipsum Dog Headline</CardTitle>
+                    <h5>{ne.name}</h5>
+                    <i>Topic - {ne.topic}</i>
+                    <CardTitle>{ne.description.slice(0,50)}{ne.description.length > 50 ? "..." :""}</CardTitle>
                   </CardBody>
                 </Col>
               </Row>
-            </Card>
-            <Card
-              style={{
-                textAlign: "left",
-                boxShadow: "2px grey",
-                margin: "2% 5%",
-              }}
-            >
-              <Row>
-                <Col
-                  sm="3"
-                  style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    paddingTop: "2%",
-                  }}
-                >
-                  <CardImg
-                    bottom
-                    width="auto"
-                    src={logo}
-                    alt="Card image cap"
-                    style={{ alignItems: "center", justifyContent: "center" }}
-                  />
-                </Col>
-                <Col sm="9">
-                  <CardBody>
-                    <CardTitle tag="h5">Lorem Ipsum Dog Headline</CardTitle>
-                  </CardBody>
-                </Col>
-              </Row>
-            </Card>
-            <Card
-              style={{
-                textAlign: "left",
-                boxShadow: "2px grey",
-                margin: "2% 5%",
-              }}
-            >
-              <Row>
-                <Col sm="3">
-                  <CardImg width="auto" src={logo} alt="Card image cap" />
-                </Col>
-                <Col sm="9">
-                  <CardBody>
-                    <CardTitle tag="h5">Lorem Ipsum Dog Headline</CardTitle>
-                  </CardBody>
-                </Col>
-              </Row>
-            </Card>
+            </Card>))}
+            <div style={{border:"#7882bd solid 2px",textAlign:"right", padding:"0.4em",width:"100px",position:"absolute",right:"20px",bottom:"0",borderRadius:"5px"}}>
+              <a style={{color:"white", textDecoration:"none", fontWeight:"bolder" , color:"#7882bd"}} href="news">...More</a>
+            </div>
+            </CardBody>
           </Card>
           <Card
             style={{
@@ -258,7 +227,7 @@ export default function Home() {
               border: "none",
             }}
           >
-            <CardBody>
+            <CardBody style={{height:"30em"}}>
               <div>
                 <h4 style={{ textAlign: "left" }}>Upcoming Events</h4>
                 <br />
@@ -284,10 +253,10 @@ export default function Home() {
                 </Row>
                 ))}
                 <br />
-                <div style={{border:"#7882bd solid 2px",textAlign:"right", padding:"0.4em",width:"100px",position:"absolute",right:"20px",borderRadius:"5px"}}>
+              </div>
+                <div style={{border:"#7882bd solid 2px",textAlign:"right", padding:"0.4em",width:"100px",position:"absolute",right:"20px",bottom:"0",borderRadius:"5px"}}>
                   <a style={{color:"white", textDecoration:"none", fontWeight:"bolder" , color:"#7882bd"}} href="events-tsg">...More</a>
                 </div>
-              </div>
             </CardBody>
           </Card>
         </CardGroup>
@@ -301,3 +270,5 @@ export default function Home() {
     </div>
   );
 }
+ 
+
