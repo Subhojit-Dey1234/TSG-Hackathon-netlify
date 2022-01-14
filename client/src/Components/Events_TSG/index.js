@@ -411,7 +411,7 @@ const Example = (props) => {
 													top: "10px",
 													display: userType === "student" ? "none" : "",
 												}}
-												color="warning"
+												color="danger"
 												onClick={(e) => {
 													console.log(e);
 													dispatch(
@@ -437,7 +437,7 @@ const Example = (props) => {
 													top: "10px",
 													display: userType === "student" ? "none" : "",
 												}}
-												color="success"
+												color="warning"
 												onClick={(e) => {
 													setUpdateModal(true);
 													setEventId(event._id)

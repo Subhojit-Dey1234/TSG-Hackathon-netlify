@@ -58,7 +58,7 @@ const Example = (props) => {
   const fileInput = React.useRef(null);
   const [subject, setSubject] = useState(null);
 	const [grievanceDescription, setGrievanceDescription] = useState(null);
-  const userType = "student";
+  const userType = useSelector((state) => state.userDetails.user.type);
   // const userType = "societyOfficial";
   const eventsData = useSelector((state) => state.eventDetails.events);
   const user = useSelector((state) => state.userDetails.user);

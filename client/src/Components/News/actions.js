@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADD_EVENTS, ADD_NEWS, DELETE_EVENT, GET_NEWS, PARTICIPATED_EVENTS, SEARCH_BAR, UPDATE_EVENT,  } from "../../actions/types";
+import { ADD_NewsS, ADD_NEWS, DELETE_NEWS, GET_NEWS, PARTICIPATED_NewsS, SEARCH_BAR, UPDATE_NEWS,  } from "../../actions/types";
 
 export const getNews = (callback) => {
 	return (dispatch) => {
@@ -36,55 +36,18 @@ export const uploadNewsFunc = (data, callback) => {
 	};
 };
 
-export const uploadGrievances = (data, callback) => {
+export const updateNews = (_id,data, callback) => {
 	return (dispatch) => {
 		return axios
-			.post("/student/grievances", data, {
-				"Content-Type": "multipart/form-data",
-			})
-			.then((res) => {
-				callback(res);
-			})
-			.catch((err) => {
-				callback(err.response);
-			});
-	};
-};
-
-
-export const reloadParticipatedEvents = (_id) =>{
-	return dispatch=>{
-		axios.get(`/student/user/${_id}`)
-		.then(res=>{
-			
-			if(res.status === 200){
-				dispatch({
-					type : PARTICIPATED_EVENTS,
-					payload : res.data
-				})
-			}
-			
-			console.log(res.data)
-		})
-		.catch(err=>{
-			console.log("Err",err)
-		})
-	}
-}
-
-
-export const uploadReport = (_id,data, callback) => {
-	return (dispatch) => {
-		return axios
-			.patch(`/events/${_id}`, data, {
+			.patch(`/news/${_id}`, data, {
 				"Content-Type": "multipart/form-data",
 			})
 			.then((res) => {
 				console.log(res)
 				if(res.status === 200){
 					dispatch({
-						type: UPDATE_EVENT,
-						payload: res.data.events,
+						type: UPDATE_NEWS,
+						payload: res.data.Newss,
 					});
 				}
 				
@@ -97,11 +60,11 @@ export const uploadReport = (_id,data, callback) => {
 };
 
 
-export const deleteEvents = (_id,callback)=>{
+export const deleteNews = (_id,callback)=>{
 	return dispatch =>{
-		return axios.delete(`/events/${_id}`).then(res=>{
+		return axios.delete(`/news/${_id}`).then(res=>{
 			dispatch({
-				type : DELETE_EVENT,
+				type : DELETE_NEWS,
 				payload : _id
 			})
 
@@ -117,7 +80,7 @@ export const deleteEvents = (_id,callback)=>{
 export const downloadReport = (_id, callback) => {
 	return (dispatch) => {
 		return axios
-			.get(`/events/downloads/${_id}`, {
+			.get(`/news/downloads/${_id}`, {
 				responseType : "blob"
 			})
 			.then((res) => {
@@ -129,54 +92,3 @@ export const downloadReport = (_id, callback) => {
 	};
 };
 
-export const searchAction = (data)=>{
-    return dispatch =>{
-        dispatch({
-            type : SEARCH_BAR,
-            payload : data
-        })
-    }
-}
-
-
-export const participateEvent = (_id,data,callback)=>{
-	return dispatch=>{
-		axios.post(`/events/tsg-participate/${_id}`,data,{
-			"Content-Type": "application/json"
-		})
-		.then(res=>{
-			if(res.status === 200){
-				dispatch({
-					type : PARTICIPATED_EVENTS,
-					payload : res.data
-				})
-			}
-			callback(res)
-			// console.log(res.data)
-		})
-		.catch(err=>{
-			callback(err)
-			// console.log(err)
-		})
-	}
-}
-
-
-export const participateEventSocio = (_id,data)=>{
-	return dispatch=>{
-		axios.post(`/events/society-participate/${_id}`,data,{
-			"Content-Type": "application/json"
-		})
-		.then(res=>{
-			
-			dispatch({
-				type : PARTICIPATED_EVENTS,
-				payload : res.data
-			})
-			console.log(res.data)
-		})
-		.catch(err=>{
-			console.log(err)
-		})
-	}
-}

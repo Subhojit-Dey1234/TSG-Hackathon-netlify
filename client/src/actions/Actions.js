@@ -11,13 +11,12 @@ export const loginStudent = (data,callback) =>{
                 dispatch({
                     type: USER_TYPE,
                     payload : res.data.user
-                },{
-                    type: SET_ID,
-                    payload: res.data.user._id
                 })
-                callback(res)
+               
             }
+            callback(res)
         })
+
         .catch(err=>{
            callback(err.response)
         }) 
