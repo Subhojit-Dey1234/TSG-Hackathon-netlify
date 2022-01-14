@@ -56,7 +56,7 @@ export default function Navbar() {
 						<a href="/news-client" style={{textDecoration:"none", color:"black"}}>
 							<li>News</li>
 						</a>
-						<a href="/society-point" style={{textDecoration:"none", color:"black"}}>
+						<a href="/society-point-new" style={{textDecoration:"none", color:"black"}}>
 							<li>Society Point</li>
 						</a>
 						<a href="/events-tsg" style={{textDecoration:"none", color:"black"}}>
