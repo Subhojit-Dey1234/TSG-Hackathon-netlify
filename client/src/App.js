@@ -38,7 +38,7 @@ function App() {
 					<Route exact path={"/studentPoint"} element={<ProtectedRoute />}>
 						<Route path="/studentPoint" element={<StudentPoint />} />
 					</Route>
-					<Route exact path={"/news"} element={<News />} />
+					<Route exact path={"/news-client"} element={<News />} />
 					<Route exact path={"/dashboard"} element={<ProtectedRoute />}>
 						<Route path="/dashboard" element={<Dashboard />} />
 					</Route>

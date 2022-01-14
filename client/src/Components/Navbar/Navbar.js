@@ -53,7 +53,7 @@ export default function Navbar() {
 								Login <small style={{ opacity: 0.6 }}> ( Officials )</small>
 							</li>
 						</a>
-						<a href="/news" style={{textDecoration:"none", color:"black"}}>
+						<a href="/news-client" style={{textDecoration:"none", color:"black"}}>
 							<li>News</li>
 						</a>
 						<a href="/society-point" style={{textDecoration:"none", color:"black"}}>

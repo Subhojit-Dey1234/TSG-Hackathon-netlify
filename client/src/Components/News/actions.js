@@ -47,7 +47,7 @@ export const updateNews = (_id,data, callback) => {
 				if(res.status === 200){
 					dispatch({
 						type: UPDATE_NEWS,
-						payload: res.data.Newss,
+						payload: res.data.news,
 					});
 				}
 				

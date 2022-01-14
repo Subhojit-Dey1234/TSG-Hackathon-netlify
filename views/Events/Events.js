@@ -19,7 +19,6 @@ const upload = multer({
 ]);
 
 const obj = (req, res) => {
-	const url = req.protocol + "://" + req.get("host");
 	upload(req, res, (err) => {
 		if (err) {
 			res.json({
@@ -35,9 +34,9 @@ const obj = (req, res) => {
 			events.eventEndTime = req.body.eventEndTime;
 			if (req.files.reports)
 				events.reports =
-					url + "/public/events/" + req.files.reports[0].filename;
+					 "/public/events/" + req.files.reports[0].filename;
 			if (req.files.images)
-				events.images = url + "/public/events/" + req.files.images[0].filename;
+				events.images = "/public/events/" + req.files.images[0].filename;
 			events.save().then(() => {
 				res.send({ events, message: "uploaded successfully" });
 			});
@@ -50,7 +49,6 @@ router.post("/", obj);
 
 // update
 router.patch("/:id", async (req, res) => {
-	const url = req.protocol + "://" + req.get("host");
 	upload(req, res, async (err) => {
 		if (err) {
 			res.json(err);
@@ -73,9 +71,9 @@ router.patch("/:id", async (req, res) => {
 				: events.eventEndTime;
 			if (req.files.reports)
 				events.reports =
-					url + "/public/events/" + req.files.reports[0].filename;
+					"/public/events/" + req.files.reports[0].filename;
 			if (req.files.images)
-				events.images = url + "/public/events/" + req.files.images[0].filename;
+				events.images = "/public/events/" + req.files.images[0].filename;
 			events.save().then(() => {
 				res.send({
 					message: "uploaded successfully",

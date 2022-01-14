@@ -29,7 +29,7 @@ const obj = (req, res) => {
 			news.topic = req.body.topic;
 			// news.image = req.files.image;
 			if (req.files.image !== undefined)
-				news.image = url + "/public/news/" + req.files.image[0].filename;
+				news.image = "/public/news/" + req.files.image[0].filename;
 			news.save().then(() => {
 				res.send({ news, message: "uploaded successfully" });
 			});
@@ -48,12 +48,15 @@ router.patch("/:id", async (req, res) => {
             res.json(err)
         }else{
 		let news = await News.findOne({ _id: req.params.id });
+		news.timestamp = new Date()
 		news.name = req.body.name ? req.body.name : news.name;
 		news.author = req.body.author
 			? req.body.author
 			: news.verificationStatus;
 		news.text = req.body.text ? req.body.text : news.text;
-		news.image = req.files.image ? req.files.image : news.image;
+		news.topic = req.body.topic ? req.body.topic : news.topic;
+		if (req.files.image !== undefined)
+				news.image = "/public/news/" + req.files.image[0].filename;
 		news.save().then(() => {
 			res.send({
 				message: "uploaded successfully",
@@ -72,14 +75,14 @@ router.delete('/:id',async(req,res)=>{
 
 
 //get all the events
-router.get("/", (req, res) => {
-	News.find({}, (err, r) => {
-		if (err) {
-			res.send(500).json(err);
-		} else {
-			res.json(r);
-		}
-	});
+router.get("/", async (req, res) => {
+	try{
+		let news = await News.find({}).sort({ timestamp: -1 });
+		res.json(news)
+	}
+	catch(err){
+		res.json(err)
+	}
 });
 
 router.get("/:id", async (req, res) => {
