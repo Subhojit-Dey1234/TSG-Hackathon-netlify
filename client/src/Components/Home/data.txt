@@ -1,0 +1,82 @@
+{
+    "placementReport": {
+        "reports": [
+            {
+                "dept": "AE",
+                "count": 6
+            },
+            {
+                "dept": "AG",
+                "count": 6
+            },
+            {
+                "dept": "AR",
+                "count": 6
+            },
+            {
+                "dept": "BT",
+                "count": 1
+            },
+            {
+                "dept": "CH",
+                "count": 21
+            },
+            {
+                "dept": "CY",
+                "count": 4
+            },
+            {
+                "dept": "CE",
+                "count": 11
+            },
+            {
+                "dept": "CS",
+                "count": 46
+            },
+            {
+                "dept": "EE",
+                "count": 11
+            },
+            {
+                "dept": "ECE",
+                "count": 0
+            },
+            {
+                "dept": "GG",
+                "count": 7
+            },
+            {
+                "dept": "EX",
+                "count": 9
+            },
+            {
+                "dept": "MA",
+                "count": 15
+            },
+            {
+                "dept": "ME",
+                "count": 16
+            },
+            {
+                "dept": "MI",
+                "count": 11
+            },
+            {
+                "dept": "MT",
+                "count": 5
+            },
+            {
+                "dept": "NA",
+                "count": 4
+            },
+            {
+                "dept": "PH",
+                "count": 2
+            }
+        ],
+        "_id": "61e2d1682b1f2a3a7fd927f3",
+        "report": "/public/news/GRAPH1642254696436.csv",
+        "__v": 0
+    },
+    "message": "uploaded successfully"
+}

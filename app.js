@@ -12,6 +12,7 @@ const societyPoint = require("./views/SocietyPoint/SocietyPoint.js")
 const news = require('./views/News/News.js')
 const search = require('./views/Search.js')
 const academicPoint = require('./views/AcademicPoint/AcademicPoint.js')
+const placementData = require('./views/UploadCSV.js')
 app.use(cors());
 
 app.use(express.json());
@@ -32,6 +33,7 @@ app.use("/society-point", societyPoint);
 app.use("/news",news)
 app.use("/academics",academicPoint)
 app.use("/search", search)
+app.use("/placementData", placementData)
 
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static("client/build"));
