@@ -1,39 +1,53 @@
 require("dotenv").config();
+
 const path = require("path");
 const express = require("express");
 const mongoos = require("mongoose");
 const app = express();
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
 const cors = require("cors");
 const login = require("./auth/Login.js");
 const StudentsData = require("./views/Students/StudentsData.js");
 const db = require("./config/keys.js").mongoURI;
-const events = require("./views/Events/Events.js")
-const societyPoint = require("./views/SocietyPoint/SocietyPoint.js")
-const news = require('./views/News/News.js')
-const search = require('./views/Search.js')
-const academicPoint = require('./views/AcademicPoint/AcademicPoint.js')
-const placementData = require('./views/UploadCSV.js')
+const events = require("./views/Events/Events.js");
+const societyPoint = require("./views/SocietyPoint/SocietyPoint.js");
+const news = require("./views/News/News.js");
+const search = require("./views/Search.js");
+const academicPoint = require("./views/AcademicPoint/AcademicPoint.js");
+const placementData = require("./views/UploadCSV.js");
 app.use(cors());
 
 app.use(express.json());
 
 // Connecting to Database
 
-
 mongoos
 	.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
 	.then(() => console.log("...Connected"))
 	.catch((err) => console.log("Error", err));
 
-app.use('/public', express.static('media'));
+app.use("/public", express.static("media"));
 app.use("/auth", login);
 app.use("/student", StudentsData);
 app.use("/events", events);
 app.use("/society-point", societyPoint);
-app.use("/news",news)
-app.use("/academics",academicPoint)
-app.use("/search", search)
-app.use("/placementData", placementData)
+app.use("/news", news);
+app.use("/academics", academicPoint);
+app.use("/search", search);
+app.use("/placementData", placementData);
+
+io.on("connection", function (socket) {
+	console.log("A user Connected");
+	socket.on("disconnect", function () {
+		console.log("User Disconnected");
+	});
+	socket.on("events", function (msg) {
+		console.log("message: " + msg);
+	});
+});
+
+// io.listen(5001)
 
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static("client/build"));
@@ -42,6 +56,5 @@ if (process.env.NODE_ENV === "production") {
 		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 	});
 }
-
 
 app.listen(process.env.PORT || 5000);
