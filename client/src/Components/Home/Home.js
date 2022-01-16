@@ -168,6 +168,7 @@ export default function Home() {
 		"Dec",
 	];
 
+	var delayed;
 	const onChange = useCallback(
 		(value) => {
 			setValue(value);
@@ -288,7 +289,8 @@ export default function Home() {
 						}}
 					>
 						<CardBody style={{ height: "15em" }}>
-							<h4 style={{ textAlign: "center", marginBottom: "2em" }}>News</h4>
+							<a style={{color:"#7882bd",textDecoration:"none"}} href="news-client">
+							<h4 style={{ textAlign: "center", marginBottom: "2em" }} className="cdchover">News</h4></a>
 							{news.slice(0, 2).map((ne) => (
 								<Card
 									style={{
@@ -338,17 +340,6 @@ export default function Home() {
 									borderRadius: "5px",
 								}}
 							>
-								<a
-									style={{
-										color: "white",
-										textDecoration: "none",
-										fontWeight: "bolder",
-										color: "#7882bd",
-									}}
-									href="news-client"
-								>
-									...More
-								</a>
 							</div>
 						</CardBody>
 					</Card>
@@ -362,7 +353,8 @@ export default function Home() {
 					>
 						<CardBody style={{ height: "30em" }}>
 							<div>
-								<h4 style={{ textAlign: "left" }}>Upcoming Events</h4>
+							<a style={{color:"#7882bd",textDecoration:"none"}} href="/events-tsg">
+								<h4 style={{ textAlign: "left" }} className="cdchover">Upcoming Events</h4></a>
 								<br />
 								{events.map((event) => (
 									<Row
@@ -396,53 +388,36 @@ export default function Home() {
 								))}
 								<br />
 							</div>
-							<div
-								style={{
-									border: "#7882bd solid 2px",
-									textAlign: "right",
-									padding: "0.4em",
-									width: "100px",
-									position: "absolute",
-									right: "20px",
-									bottom: "0",
-									borderRadius: "5px",
-								}}
-							>
-								<a
-									style={{
-										color: "white",
-										textDecoration: "none",
-										fontWeight: "bolder",
-										color: "#7882bd",
-									}}
-									href="events-tsg"
-								>
-									...More
-								</a>
-							</div>
 						</CardBody>
 					</Card>
 				</CardGroup>
 				<br />
 				<center>
-					<h2 style={{ color: "#7882bd" }}>CDC Data</h2>
-					<Pie
+					<h2 style={{ color: "#7882bd" }} className="cdchover">CDC Data</h2>
+					<Row>
+						<Col xl="6">
+						<Bar
 						data={{
 							labels: data.placementReport.reports.map((e) => {
 								return e.dept;
 							}),
 							datasets: [
 								{
-									label: "Day-1",
+									label: "Total",
 									data: data.placementReport.reports.map((e) => {
 										return e.count;
 									}),
 									backgroundColor: [
-										"rgba(255, 0, 0, 0.1)",
-										"rgba(0, 255, 0, 0.1)",
-										"rgba(0, 0, 255, 0.1)",
+										"rgba(255, 0, 0, 0.4)",
+										"rgba(0, 255, 0, 0.4)",
+										"rgba(0, 0, 255, 0.4)",
 									],
-									borderWidth: 1,
+									borderWidth: 2,
+									borderColor: [
+										"rgba(255, 0, 0, 1)",
+										"rgba(0, 255, 0, 1)",
+										"rgba(0, 0, 255, 1)",
+									],
 								},
 							],
 						}}
@@ -457,8 +432,80 @@ export default function Home() {
 									position: "top",
 								},
 							},
+							animation: {
+								onComplete:()=>{
+									delayed = true
+								},
+								delay: (context) => {
+									let delay = 0;
+									if (context.type === 'data' && context.mode === 'default' && !delayed) {
+										delay = context.dataIndex * 150 + context.datasetIndex * 50;
+									}
+									return delay;
+								},
+							},
 						}}
 					/>
+						</Col>
+						<Col onScroll={e=>{
+							console.log(e)
+						}} xl="6">
+						<Bar
+						data={{
+							labels: data.placementReport.reports.map((e) => {
+								return e.dept;
+							}),
+							datasets: [
+								{
+									label: "Total",
+									data: data.placementReport.reports.map((e) => {
+										return e.count;
+									}),
+									backgroundColor: [
+										"rgba(255, 0, 0, 0.4)",
+										"rgba(0, 255, 0, 0.4)",
+										"rgba(0, 0, 255, 0.4)",
+									],
+									borderWidth: 2,
+									borderColor: [
+										"rgba(255, 0, 0, 1)",
+										"rgba(0, 255, 0, 1)",
+										"rgba(0, 0, 255, 1)",
+									],
+								},
+							],
+						}}
+						options={{
+							plugins: {
+								title: {
+									display: true,
+									text: "INTERNSHIP DATA",
+								},
+								legend: {
+									display: true,
+									position: "top",
+								},
+							},
+							animation: {
+								onComplete:()=>{
+									delayed = true
+								},
+								delay: (context) => {
+									let delay = 0;
+									if (context.type === 'data' && context.mode === 'default' && !delayed) {
+										delay = context.dataIndex * 150 + context.datasetIndex * 50;
+									}
+									return delay;
+								},
+							},
+							responsive:true
+						}}
+					/>
+						</Col>
+					</Row>
+					<br/>
+					<br/>
+					<br/>
 				</center>
 
 				{/* <center>
