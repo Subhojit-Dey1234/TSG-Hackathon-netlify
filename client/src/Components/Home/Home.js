@@ -328,19 +328,7 @@ export default function Home() {
 									</Row>
 								</Card>
 							))}
-							<div
-								style={{
-									border: "#7882bd solid 2px",
-									textAlign: "right",
-									padding: "0.4em",
-									width: "100px",
-									position: "absolute",
-									right: "20px",
-									bottom: "0",
-									borderRadius: "5px",
-								}}
-							>
-							</div>
+							
 						</CardBody>
 					</Card>
 					<Card
