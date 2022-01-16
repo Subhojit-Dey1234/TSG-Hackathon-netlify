@@ -108,7 +108,10 @@ router.get("/downloads/:id", async (req, res) => {
 //get all the events
 router.get("/", async (req, res) => {
 	try {
-		let events = await Events.find({}).sort({ date: -1 });
+		let events = await Events.find({}).populate({
+			path : "students",
+			model : "users"
+		}).sort({ date: -1 })
 		res.json(events);
 	} catch (err) {
 		res.send(500).json(err);
@@ -131,7 +134,10 @@ router.get("/:id", async (req, res) => {
 				});
 			}
 		},
-	);
+	).populate({
+		path : "students",
+		model : "users"
+	})
 });
 
 // participated events by students
@@ -157,7 +163,23 @@ router.post("/tsg-participate/:id", async (req, res) => {
 			model: "SocietyPoint",
 		});
 
-		res.json(student);
+		let eventData = await Events.findOneAndUpdate(
+			{
+				_id: req.params.id,
+			},
+			{
+				$addToSet: {
+					students: student._id,
+				},
+			},
+			{ new: true, useFindAndModify: false },
+		).populate({
+			path : "students",
+			model : "users"
+		})
+		res.json({
+			student
+		})
 	} catch (err) {
 		res.json(err);
 	}
