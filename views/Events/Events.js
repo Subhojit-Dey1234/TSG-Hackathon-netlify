@@ -177,6 +177,8 @@ router.post("/tsg-participate/:id", async (req, res) => {
 			path : "students",
 			model : "users"
 		})
+
+
 		res.json({
 			student
 		})
@@ -205,6 +207,8 @@ router.post("/society-participate/:id", async (req, res) => {
 			path: "tsgParticipatedEvents",
 			model: "Events",
 		});
+
+		
 
 		res.json(student);
 	} catch (err) {

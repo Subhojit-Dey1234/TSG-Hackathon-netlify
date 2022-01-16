@@ -107,7 +107,15 @@ router.get("/downloads/:id", async (req, res) => {
 //get all the events
 router.get("/", async (req, res) => {
 	try {
-		let events = await SocietyPoint.find({}).sort({ date: -1 });
+		let events = await SocietyPoint.find({}).populate({
+			path : "students",
+			model : "users"
+		}).populate({
+			path : "students",
+			model : "users"
+		}).sort({ date: -1 });
+
+
 		res.json(events);
 	} catch (err) {
 		res.send(500).json(err);
@@ -130,7 +138,10 @@ router.get("/:id", async (req, res) => {
 				});
 			}
 		},
-	);
+	).populate({
+			path : "students",
+			model : "users"
+		});
 });
 
 // participated events by students
@@ -162,7 +173,6 @@ router.post("/tsg-participate/:id", async (req, res) => {
 router.post("/society-participate/:id", async (req, res) => {
 	try {
 		let event = await SocietyPoint.findOne({ _id: req.params.id });
-		console.log(event, req.params.id);
 		let student = await Students.findOneAndUpdate(
 			{
 				rollNumber: req.body.rollNumber,
@@ -175,8 +185,23 @@ router.post("/society-participate/:id", async (req, res) => {
 			{ new: true, useFindAndModify: false },
 		).populate({
 			path: "societyParticipatedEvents",
-			model: "Events",
+			model: "SocietyPoint",
 		});
+
+		let eventData = await SocietyPoint.findOneAndUpdate(
+			{
+				_id: req.params.id,
+			},
+			{
+				$addToSet: {
+					students: student._id,
+				},
+			},
+			{ new: true, useFindAndModify: false },
+		).populate({
+			path : "students",
+			model : "users"
+		})
 
 		res.json(student);
 	} catch (err) {

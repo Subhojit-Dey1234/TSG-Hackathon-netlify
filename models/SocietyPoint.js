@@ -31,7 +31,13 @@ const SocietyPoint = new Schema({
     date: {
         type:Date,
         default:Date.now
-    }
+    },
+    students : [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref : "users"
+        }
+    ]
 })
 
 module.exports  = mongoose.model("SocietyPoint", SocietyPoint);
