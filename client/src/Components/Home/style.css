@@ -6,7 +6,11 @@
   z-index: -1;
   animation: floating 4s ease-in-out infinite;
 }
+<<<<<<< HEAD
 .cdchover:hover{
+=======
+.cdchover:hover {
+>>>>>>> 97d20e0... abc
   text-decoration: underline;
   cursor: pointer;
 }
@@ -25,7 +29,7 @@
   z-index: -1;
   animation: floating-1 3s ease-in-out infinite;
 }
-.triangle{
+.triangle {
   position: absolute;
   top: 0;
   left: 0;
@@ -33,7 +37,6 @@
   height: 90vh;
   z-index: -1;
 }
-
 
 @keyframes floating {
   0% {
@@ -58,26 +61,26 @@
   }
 }
 
-@media  screen and (max-width: 500px){
-  .topCircle{
+@media screen and (max-width: 500px) {
+  .topCircle {
     width: 150px;
   }
-  .topCircle1{
+  .topCircle1 {
     width: 80px;
   }
-  .topCircle2{
+  .topCircle2 {
     width: 80px;
   }
 }
 
-@media  screen and (min-width: 500px) and (max-width: 800px){
-  .topCircle{
+@media screen and (min-width: 500px) and (max-width: 800px) {
+  .topCircle {
     width: 150px;
   }
-  .topCircle1{
+  .topCircle1 {
     width: 80px;
   }
-  .topCircle2{
+  .topCircle2 {
     width: 80px;
   }
 }
