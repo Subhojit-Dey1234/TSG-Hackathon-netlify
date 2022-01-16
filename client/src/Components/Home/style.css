@@ -6,11 +6,7 @@
   z-index: -1;
   animation: floating 4s ease-in-out infinite;
 }
-<<<<<<< HEAD
-.cdchover:hover{
-=======
 .cdchover:hover {
->>>>>>> 97d20e0... abc
   text-decoration: underline;
   cursor: pointer;
 }
