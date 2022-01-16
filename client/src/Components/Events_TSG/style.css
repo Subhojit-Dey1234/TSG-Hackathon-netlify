@@ -1,0 +1,17 @@
+tr {
+  height: 60px;
+  align-items: center;
+  justify-self: center;
+  vertical-align: middle;
+}
+
+tr:nth-child(even) {
+  background-color: #e0def1;
+}
+tr:nth-child(odd) {
+  background-color: white;
+}
+
+.table-header {
+  background-color: #e0def1 !important;
+}
