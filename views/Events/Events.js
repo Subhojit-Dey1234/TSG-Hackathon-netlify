@@ -4,6 +4,7 @@ const Events = require("../../models/Events");
 const Students = require("../../models/Students");
 const SocietyPoint = require("../../models/SocietyPoint");
 const router = require("express").Router();
+const io = require("../../app");
 
 const storage = multer.diskStorage({
 	destination: "./media/events/",
@@ -34,10 +35,12 @@ const obj = (req, res) => {
 			events.eventStartTime = req.body.eventStartTime;
 			events.eventEndTime = req.body.eventEndTime;
 			if (req.files.reports)
-				events.reports =
-					 "/public/events/" + req.files.reports[0].filename;
+				events.reports = "/public/events/" + req.files.reports[0].filename;
 			if (req.files.images)
 				events.images = "/public/events/" + req.files.images[0].filename;
+
+			io.getSocketIo().emit("get_notification",events)
+			
 			events.save().then(() => {
 				res.send({ events, message: "uploaded successfully" });
 			});
@@ -71,8 +74,7 @@ router.patch("/:id", async (req, res) => {
 				? req.body.eventEndTime
 				: events.eventEndTime;
 			if (req.files.reports)
-				events.reports =
-					"/public/events/" + req.files.reports[0].filename;
+				events.reports = "/public/events/" + req.files.reports[0].filename;
 			if (req.files.images)
 				events.images = "/public/events/" + req.files.images[0].filename;
 			events.save().then(() => {
@@ -108,10 +110,12 @@ router.get("/downloads/:id", async (req, res) => {
 //get all the events
 router.get("/", async (req, res) => {
 	try {
-		let events = await Events.find({}).populate({
-			path : "students",
-			model : "users"
-		}).sort({ date: -1 })
+		let events = await Events.find({})
+			.populate({
+				path: "students",
+				model: "users",
+			})
+			.sort({ date: -1 });
 		res.json(events);
 	} catch (err) {
 		res.send(500).json(err);
@@ -135,9 +139,9 @@ router.get("/:id", async (req, res) => {
 			}
 		},
 	).populate({
-		path : "students",
-		model : "users"
-	})
+		path: "students",
+		model: "users",
+	});
 });
 
 // participated events by students
@@ -155,13 +159,15 @@ router.post("/tsg-participate/:id", async (req, res) => {
 				},
 			},
 			{ new: true, useFindAndModify: false },
-		).populate({
-			path: "tsgParticipatedEvents",
-			model: "Events",
-		}).populate({
-			path: "societyParticipatedEvents",
-			model: "SocietyPoint",
-		});
+		)
+			.populate({
+				path: "tsgParticipatedEvents",
+				model: "Events",
+			})
+			.populate({
+				path: "societyParticipatedEvents",
+				model: "SocietyPoint",
+			});
 
 		let eventData = await Events.findOneAndUpdate(
 			{
@@ -174,14 +180,13 @@ router.post("/tsg-participate/:id", async (req, res) => {
 			},
 			{ new: true, useFindAndModify: false },
 		).populate({
-			path : "students",
-			model : "users"
-		})
-
+			path: "students",
+			model: "users",
+		});
 
 		res.json({
-			student
-		})
+			student,
+		});
 	} catch (err) {
 		res.json(err);
 	}
@@ -200,15 +205,15 @@ router.post("/society-participate/:id", async (req, res) => {
 				},
 			},
 			{ new: true, useFindAndModify: false },
-		).populate({
-			path: "societyParticipatedEvents",
-			model: "SocietyPoint",
-		}).populate({
-			path: "tsgParticipatedEvents",
-			model: "Events",
-		});
-
-		
+		)
+			.populate({
+				path: "societyParticipatedEvents",
+				model: "SocietyPoint",
+			})
+			.populate({
+				path: "tsgParticipatedEvents",
+				model: "Events",
+			});
 
 		res.json(student);
 	} catch (err) {

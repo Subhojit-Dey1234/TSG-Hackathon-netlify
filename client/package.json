@@ -2,7 +2,7 @@
   "name": "tsg",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://hackathon-tsg.herokuapp.com/",
+  "proxy": "http://localhost:5000/",
   "dependencies": {
     "@emotion/react": "^11.7.0",
     "@emotion/styled": "^11.6.0",

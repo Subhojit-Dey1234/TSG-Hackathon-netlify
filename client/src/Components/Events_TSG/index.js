@@ -42,6 +42,7 @@ import {
   uploadReport,
   uploadGrievances,
 } from "./actions";
+import io from 'socket.io-client';
 
 const responsive = {
   superLargeDesktop: {
@@ -62,8 +63,11 @@ const responsive = {
   },
 };
 
+var socket = io("https://hackathon-tsg.herokuapp.com/");
+
 const Example = (props) => {
   const dispatch = useDispatch();
+  // const [ socket , setSocket ] = useState(null)
 
   const eventsData = useSelector((state) => state.eventDetails.events);
   const userId = useSelector((state) => state.userDetails.user._id);
@@ -72,6 +76,9 @@ const Example = (props) => {
 
   // const userType = "student";
   useEffect(() => {
+  socket.on("get_notification",data=>{
+    console.log(data)
+  })
     dispatch(
       getEvents((res) => {
         // console.log(res)
@@ -105,6 +112,13 @@ const Example = (props) => {
   const [subject, setSubject] = useState(null);
   const [grievanceDescription, setGrievanceDescription] = useState(null);
 
+  function sendNotification(){
+    socket.emit("get_notification")
+    socket.on("get_notification",data=>{
+      console.log(data)
+    })
+  }
+
   function uploadGrievance(e) {
     e.preventDefault();
     var form = new FormData();
@@ -128,6 +142,7 @@ const Example = (props) => {
   }
 
   function UploadEvent(e) {
+    socket.emit("get_notification")
     e.preventDefault();
 
     var form = new FormData();
@@ -141,6 +156,7 @@ const Example = (props) => {
     dispatch(
       uploadEvents(form, (res) => {
         if (res.status === 200) {
+                  
           setNameEvent(null);
           setDescription(null);
           setStartDate(null);
@@ -281,6 +297,9 @@ const Example = (props) => {
 			>
 				Upload Events
 			</Button> */}
+		<Button onClick={()=>{
+			sendNotification()
+		}}>Send</Button>
       <Row>
         <Col sm="6">
           <h2
