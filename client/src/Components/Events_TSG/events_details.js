@@ -1,7 +1,8 @@
-import { ADD_EVENTS, GET_EVENTS, DELETE_EVENT, UPDATE_EVENT,SEARCH_BAR, PARTICIPATED_EVENTS } from "../../actions/types";
+import { ADD_EVENTS, GET_EVENTS, DELETE_EVENT, UPDATE_EVENT,SEARCH_BAR, EVENTBYID } from "../../actions/types";
 
 const initialState = {
 	events: [],
+	event : null,
 };
 
 export default function eventDetails(state = initialState, action) {
@@ -31,6 +32,12 @@ export default function eventDetails(state = initialState, action) {
 			return {
 				...state,
 				events: action.payload
+			}
+		}
+		case EVENTBYID:{
+			return {
+				...state,
+				event : action.payload
 			}
 		}
 		default:

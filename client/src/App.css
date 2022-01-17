@@ -1,6 +1,23 @@
 button{
   border: none;
 }
+
+.notifications{
+  animation: notify 1s ease-in forwards;
+}
+
+.notification{
+  animation: notify 1s ease-in reverse;
+}
+
+@keyframes notify {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
 /* *{
   font-family: 'Montserrat', sans-serif !important;
 } */

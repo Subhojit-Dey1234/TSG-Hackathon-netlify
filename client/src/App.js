@@ -14,12 +14,56 @@ import ProtectedRoute from "./ProtectedRoute";
 import ProtectedNotAuth from "./ProtectedNotAuth";
 import Dashboard from "./Components/Dashboard/index";
 import Events_TSG from "./Components/Events_TSG/index";
+import EventSingle from "./Components/Events_TSG/EventSingle";
 import Society_Point from "./Components/Society_Point/index";
 import NotFound from "./NotFound";
+import io from "socket.io-client";
+import { Alert, Button, Modal, ModalBody } from "reactstrap";
+import { useEffect, useState } from "react";
+import Notification from "./Components/Notifications/Notification";
 
+var socket = io("http://localhost:5000/");
 function App() {
+	const [notification, setNotification] = useState(null);
+	const [openNotify, setNotify] = useState(false);
+	useEffect(() => {
+		socket.on("get_notification", (data) => {
+			setNotification(data);
+			setTimeout(() => {
+				setNotification(null);
+			}, 2000);
+		});
+	});
 	return (
 		<div>
+			<Alert
+				style={{
+					textAlign: "center",
+					width: "50vw",
+					position: "fixed",
+					zIndex: "100",
+					left: "50vw",
+					transform: "translateX(-50%)",
+					top: "20px",
+					display: notification ? "" : "none",
+				}}
+			>
+				A New Event Added
+			</Alert>
+			<Button
+				color="success"
+				style={{ position: "absolute", right: "2vw", top: "10vh" }}
+				onClick={() => {
+					setNotify(true);
+				}}
+			>
+				Notifications
+			</Button>
+			<Modal centered isOpen={openNotify} toggle={() => setNotify(false)}>
+				<ModalBody>
+					<Notification />
+				</ModalBody>
+			</Modal>
 			<Images />
 			<Navbar />
 			<Router>

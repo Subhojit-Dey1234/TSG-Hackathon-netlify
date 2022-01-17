@@ -5,6 +5,7 @@ const Students = require("../../models/Students");
 const SocietyPoint = require("../../models/SocietyPoint");
 const router = require("express").Router();
 const io = require("../../app");
+const Notification = require("../../models/Notification");
 
 const storage = multer.diskStorage({
 	destination: "./media/events/",
@@ -40,7 +41,6 @@ const obj = (req, res) => {
 				events.images = "/public/events/" + req.files.images[0].filename;
 
 			io.getSocketIo().emit("get_notification",events)
-			
 			events.save().then(() => {
 				res.send({ events, message: "uploaded successfully" });
 			});
@@ -125,7 +125,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
 	Events.find(
 		{
-			studentRoll: req.params.id,
+			_id : req.params.id,
 		},
 		function (err, r) {
 			if (err) {
@@ -133,9 +133,7 @@ router.get("/:id", async (req, res) => {
 					message: "There is an error in Events Backend",
 				});
 			} else {
-				res.json({
-					r,
-				});
+				res.json(r);
 			}
 		},
 	).populate({

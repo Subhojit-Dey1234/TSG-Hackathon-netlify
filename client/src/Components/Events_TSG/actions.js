@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADD_EVENTS, DELETE_EVENT, GET_EVENTS, PARTICIPATED_EVENTS, SEARCH_BAR, UPDATE_EVENT,  } from "../../actions/types";
+import { ADD_EVENTS, DELETE_EVENT, GET_EVENTS, PARTICIPATED_EVENTS, SEARCH_BAR,UPDATE_EVENT,EVENTBYID  } from "../../actions/types";
 
 export const getEvents = (callback) => {
 	return (dispatch) => {
@@ -15,6 +15,44 @@ export const getEvents = (callback) => {
 		});
 	};
 };
+
+export const getEventsById = (id,callback) => {
+	return (dispatch) => {
+		return axios.get("/events/" + id).then((res) => {
+			if(res.status === 200){
+				dispatch({
+					type: EVENTBYID,
+					payload: res.data[0],
+				});
+			}
+
+		
+			callback(res.data[0])
+		});
+	};
+};
+
+export const searchEvents = (data,callback)=>{
+	return (dispatch) => {
+		return axios
+			.get(`/search/?q=${data}`, {
+				"Content-Type": "multipart/form-data",
+			})
+			.then((res) => {
+                if(res.status === 200){
+					dispatch({
+						type: SEARCH_BAR,
+						payload: res.data,
+					});
+				}
+				
+				callback(res);
+			})
+			.catch((err) => {
+				callback(err.response);
+			});
+	};
+}
 
 export const uploadEvents = (data, callback) => {
 	return (dispatch) => {

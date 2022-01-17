@@ -4,6 +4,7 @@ export const ADD_EVENTS = "ADD_EVENTS"
 export const GET_EVENTS = "GET_EVENTS"
 export const DELETE_EVENT = "DELETE_EVENT"
 export const UPDATE_EVENT = "UPDATE_EVENT"
+export const EVENTBYID = "EVENTBYID"
 
 export const ADD_EVENTS_SOCIETY = "ADD_EVENTS_SOCIETY"
 export const GET_EVENTS_SOCIETY = "GET_EVENTS_SOCIETY"

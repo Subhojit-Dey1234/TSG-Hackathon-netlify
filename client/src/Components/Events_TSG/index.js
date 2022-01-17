@@ -41,6 +41,7 @@ import {
   uploadEvents,
   uploadReport,
   uploadGrievances,
+  searchEvents,
 } from "./actions";
 import io from 'socket.io-client';
 
@@ -63,7 +64,7 @@ const responsive = {
   },
 };
 
-var socket = io("https://hackathon-tsg.herokuapp.com/");
+var socket = io("http://localhost:5000/");
 
 const Example = (props) => {
   const dispatch = useDispatch();
@@ -76,9 +77,9 @@ const Example = (props) => {
 
   // const userType = "student";
   useEffect(() => {
-  socket.on("get_notification",data=>{
-    console.log(data)
-  })
+  // socket.on("get_notification",data=>{
+  //   console.log(data)
+  // })
     dispatch(
       getEvents((res) => {
         // console.log(res)
@@ -111,14 +112,7 @@ const Example = (props) => {
   // Grievance
   const [subject, setSubject] = useState(null);
   const [grievanceDescription, setGrievanceDescription] = useState(null);
-
-  function sendNotification(){
-    socket.emit("get_notification")
-    socket.on("get_notification",data=>{
-      console.log(data)
-    })
-  }
-
+  
   function uploadGrievance(e) {
     e.preventDefault();
     var form = new FormData();
@@ -240,19 +234,23 @@ const Example = (props) => {
     );
   }
 
-  // function search(e) {
-  // 	if (e.target.value === "") {
-  // 		dispatch(getEvents());
-  // 	} else {
-  // 		const res = events.filter((event) => {
-  // 			let val = event.description + event.eventType;
-  // 			if (val.toLowerCase().includes(e.target.value.toLowerCase())) {
-  // 				return event;
-  // 			}
-  // 		});
-  // 		setEventData(res);
-  // 	}
-  // }
+  const debounce = function(fn,d){
+    let timer;
+    return function(){
+      let context = this, args = arguments;
+      clearTimeout(timer);
+      timer = setTimeout(()=>{
+          fn.apply(context,args);
+        },d);
+      }
+    }
+
+  
+  function search(e) {
+    debounce(dispatch(searchEvents(e.target.value,res=>{
+      console.log(res)
+    })),500)
+  }
 
   const fileInput = React.useRef(null);
 
@@ -297,9 +295,6 @@ const Example = (props) => {
 			>
 				Upload Events
 			</Button> */}
-		<Button onClick={()=>{
-			sendNotification()
-		}}>Send</Button>
       <Row>
         <Col sm="6">
           <h2
@@ -340,7 +335,7 @@ const Example = (props) => {
             placeholder="Search Your Event By Typing..."
             type="text"
             onChange={(e) => {
-              // search(e);
+              search(e);
             }}
           />
         </Col>
