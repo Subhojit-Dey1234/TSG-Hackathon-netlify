@@ -140,9 +140,12 @@ export default function Home() {
   const [chartData, setChartData] = useState([]);
   const [chart, setChart] = useState({});
 
-  const carouselItem_One = "COVID tests have been initiated and are currently being conducted on a primary contact basis. If any boarder has symptoms mentioned below,they are advised to contact their HP/SSM/Hall Council Member immediately to get tested. If someone is showing any of these signs, seek emergency medical care immediately (BC Roy Technology Hospital): Trouble breathing, persistent pain or pressure in the chest, inability to wake or stay awake, pale, gray, or blue-coloured skin, lips, or nail beds, depending on skin tone."
-  const carouselItem_Two = "Makar Sakranti embodies the incessant movement in life. Sakranti means movement and this day signify the transit of sun into a new Zodiac symbolising the evolution of nature. Around the country it is celebrated pompously as a harvest festival with auspicious belief of tenacity and gratuity."
-  const carouselItem_Three = "As we step into another year, let us embrace it with joy, hope and belief. Ink a new chapter with renewed beliefs, redirected path, revived attitude and rejuvenated actions. Let this year be the year you seek progress rather than perfection and enjoy every victory you win along the way to your goals."
+  const carouselItem_One =
+    "COVID tests have been initiated and are currently being conducted on a primary contact basis. If any boarder has symptoms mentioned below,they are advised to contact their HP/SSM/Hall Council Member immediately to get tested. If someone is showing any of these signs, seek emergency medical care immediately (BC Roy Technology Hospital): Trouble breathing, persistent pain or pressure in the chest, inability to wake or stay awake, pale, gray, or blue-coloured skin, lips, or nail beds, depending on skin tone.";
+  const carouselItem_Two =
+    "Makar Sakranti embodies the incessant movement in life. Sakranti means movement and this day signify the transit of sun into a new Zodiac symbolising the evolution of nature. Around the country it is celebrated pompously as a harvest festival with auspicious belief of tenacity and gratuity.";
+  const carouselItem_Three =
+    "As we step into another year, let us embrace it with joy, hope and belief. Ink a new chapter with renewed beliefs, redirected path, revived attitude and rejuvenated actions. Let this year be the year you seek progress rather than perfection and enjoy every victory you win along the way to your goals.";
   useEffect(() => {
     dispatch(
       getNews((res) => {
@@ -198,7 +201,8 @@ export default function Home() {
               color: "black",
             }}
           >
-            A Hub of the numerous extra-curricular and co-curricular activities in IIT Kharagpur ranging from sports to socio-cultural
+            A Hub of the numerous extra-curricular and co-curricular activities
+            in IIT Kharagpur ranging from sports to socio-cultural
           </p>
           <Button
             style={{
@@ -228,7 +232,9 @@ export default function Home() {
             color: "white",
           }}
         >
-       {window.innerWidth > 900 ? (carouselItem_One):(carouselItem_One.slice(0,70))+"..."}
+          {window.innerWidth > 900
+            ? carouselItem_One
+            : carouselItem_One.slice(0, 70) + "..."}
         </div>
         <div
           style={{
@@ -239,7 +245,9 @@ export default function Home() {
             color: "white",
           }}
         >
-          {window.innerWidth > 900 ? (carouselItem_Two):(carouselItem_Two.slice(0,70))+"..."}
+          {window.innerWidth > 900
+            ? carouselItem_Two
+            : carouselItem_Two.slice(0, 70) + "..."}
         </div>
         <div
           style={{
@@ -250,11 +258,13 @@ export default function Home() {
             color: "white",
           }}
         >
-          {window.innerWidth > 900 ? (carouselItem_Three):(carouselItem_Three.slice(0,70))+"..."}
+          {window.innerWidth > 900
+            ? carouselItem_Three
+            : carouselItem_Three.slice(0, 70) + "..."}
         </div>
       </Carousel>
       <div style={{ padding: "3% 5%" }}>
-        <CardGroup style={{ padding: "3%" }}>
+        {/* <CardGroup style={{ padding: "3%" }}>
           <Card
             style={{
               alignItems: "center",
@@ -375,7 +385,87 @@ export default function Home() {
               </div>
             </CardBody>
           </Card>
-        </CardGroup>
+        </CardGroup> */}
+        <br />
+        <br />
+        <br />
+        <br />
+        <Row style={{ alignItems: "center", justifyContent: "center" }}>
+          <Col sm="8">
+            {news.slice(0, 1).map((ne) => (
+              <Card
+                style={{
+                  textAlign: "left",
+                  boxShadow: "2px grey",
+                  margin: "0",
+                }}
+              >
+                <Row
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    textAlign: "justify",
+                  }}
+                >
+                  <Col
+                    sm="4"
+                    style={{
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <CardImg
+                      src={ne.image}
+                      alt="Card image cap"
+                      style={{
+                        objectFit: "cover",
+                        width: "20vw",
+                        height: "20vw",
+                        display: window.innerWidth < 900 ? "none" : "block",
+                      }}
+                    />
+                  </Col>
+                  <Col sm="8">
+                    <CardBody>
+                      <h5>Highlighting News</h5>
+                      <p>{ne.name}</p>
+                      <CardTitle>
+                        {ne.description.slice(0, 500)}
+                        {ne.description.length > 500 ? "..." : ""}
+                      </CardTitle>
+                    </CardBody>
+                  </Col>
+                </Row>
+              </Card>
+            ))}
+          </Col>
+          <Col sm="4">
+            <Card
+              style={{
+                alignItems: "center",
+                border: "none",
+                justifyContent: "center",
+              }}
+            >
+              <br />
+              <Calendar value={value} onChange={onChange} />
+              <marquee behaviour="alternate" style={{ margin: "4% 12%" }}>
+                <b>Upcoming Events: </b>
+                {events.map((event) => (
+                  <a>
+                    {new Date(event.eventStartTime).getDate()}{" "}
+                    {months[new Date(event.eventStartTime).getMonth()]}{" "}
+                    {event.name} |{" "}
+                  </a>
+                ))}
+              </marquee>
+              {/* <marquee behavior="alternate"><span class="marquee">This is a marquee!</span></marquee> */}
+            </Card>
+          </Col>
+        </Row>
+        <br />
+        <br />
+        <br />
         <br />
         <center>
           <h2

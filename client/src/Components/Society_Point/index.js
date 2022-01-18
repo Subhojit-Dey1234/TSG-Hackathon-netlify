@@ -343,7 +343,7 @@ const Example = (props) => {
           key={event._id}
           style={{ textAlign: "left", boxShadow: "2px grey", margin: "3% 5%" }}
         >
-          <Row>
+          <Row style={{alignItems:"center", justifyContent:"center"}}>
             <Col sm="3">
               <center>
                 <CardImg
@@ -830,13 +830,12 @@ const Example = (props) => {
         </div>
       ) : (
         <div style={{ padding: "3% 5%" }}>
-          <h2 style={{ textAlign: "left", fontWeight: "bolder" }}>
+          {/* <h2 style={{ textAlign: "left", fontWeight: "bolder" }}>
             Participated Events
           </h2>
           <p style={{ textAlign: "left" }}>
             Click On The Event's Title To Download Your Certificate
           </p>
-          {/* <CardGroup style={{ padding: "3%" }}> */}
           {participatedEvents === undefined ? (
             <div>Empty</div>
           ) : (
@@ -865,9 +864,9 @@ const Example = (props) => {
                 </div>
               ))}
             </Carousel>
-          )}
+          )} */}
           <h2 style={{ textAlign: "left", fontWeight: "bolder" }}>
-            Society Participated Events
+            Participated Events By Societies
           </h2>
           <p style={{ textAlign: "left" }}>
             Click On The Event's Title To Download Your Certificate

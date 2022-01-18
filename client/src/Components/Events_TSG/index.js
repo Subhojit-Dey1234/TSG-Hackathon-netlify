@@ -339,7 +339,7 @@ const Example = (props) => {
             }}
           />
         </Col>
-      </Row>
+      </Row >
 
       <br />
       <br />
@@ -349,7 +349,7 @@ const Example = (props) => {
           key={event._id}
           style={{ textAlign: "left", boxShadow: "2px grey", margin: "3% 5%" }}
         >
-          <Row>
+          <Row style={{alignItems:"center", justifyContent:"center"}}>
             <Col sm="3">
               <center>
                 <CardImg
@@ -835,7 +835,7 @@ const Example = (props) => {
       ) : (
         <div style={{ padding: "3% 5%" }}>
           <h2 style={{ textAlign: "left", fontWeight: "bolder" }}>
-            Participated Events
+            Participated Events By TSG
           </h2>
           <p style={{ textAlign: "left" }}>
             Click On The Event's Title To Download Your Certificate

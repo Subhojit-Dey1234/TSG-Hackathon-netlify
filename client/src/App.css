@@ -1,23 +1,28 @@
-button{
+button {
   border: none;
 }
 
-.notifications{
+.notifications {
   animation: notify 1s ease-in forwards;
 }
 
-.notification{
+.notification {
   animation: notify 1s ease-in reverse;
 }
 
 @keyframes notify {
-  0%{
+  0% {
     opacity: 0;
   }
-  100%{
+  100% {
     opacity: 1;
   }
 }
 /* *{
   font-family: 'Montserrat', sans-serif !important;
 } */
+
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: 1px;
+}
