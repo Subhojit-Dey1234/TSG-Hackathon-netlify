@@ -23,11 +23,16 @@ const obj = (req, res) => {
 		} else {
 			const academicPoint = new AcademicPoint();
 			academicPoint.name = req.body.name;
-			academicPoint.links = req.body.links;
-			academicPoint.text = req.body.text;
-			academicPoint.yearOfString = req.body.yearOfString;
+			academicPoint.books = req.body.books;
+			academicPoint.notes = req.body.notes;
+			academicPoint.pyqp = req.body.pyqp;
+			academicPoint.subjectName = req.body.subjectName;
+			academicPoint.subjectCode = req.body.subjectCode;
+			academicPoint.year = req.body.year;
 			academicPoint.department = req.body.department;
-			academicPoint.document = req.files.document;
+			// academicPoint.document = req.files.document;
+			// if(req.files.document)
+			// 	academicPoint.document = "/public/events/" + req.files.document[0].filename;
 			academicPoint.save().then(() => {
 				res.send({ academicPoint: academicPoint, message: "uploaded successfully" });
 			});
@@ -46,28 +51,68 @@ router.patch("/:id", async (req, res) => {
             res.json(err)
         }else{
 		let academicPoint = await AcademicPoint.findOne({ _id: req.params.id });
+		academicPoint.date = new Date()
 		academicPoint.name = req.body.name ? req.body.name : academicPoint.name;
-		academicPoint.links = req.body.links
-			? req.body.links
-			: academicPoint.links;
-		academicPoint.text = req.body.text ? req.body.text : academicPoint.text;
-		academicPoint.yearOfString = req.body.yearOfString ? req.body.yearOfString : academicPoint.yearOfString;
+		academicPoint.books = req.body.books
+			? req.body.books
+			: academicPoint.books;
+		academicPoint.notes = req.body.notes
+			? req.body.notes
+			: academicPoint.notes;
+		academicPoint.pyqp = req.body.pyqp
+			? req.body.pyqp
+			: academicPoint.pyqp;
+		academicPoint.subjectName = req.body.subjectName ? req.body.subjectName : academicPoint.subjectName;
+		academicPoint.subjectCode = req.body.subjectCode ? req.body.subjectCode : academicPoint.subjectCode;
+		academicPoint.year = req.body.year ? req.body.year : academicPoint.year;
 		academicPoint.department = req.body.department ? req.body.department : academicPoint.department;
-		academicPoint.document = req.files.document ? req.files.document : academicPoint.image;
+		// if(req.files.document)
+		// 		academicPoint.document = "/public/events/" + req.files.document[0].filename;
 		academicPoint.save().then(() => {
 			res.send({
 				message: "uploaded successfully",
-				news: academicPoint,
+				academicPoint: academicPoint,
 			});
 		});
     }
 	});
 });
 
+router.get('/query/',async(req,res)=>{
+	try{
+		console.log(req.query)
+		let academicPoint = await AcademicPoint.find({
+			year : req.query.year,
+		})
+
+		res.json(academicPoint)
+	}
+	catch(err){
+		res.json(err)
+	}
+})
+router.get('/query/department',async(req,res)=>{
+	try{
+		let academicPoint = await AcademicPoint.find({
+			department : req.query.department,
+		})
+
+		res.json(academicPoint)
+	}
+	catch(err){
+		res.json(err)
+	}
+})
+
 router.delete('/:id',async(req,res)=>{
-	let news = await AcademicPoint.find({ _id : req.params.id});
-	news.remove();
-	res.send("Delete Completed")
+	try {
+		AcademicPoint.deleteOne({ _id: req.params.id }, function (err, model) {
+			if (!err) res.send("Delete Completed");
+		});
+	} catch (err) {
+		console.log(err);
+		res.send(err);
+	}
 })
 
 
@@ -79,7 +124,7 @@ router.get("/", (req, res) => {
 		} else {
 			res.json(r);
 		}
-	});
+	}).sort({ date: -1 });
 });
 
 router.get("/:id", async (req, res) => {

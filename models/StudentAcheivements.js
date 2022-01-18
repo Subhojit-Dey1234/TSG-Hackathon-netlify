@@ -21,6 +21,10 @@ const StudentAcheivementProfile = new Schema({
         type: String
     },
     certificates:{},
+    date : {
+        type:Date,
+        default : Date.now()
+    }
 })
 
 module.exports = StudentAcheivement = mongoose.model("StudentAcheivement", StudentAcheivementProfile);

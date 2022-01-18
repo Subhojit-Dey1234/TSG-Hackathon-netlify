@@ -22,7 +22,7 @@ import { Alert, Button, Modal, ModalBody } from "reactstrap";
 import { useEffect, useState } from "react";
 import Notification from "./Components/Notifications/Notification";
 
-var socket = io("https://hackathon-tsg.herokuapp.com/");
+var socket = io("http://localhost:5000/");
 function App() {
 	const [notification, setNotification] = useState(null);
 	const [openNotify, setNotify] = useState(false);

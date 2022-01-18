@@ -6,8 +6,7 @@ const AcademicsPoint = new Schema({
         type:String,
         required:true
     },
-    links : String,
-    yearOfString : {
+    year : {
         type:String,
         required:true,
     },
@@ -15,9 +14,15 @@ const AcademicsPoint = new Schema({
         type:String,
         required:true,
     },
-    document : {},
-    text : {
+    books : {},
+    notes : {},
+    pyqp : {},
+    subjectCode : {
         type : String,
+    },
+    date : {
+        type:Date,
+        default:Date.now
     }
 })
 

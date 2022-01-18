@@ -17,4 +17,4 @@ const PlacementReport = new Schema({
     reports : []
 })
 
-module.exports = mongoose.model("careerPoint",PlacementReport)
+module.exports = mongoose.model("placementReport",PlacementReport)

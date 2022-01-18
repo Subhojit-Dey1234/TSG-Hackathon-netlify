@@ -14,6 +14,10 @@ const CareerPoint = new Schema({
     document : {},
     text : {
         type : String,
+    },
+    date : {
+        type:Date,
+        default:Date.now
     }
 })
 

@@ -13,6 +13,7 @@ const societyPoint = require("./views/SocietyPoint/SocietyPoint.js");
 const news = require("./views/News/News.js");
 const search = require("./views/Search.js");
 const academicPoint = require("./views/AcademicPoint/AcademicPoint.js");
+const careerPoint = require("./views/CareerPoint/CareerPoint");
 const placementData = require("./views/UploadCSV.js");
 app.use(cors());
 
@@ -29,6 +30,7 @@ app.use("/events", events);
 app.use("/society-point", societyPoint);
 app.use("/news", news);
 app.use("/academics", academicPoint);
+app.use("/careers", careerPoint);
 app.use("/search", search);
 app.use("/placementData", placementData);
 
@@ -45,7 +47,7 @@ const server = app.listen(process.env.PORT || 5000)
 const io = require("socket.io")(server,{
 	pingTimeout : 60000,
 	cors : {
-		origin : "https://hackathon-tsg.herokuapp.com/"
+		origin : "http://localhost:3000"
 	}
 });
 
