@@ -19,8 +19,8 @@ import {
 	Table,
 } from "reactstrap";
 
-import deleteImg from '../../Images/delete.svg'
-import editImg from '../../Images/edit.svg'
+import deleteImg from "../../Images/delete.svg";
+import editImg from "../../Images/edit.svg";
 import TableChange from "./TableChange";
 import formImage from "../../Images/FormImage.png";
 import {
@@ -57,12 +57,10 @@ export default function TableExample(props) {
 	const [topicDomain, setTopicDomain] = useState(null);
 	const [notesCareer, setNotesCareer] = useState(null);
 	const [booksCareer, setBooksCareer] = useState(null);
-	const [query, setQuery] = useState({
-		year: "",
-		department: "",
-	});
-
+	const [year, setYear] = useState(null);
+	const [departmentQ, setDepartmentQ] = useState(null);
 	useEffect(() => {
+		console.log(year);
 		dispatch(
 			getCareerPoint((res) => {
 				console.log(res);
@@ -74,11 +72,32 @@ export default function TableExample(props) {
 			}),
 		);
 	}, []);
-	// const [ academicYear, setAcademicYear ] = useState(null)
+
+	useEffect(() => {
+		// console.log(year,department)
+		if (!year && !departmentQ) {
+			dispatch(
+				getAcademicPoint((res) => {
+					console.log(res);
+				}),
+			);
+		} else {
+			dispatch(
+				searchAcademicPoint(
+					{
+						year,
+						department: departmentQ,
+					},
+					(res) => {
+						console.log(res);
+					},
+				),
+			);
+		}
+	}, [year, departmentQ]);
 
 	const careerPoints = useSelector((state) => state.careerPoint.careers);
 	const academicPoints = useSelector((state) => state.academicPoint.academics);
-	// console.log(academicPoints)
 
 	const dispatch = useDispatch();
 
@@ -129,31 +148,20 @@ export default function TableExample(props) {
 		);
 	}
 
-	function searchQuery(value) {
-		console.log(value);
+	// useEffect(()=>{
 
-		dispatch(
-			searchAcademicPoint(
-				{
-					year: value,
-				},
-				(res) => {
-					console.log(res);
-				},
-			),
-		);
-	}
+	// },)
 
 	function searchCareer(value) {
-		dispatch(
-			searchCareerPoint(value, (res) => {
-				console.log(res);
-			}),
-		);
-	}
-
-	function searchDept(value){
-
+		if (value) {
+			dispatch(
+				searchCareerPoint(value, (res) => {
+					// console.log(res);
+				}),
+			);
+		} else {
+			dispatch(getCareerPoint((res) => {}));
+		}
 	}
 
 	function uploadForm(e) {
@@ -167,8 +175,6 @@ export default function TableExample(props) {
 		form.append("pyqp", pyqp);
 		form.append("books", books);
 		form.append("notes", notes);
-
-		console.log("adfbjsd");
 
 		dispatch(
 			uploadAcademicPoint(form, (res) => {
@@ -185,8 +191,6 @@ export default function TableExample(props) {
 			}),
 		);
 	}
-
-	console.log(academicYear);
 
 	function updateForm(e) {
 		e.preventDefault();
@@ -231,7 +235,7 @@ export default function TableExample(props) {
 		setOpen2(!isOpen2);
 	}
 	const imageInput = useRef(null);
-	const userType = "Official";
+	const userType = useSelector((state) => state.userDetails.user.type);
 	return (
 		<div style={{ padding: "3% 3% 1% 3%" }}>
 			<br />
@@ -261,127 +265,157 @@ export default function TableExample(props) {
 				}}
 			>
 				<h6>Show Only</h6>
-				<Dropdown className="dropdown-table" toggle={toggle} isOpen={isOpen}>
-					<DropdownToggle caret>Year</DropdownToggle>
+				<Dropdown
+					color="danger"
+					className="dropdown-table"
+					toggle={toggle}
+					isOpen={isOpen}
+				>
+					<DropdownToggle caret>{year ? year : "Year"}</DropdownToggle>
 					<DropdownMenu>
 						<DropdownItem
-							onClick={() => searchQuery("1st Year")}
+							onClick={() => {
+								setYear(null);
+							}}
+							value="ALL"
+						>
+							ALL
+						</DropdownItem>
+						<DropdownItem
+							onClick={() => {
+								setYear("1st Year");
+							}}
 							value="1st Year"
 						>
 							1st Year
 						</DropdownItem>
-						<DropdownItem
-							onClick={() => searchQuery("2nd Year")}
-							value="2nd Year"
-						>
+						<DropdownItem onClick={() => setYear("2nd Year")} value="2nd Year">
 							2nd Year
 						</DropdownItem>
-						<DropdownItem
-							onClick={() => searchQuery("3rd Year")}
-							value="3rd Year"
-						>
+						<DropdownItem onClick={() => setYear("3rd Year")} value="3rd Year">
 							3rd Year
 						</DropdownItem>
 						<DropdownItem
-							onClick={() => searchQuery("4th Year")}
+							onClick={() => {
+								setYear("4th Year");
+							}}
 							value="4th Year"
 						>
 							4th Year
 						</DropdownItem>
-						<DropdownItem
-							onClick={() => searchQuery("5th Year")}
-							value="5th Year"
-						>
+						<DropdownItem onClick={() => setYear("5th Year")} value="5th Year">
 							5th Year
 						</DropdownItem>
 					</DropdownMenu>
 				</Dropdown>
 				<Dropdown className="dropdown-table" toggle={toggle1} isOpen={isOpen1}>
-					<DropdownToggle caret>Dept.</DropdownToggle>
+					<DropdownToggle caret>
+						{departmentQ ? departmentQ : "Department"}
+					</DropdownToggle>
+
 					<DropdownMenu>
-						<DropdownItem onClick={()=>searchDept("AE")} value="AE">AE</DropdownItem>
-						<DropdownItem onClick={()=>searchDept("AG")} value="AG">AR</DropdownItem>
-						<DropdownItem onClick={()=>searchDept("AR")} value="AR">ME</DropdownItem>
-						<DropdownItem onClick={()=>searchDept("BT")} value="BT">MT</DropdownItem>
-						<DropdownItem onClick={()=>searchDept("CE")} value="CE">NA</DropdownItem>
-						
+						<DropdownItem onClick={() => setDepartmentQ(null)} value="ALL">
+							ALL
+						</DropdownItem>
+						<DropdownItem onClick={() => setDepartmentQ("AR")} value="AR">
+							AR
+						</DropdownItem>
+						<DropdownItem onClick={() => setDepartmentQ("ME")} value="ME">
+							ME
+						</DropdownItem>
+						<DropdownItem onClick={() => setDepartmentQ("MT")} value="MT">
+							MT
+						</DropdownItem>
+						<DropdownItem onClick={() => setDepartmentQ("NA")} value="NA">
+							NA
+						</DropdownItem>
 					</DropdownMenu>
 				</Dropdown>
+				{/* <Button color="warning" onClick={e=>{
+					
+				}}>Search</Button> */}
 			</div>
 			<br />
-			<Table borderless>
-				<thead>
-					<tr className="table-header">
-						<th>Year</th>
-						<th>Subject Name</th>
-						<th>Code</th>
-						<th>Notes</th>
-						<th>PYQP</th>
-						<th>Books</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					{academicPoints.map((academicPoint) => (
-						<tr>
-							<th>{academicPoint.year}</th>
-							<td scope="row">{academicPoint.name}</td>
-							<td>{academicPoint.subjectCode}</td>
-							<td>
-								<a
-									href={academicPoint.notes}
-									style={{ textDecoration: "none" }}
-								>
-									Download Now
-								</a>
-							</td>
-							<td>
-								<a href={academicPoint.pyqp} style={{ textDecoration: "none" }}>
-									Download Now
-								</a>
-							</td>
-							<td>
-								<a
-									href={academicPoint.books}
-									style={{ textDecoration: "none" }}
-								>
-									Download Now
-								</a>
-							</td>
-							<td>
-								<Button
-									onClick={(e) => {
-										dispatch(
-											deleteAcademicPoint(academicPoint._id, (res) => {
-												console.log(res);
-											}),
-										);
-									}}
-									color="danger"
-								>
-									<img src={deleteImg} style={{width:"20px"}}/>
-								</Button>{" "}
-								<Button
-									color="warning"
-									onClick={() => {
-										setUpdateModal(true);
-										setId(academicPoint._id);
-										setDepartment(academicPoint.department);
-										setAcademicYear(academicPoint.year);
-										setBooks(academicPoint.books);
-										setNotes(academicPoint.notes);
-										setpyqp(academicPoint.pyqp);
-										setSubjectName(academicPoint.name);
-										setSubjectCode(academicPoint.subjectCode);
-									}}
-								>
-									<img src={editImg} style={{width:"20px"}}/>
-								</Button>
-							</td>
+			<div style={{width:"100%",overflowX:"scroll"}}>
+				<Table borderless>
+					<thead>
+						<tr className="table-header">
+							<th>Year</th>
+							<th>Subject Name</th>
+							<th>Code</th>
+							<th>Notes</th>
+							<th>PYQP</th>
+							<th>Books</th>
+							<th></th>
 						</tr>
-					))}
-				</tbody>
-			</Table>
+					</thead>
+					<tbody>
+						{academicPoints.map((academicPoint) => (
+							<tr>
+								<th>{academicPoint.year}</th>
+								<td scope="row">{academicPoint.name}</td>
+								<td>{academicPoint.subjectCode}</td>
+								<td>
+									<a
+										href={academicPoint.notes}
+										style={{ textDecoration: "none" }}
+									>
+										Download Now
+									</a>
+								</td>
+								<td>
+									<a
+										href={academicPoint.pyqp}
+										style={{ textDecoration: "none" }}
+									>
+										Download Now
+									</a>
+								</td>
+								<td>
+									<a
+										href={academicPoint.books}
+										style={{ textDecoration: "none" }}
+									>
+										Download Now
+									</a>
+								</td>
+								<td>
+									<Button
+									style={{display:userType === "student" ? "none" : ""}}
+										onClick={(e) => {
+											dispatch(
+												deleteAcademicPoint(academicPoint._id, (res) => {
+													console.log(res);
+												}),
+											);
+										}}
+										color="danger"
+									>
+										<img src={deleteImg} style={{ width: "20px" }} />
+									</Button>{" "}
+									<Button
+									style={{display:userType === "student" ? "none" : ""}}
+										color="warning"
+										onClick={() => {
+											setUpdateModal(true);
+											setId(academicPoint._id);
+											setDepartment(academicPoint.department);
+											setAcademicYear(academicPoint.year);
+											setBooks(academicPoint.books);
+											setNotes(academicPoint.notes);
+											setpyqp(academicPoint.pyqp);
+											setSubjectName(academicPoint.name);
+											setSubjectCode(academicPoint.subjectCode);
+										}}
+									>
+										<img src={editImg} style={{ width: "20px" }} />
+									</Button>
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</Table>
+			</div>
 			<br />
 			<br />
 			<br />
@@ -411,8 +445,11 @@ export default function TableExample(props) {
 			>
 				<h6>Show Only</h6>
 				<Dropdown className="dropdown-table" toggle={toggle2} isOpen={isOpen2}>
-					<DropdownToggle caret>Profile/Domain</DropdownToggle>
+					<DropdownToggle caret >Profile/Domain</DropdownToggle>
 					<DropdownMenu>
+						<DropdownItem onClick={() => searchCareer(null)} value="SDE">
+							ALL
+						</DropdownItem>
 						<DropdownItem onClick={() => searchCareer("SDE")} value="SDE">
 							SDE
 						</DropdownItem>
@@ -453,6 +490,7 @@ export default function TableExample(props) {
 							</td>
 							<td>
 								<Button
+								style={{display:userType === "student" ? "none" : ""}}
 									onClick={(e) => {
 										dispatch(
 											deleteCareerPoint(career._id, (res) => {
@@ -462,9 +500,10 @@ export default function TableExample(props) {
 									}}
 									color="danger"
 								>
-									<img src={deleteImg} style={{width:"20px"}}/>
-								</Button> {" "}
+									<img src={deleteImg} style={{ width: "20px" }} />
+								</Button>{" "}
 								<Button
+								style={{display:userType === "student" ? "none" : ""}}
 									onClick={(e) => {
 										setUpdateCareerModal(true);
 										setId(career._id);
@@ -475,7 +514,7 @@ export default function TableExample(props) {
 									}}
 									color="warning"
 								>
-									<img src={editImg} style={{width:"20px"}}/>
+									<img src={editImg} style={{ width: "20px" }} />
 								</Button>
 							</td>
 						</tr>

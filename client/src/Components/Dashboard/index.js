@@ -149,7 +149,9 @@ const Example = () => {
 
 	return (
 		<div>
-			<h1>Hi!</h1>
+			<br/>
+			<br/>
+			<div style={{display : userType !== "student" ? "none" : ""}}>
 			<h2 style={{ textAlign: "left", margin: "3% 5%", fontWeight: "bolder" }}>
 				My Achievements
 			</h2>
@@ -190,6 +192,7 @@ const Example = () => {
 					</Row>
 				</Card>
 			))}
+			</div>
 			<br />
 			<br />
 			<br />

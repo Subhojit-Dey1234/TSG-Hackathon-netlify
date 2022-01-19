@@ -8,12 +8,12 @@
     height: 10vh;
 }
 .logout li{
-    background-color: rgb(0, 0, 0);
+    background-color: #727dbd;
     border-radius: 5px;
     color: white;
 }
 .logout li:hover{
-    background-color: rgb(0, 0, 0) !important;
+    background-color: #727dbd !important;
 }
 .logo{
     position: absolute;
@@ -47,21 +47,30 @@
     visibility: visible;
 }
 
-@media screen and (max-width:600px){
+@media screen and (max-width:850px){
     .navbar-el ul{
-        background-color: #ffffffe6;
+        background-color: #ffffff;
         text-align: center;
         display: flex;
-        align-items: flex-start;
+        height: 70vh;
+        z-index: 2;
+        justify-content: space-around;
+        /* align-items: flex-start; */
         flex-direction: column;
         position: absolute;
-        right: 20px;
+        width: 100vw;
+        padding-top: 5vh;
+        top: -3vh;
+        right: 0;
         border-radius: 10px;
+    }
+    .navbar-el ul li{
+        /* border: black dashed 0.1px; */
     }
 
     .hamburger{
         position: absolute;
-        z-index: 1;
+        z-index: 3;
         right: 10px;
         top: 10px;
         width: 35px;
@@ -74,3 +83,11 @@
         width: 100%;
     }
 }
+
+@media screen and (max-width : 1000px) {
+    .navbar-el a li{
+        font-size: 15px;
+    }
+    
+}
+

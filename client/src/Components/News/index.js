@@ -41,7 +41,6 @@ const Example = (props) => {
     if (state.userDetails.user) return state.userDetails.user.type;
   });
 
-  console.log(userType);
 
   const isAuthenticated = localStorage.getItem("access-token");
 

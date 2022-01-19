@@ -25,7 +25,7 @@ import Notification from "./Components/Notifications/Notification";
 var socket = io("http://localhost:5000/");
 function App() {
 	const [notification, setNotification] = useState(null);
-	const [openNotify, setNotify] = useState(false);
+	
 	useEffect(() => {
 		socket.on("get_notification", (data) => {
 			setNotification(data);
@@ -50,22 +50,9 @@ function App() {
 			>
 				A New Event Added
 			</Alert>
-			<Button
-				color="success"
-				style={{ position: "absolute", right: "2vw", top: "10vh" }}
-				onClick={() => {
-					setNotify(true);
-				}}
-			>
-				Notifications
-			</Button>
-			<Modal centered isOpen={openNotify} toggle={() => setNotify(false)}>
-				<ModalBody>
-					<Notification />
-				</ModalBody>
-			</Modal>
+			
 			<Images />
-			<Navbar />
+			<Navbar/>
 			<Router>
 				<Routes>
 					<Route path="*" element={<NotFound />} />

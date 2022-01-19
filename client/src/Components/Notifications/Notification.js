@@ -29,21 +29,9 @@ export default function Notification() {
 
   return (
     <div style={{ height: "50vh", overflowY: "scroll" }}>
-      {/* {events.map((event)=>(
-               <a href={`/events-tsg/`} style={{textDecoration:"none",color:"black"}}>
-               <div style={{padding:"10px 0 0 10px"}}>
-               <Card style={{border:"0.4px solid #ededed"}}>
-                   <h4 style={{paddingLeft:"5px"}}>{event.name}</h4>
-                   <p style={{paddingLeft:"5px"}}>{event.description}</p>
-               </Card>
-               </div>
-               </a>
-           ))} */}
       <Table borderless style={{ backgroundColor: "white" }}>
         {events.map((event) => (
           <tr>
-            {/* <td>{x.name}</td>
-                <td>{x.description}</td> */}
             <p style={{ padding: "3%" }}>
               The <b>Officials</b> posted an event <b>{event.name}</b> <br />
               {new Date(event.eventStartTime).getDate()}-

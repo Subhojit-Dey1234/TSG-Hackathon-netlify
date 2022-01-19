@@ -81,9 +81,28 @@ router.patch("/:id", async (req, res) => {
 router.get('/query/',async(req,res)=>{
 	try{
 		console.log(req.query)
-		let academicPoint = await AcademicPoint.find({
-			year : req.query.year,
-		})
+		let academicPoint = null;
+		if(req.query.year !== "null" && req.query.department !== "null"){
+			academicPoint = await AcademicPoint.find({
+				year : req.query.year,
+				department : req.query.department,
+			})
+		}
+		else{
+			if(req.query.year !== "null"){
+				academicPoint = await AcademicPoint.find({
+					year : req.query.year,
+				})
+			}
+			else{
+				console.log("skjdn")
+				academicPoint = await AcademicPoint.find({
+					department : req.query.department,
+				})
+			}
+		}
+
+		
 
 		res.json(academicPoint)
 	}
@@ -91,18 +110,18 @@ router.get('/query/',async(req,res)=>{
 		res.json(err)
 	}
 })
-router.get('/query/department',async(req,res)=>{
-	try{
-		let academicPoint = await AcademicPoint.find({
-			department : req.query.department,
-		})
+// router.get('/query/',async(req,res)=>{
+// 	try{
+// 		let academicPoint = await AcademicPoint.find({
+// 			department : req.query.department,
+// 		})
 
-		res.json(academicPoint)
-	}
-	catch(err){
-		res.json(err)
-	}
-})
+// 		res.json(academicPoint)
+// 	}
+// 	catch(err){
+// 		res.json(err)
+// 	}
+// })
 
 router.delete('/:id',async(req,res)=>{
 	try {
