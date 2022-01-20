@@ -40,6 +40,10 @@ const obj = (req, res) => {
 			if (req.files.images)
 				events.images = "/public/events/" + req.files.images[0].filename;
 
+			let notification = new Notification()
+			notification.data = events
+			notification.save()
+
 			io.getSocketIo().emit("get_notification",events)
 			events.save().then(() => {
 				res.send({ events, message: "uploaded successfully" });
