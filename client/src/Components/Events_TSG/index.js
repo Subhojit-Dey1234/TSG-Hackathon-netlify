@@ -64,7 +64,7 @@ const responsive = {
 	},
 };
 
-var socket = io("http://localhost:5000/");
+var socket = io("https://hackathon-tsg.herokuapp.com/");
 
 const Example = (props) => {
 	const dispatch = useDispatch();

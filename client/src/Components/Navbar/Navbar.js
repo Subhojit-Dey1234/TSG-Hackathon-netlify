@@ -6,7 +6,7 @@ import notificationicon from "../../Images/bell-1.png";
 import { Modal, ModalBody, Button } from "reactstrap";
 import "./style.css";
 import Notification from "../Notifications/Notification";
-var socket = io("http://localhost:5000/");
+var socket = io("https://hackathon-tsg.herokuapp.com/");
 
 
 export default function Navbar() {

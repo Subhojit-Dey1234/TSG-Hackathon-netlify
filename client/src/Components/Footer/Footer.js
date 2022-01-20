@@ -32,10 +32,10 @@ export default function Footer() {
 						<Card className="footer-card" style={{border:"none"}}>
 							<CardBody>
 								<CardTitle className="footer-header">Reach Us</CardTitle>
-								<CardSubtitle>Counselling Centre</CardSubtitle>
-								<CardSubtitle>Your Dost</CardSubtitle>
-								<CardSubtitle>Hall Management Centre</CardSubtitle>
-								<CardSubtitle>Yellow Pages</CardSubtitle>
+								<CardSubtitle style={{cursor:"pointer"}}>Counselling Centre</CardSubtitle>
+								<CardSubtitle style={{cursor:"pointer"}}>Your Dost</CardSubtitle>
+								<CardSubtitle style={{cursor:"pointer"}}>Hall Management Centre</CardSubtitle>
+								<CardSubtitle style={{cursor:"pointer"}}>Yellow Pages</CardSubtitle>
 							</CardBody>
 						</Card>
 					</Col>
@@ -43,10 +43,10 @@ export default function Footer() {
 						<Card className="footer-card" style={{border:"none"}}>
 							<CardBody>
 								<CardTitle className="footer-header">Quick Link</CardTitle>
-								<CardSubtitle>Website</CardSubtitle>
-								<CardSubtitle>ERP</CardSubtitle>
-								<CardSubtitle>Zimbra</CardSubtitle>
-								<CardSubtitle>Grievance Form</CardSubtitle>
+								<CardSubtitle style={{cursor:"pointer"}}>Website</CardSubtitle>
+								<CardSubtitle style={{cursor:"pointer"}}>ERP</CardSubtitle>
+								<CardSubtitle style={{cursor:"pointer"}}>Zimbra</CardSubtitle>
+								<CardSubtitle style={{cursor:"pointer"}}>Grievance Form</CardSubtitle>
 							</CardBody>
 						</Card>
 					</Col>
