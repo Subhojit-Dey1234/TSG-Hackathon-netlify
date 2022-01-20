@@ -3,13 +3,13 @@ const Notification = require("../../models/Notification");
 const router = require("express").Router();
 
 
-router.get("/",(req,res)=>{
-    let notifications = Notification.find({}).sort({date:-1})
+router.get("/",async (req,res)=>{
+    let notifications = await Notification.find({}).sort({date:-1})
     res.json(notifications)
 })
 
-router.patch("/:id",(req,res)=>{
-    let notification = Notification.findOne({
+router.patch("/:id",async(req,res)=>{
+    let notification = await Notification.findOne({
         _id : req.params._id
     })
 
