@@ -10,7 +10,7 @@ router.get("/",async (req,res)=>{
 
 router.patch("/:id",async(req,res)=>{
     let notification = await Notification.findOne({
-        _id : req.params._id
+        _id : req.params.id
     })
 
     notification.isRead = true;

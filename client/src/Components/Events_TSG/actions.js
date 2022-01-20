@@ -35,7 +35,7 @@ export const getEventsById = (id,callback) => {
 export const searchEvents = (data,callback)=>{
 	return (dispatch) => {
 		return axios
-			.get(`/search/?q=${data}`, {
+			.get(`/search/events/?q=${data}`, {
 				"Content-Type": "multipart/form-data",
 			})
 			.then((res) => {

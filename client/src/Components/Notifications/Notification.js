@@ -28,7 +28,7 @@ export default function Notification({notification}) {
         {notification.map((notification) => (
           <tr style={{background:notification.isRead ? "#fff" :"#72bdbd"}}>
             <a href={()=>false} style={{textDecoration:"none",color:"black",cursor:"pointer"}} onClick={()=>{
-              axios.patch("/notification/"+notification._id).then(res=>{
+              axios.patch("/notification/"+ notification._id).then(res=>{
                 if(res.status === 200){
                   localStorage.setItem("EventId",notification.data._id)
                   window.location.href = "/events-tsg"

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADD_NewsS, ADD_NEWS, DELETE_NEWS, GET_NEWS, PARTICIPATED_NewsS, SEARCH_BAR, UPDATE_NEWS,  } from "../../actions/types";
+import { ADD_NewsS, ADD_NEWS, DELETE_NEWS, GET_NEWS, PARTICIPATED_NewsS, SEARCH_BAR, UPDATE_NEWS, SEARCH_BAR_NEWS,  } from "../../actions/types";
 
 export const getNews = (callback) => {
 	return (dispatch) => {
@@ -15,6 +15,28 @@ export const getNews = (callback) => {
 		});
 	};
 };
+
+export const searchEvents = (data,callback)=>{
+	return (dispatch) => {
+		return axios
+			.get(`/search/news/?q=${data}`, {
+				"Content-Type": "multipart/form-data",
+			})
+			.then((res) => {
+                if(res.status === 200){
+					dispatch({
+						type: SEARCH_BAR_NEWS,
+						payload: res.data,
+					});
+				}
+				
+				callback(res);
+			})
+			.catch((err) => {
+				callback(err.response);
+			});
+	};
+}
 
 export const uploadNewsFunc = (data, callback) => {
 	return (dispatch) => {
