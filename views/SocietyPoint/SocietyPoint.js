@@ -35,7 +35,7 @@ const obj = (req, res) => {
 			if (req.files.reports)
 				societyPoint.reports = req.files.reports;
 			if (req.files.images)
-				societyPoint.images = "/public/events/" + req.files.images[0].filename;
+				societyPoint.images = "/public/society-point/" + req.files.images[0].filename;
 			
 			// console.log(societyPoint)
 			societyPoint.save().then(() => {
@@ -73,7 +73,7 @@ router.patch("/:id", async (req, res) => {
 			if (req.files.reports)
 				societyPoint.reports = req.files.reports;
 			if (req.files.images)
-				societyPoint.images = "/public/events/" + req.files.images[0].filename;
+				societyPoint.images = "/public/society-point/" + req.files.images[0].filename;
 
 			console.log(req.files,societyPoint)
 			societyPoint.save().then(() => {
