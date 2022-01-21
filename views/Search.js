@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Events = require("../models/Events.js")
+const News = require("../models/News")
 
 
 router.get("/events", async (req, res)=>{
@@ -28,7 +29,7 @@ router.get("/events", async (req, res)=>{
 router.get("/news", async (req, res)=>{
     try{
         let filt = req.query
-        let events = await Events.find({}).sort({date : -1})
+        let events = await News.find({}).sort({timestamp : -1})
 
 
         let filterData = events.filter((evnt)=>{

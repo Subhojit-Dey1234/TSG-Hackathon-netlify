@@ -7,7 +7,6 @@ import {
 	CardTitle,
 	CardGroup,
 	Input,
-	InputGroup,
 	Button,
 	Form,
 	FormGroup,
@@ -16,7 +15,6 @@ import {
 	ModalBody,
 	ModalFooter,
 	Alert,
-	CardHeader,
 	Table,
 } from "reactstrap";
 import logo1 from "../../Images/logo1.png";
@@ -37,7 +35,6 @@ import {
 	getEvents,
 	participateEvent,
 	reloadParticipatedEvents,
-	searchAction,
 	uploadEvents,
 	uploadReport,
 	uploadGrievances,
@@ -101,8 +98,6 @@ const Example = (props) => {
 	const [description, setDescription] = useState(null);
 	const [image, setImage] = useState(null);
 	const [reportUpload, setReportUpload] = useState(null);
-	const [searchString, setSearch] = useState("");
-	const [isPressed, setPressed] = useState(false);
 	const [alartView, setalartView] = useState(false);
 	const scrollForm = useRef(null);
 	const [eventId, setEventId] = useState(null);

@@ -14,15 +14,45 @@ import ProtectedRoute from "./ProtectedRoute";
 import ProtectedNotAuth from "./ProtectedNotAuth";
 import Dashboard from "./Components/Dashboard/index";
 import Events_TSG from "./Components/Events_TSG/index";
-import EventSingle from "./Components/Events_TSG/EventSingle";
 import Society_Point from "./Components/Society_Point/index";
 import NotFound from "./NotFound";
 import io from "socket.io-client";
-import { Alert, Button, Modal, ModalBody } from "reactstrap";
+import { Alert} from "reactstrap";
 import { useEffect, useState } from "react";
-import Notification from "./Components/Notifications/Notification";
 
 var socket = io("https://hackathon-tsg.herokuapp.com/");
+var styleConsole = "color:red;font-size:50px;font-weight:bolder;text-shadow: 3px 3px blue,7px 7px orange;"
+var styleImageConsole =  [
+	'background: url("https://media.giphy.com/media/7kn27lnYSAE9O/giphy.gif")',
+	'background-size: cover',
+	'width : 100px',
+	'padding: 10px 20px',
+	'color: white',
+	'height: 100px',
+	"font-size : 100px",
+	'line-height: 400px',
+  ];
+// console.log("%cHi Welcome to the Console of our Website",styleConsole)
+// console.log("%c HELLO",styleImageConsole.join(';'))
+
+
+(function(url) {
+	var image = new Image();
+  
+	image.onload = function() {
+	  var style = [
+		'font-size: 1px;',
+		'line-height: ' + this.height + 'px;',
+		'padding: ' + this.height * .5 + 'px ' + this.width * .5 + 'px;',
+		'background-size: ' + this.width + 'px ' + this.height + 'px;',
+		'background: url('+ url +') no-repeat;'
+	   ].join(' ');
+	   console.log('%c ', style);
+	};
+	image.src = url;
+  })('https://media.giphy.com/media/7kn27lnYSAE9O/giphy.gif');
+
+console.log("%cHi Welcome to the Console of our Website",styleConsole)
 function App() {
 	const [notification, setNotification] = useState(null);
 	

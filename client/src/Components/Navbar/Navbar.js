@@ -3,7 +3,7 @@ import axios from "axios";
 import io from "socket.io-client";
 import logo from "../../Images/Log.png";
 import notificationicon from "../../Images/bell-1.png";
-import { Modal, ModalBody, Button } from "reactstrap";
+import { Modal, ModalBody } from "reactstrap";
 import "./style.css";
 import Notification from "../Notifications/Notification";
 var socket = io("https://hackathon-tsg.herokuapp.com/");
@@ -166,7 +166,7 @@ export default function Navbar() {
 										display: isBell ? "" : "none" 
 									}}
 								></span>
-								<img src={notificationicon} style={{ width: "25px" }} />
+								<img src={notificationicon} style={{ width: "25px" }} zlt="notification"/>
 							</li>
 						</a>
 						<a

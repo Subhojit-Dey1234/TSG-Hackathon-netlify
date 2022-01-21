@@ -1,7 +1,6 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { CardBody, CardHeader, Card, Table } from "reactstrap";
-import { getEvents } from "../Events_TSG/actions";
+import React from "react";
+import { Table } from "reactstrap";
 
 export default function Notification({notification}) {
   const monthNames = [

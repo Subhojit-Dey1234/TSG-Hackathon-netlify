@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADD_NewsS, ADD_NEWS, DELETE_NEWS, GET_NEWS, PARTICIPATED_NewsS, SEARCH_BAR, UPDATE_NEWS, SEARCH_BAR_NEWS,  } from "../../actions/types";
+import { ADD_NEWS, DELETE_NEWS, GET_NEWS, UPDATE_NEWS, SEARCH_BAR_NEWS,  } from "../../actions/types";
 
 export const getNews = (callback) => {
 	return (dispatch) => {
@@ -16,7 +16,7 @@ export const getNews = (callback) => {
 	};
 };
 
-export const searchEvents = (data,callback)=>{
+export const searchNews = (data,callback)=>{
 	return (dispatch) => {
 		return axios
 			.get(`/search/news/?q=${data}`, {

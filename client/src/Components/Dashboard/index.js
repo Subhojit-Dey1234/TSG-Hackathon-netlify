@@ -7,11 +7,9 @@ import {
   CardTitle,
   CardGroup,
   Input,
-  InputGroup,
   Button,
   Form,
   FormGroup,
-  CardSubtitle,
 } from "reactstrap";
 import logo1 from "../../Images/logo1.png";
 import logo2 from "../../Images/logo2.png";
@@ -42,22 +40,6 @@ const responsive = {
     breakpoint: { max: 464, min: 0 },
     items: 1,
   },
-};
-const eventTitle = "Event Title";
-const eventDescription =
-  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
-const eventDate = "22nd November 2022";
-const eventOrganizer = "TSG IIT Kharagpur";
-const eventPoster = logo4;
-const participatedEvents = {
-  title: ["Event One", "Event Two", "Event Three", "Event Four"],
-  organizer: [
-    "TSG IIT Kharagpur",
-    "Debsoc IIT Kharagpur",
-    "TDS IIT Kharagpur",
-    "Spectra IIT Kharagpur",
-  ],
-  poster: [logo1, logo2, logo1, logo2],
 };
 
 const Example = () => {

@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
-// import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import {
 	Dropdown,
 	DropdownItem,
@@ -9,7 +7,6 @@ import {
 	DropdownToggle,
 	Modal,
 	ModalBody,
-	ModalFooter,
 	Row,
 	Col,
 	Input,
@@ -21,7 +18,6 @@ import {
 
 import deleteImg from "../../Images/delete.svg";
 import editImg from "../../Images/edit.svg";
-import TableChange from "./TableChange";
 import formImage from "../../Images/FormImage.png";
 import {
 	deleteAcademicPoint,
@@ -234,7 +230,6 @@ export default function TableExample(props) {
 	function toggle2() {
 		setOpen2(!isOpen2);
 	}
-	const imageInput = useRef(null);
 	const userType = useSelector((state) => state.userDetails.user.type);
 	return (
 		<div style={{ padding: "3% 3% 1% 3%" }}>
@@ -391,7 +386,7 @@ export default function TableExample(props) {
 										}}
 										color="danger"
 									>
-										<img src={deleteImg} style={{ width: "20px" }} />
+										<img src={deleteImg} style={{ width: "20px" }} alt="" />
 									</Button>{" "}
 									<Button
 									style={{display:userType === "student" ? "none" : ""}}
@@ -408,7 +403,7 @@ export default function TableExample(props) {
 											setSubjectCode(academicPoint.subjectCode);
 										}}
 									>
-										<img src={editImg} style={{ width: "20px" }} />
+										<img src={editImg} style={{ width: "20px" }} alt=""/>
 									</Button>
 								</td>
 							</tr>
@@ -500,7 +495,7 @@ export default function TableExample(props) {
 									}}
 									color="danger"
 								>
-									<img src={deleteImg} style={{ width: "20px" }} />
+									<img src={deleteImg} style={{ width: "20px" }} alt="" />
 								</Button>{" "}
 								<Button
 								style={{display:userType === "student" ? "none" : ""}}
@@ -514,7 +509,7 @@ export default function TableExample(props) {
 									}}
 									color="warning"
 								>
-									<img src={editImg} style={{ width: "20px" }} />
+									<img src={editImg} style={{ width: "20px" }} alt=""/>
 								</Button>
 							</td>
 						</tr>
@@ -532,7 +527,7 @@ export default function TableExample(props) {
 					>
 						<h4 style={{ textAlign: "center" }}>Updates Academic Point</h4>
 						<br />
-						<img src={formImage} />
+						<img src={formImage} alt=""/>
 						<Col
 							sm="12"
 							style={{ alignItems: "center", justifyContent: "center" }}
@@ -678,7 +673,7 @@ export default function TableExample(props) {
 					>
 						<h4 style={{ textAlign: "center" }}>Update Academic Point</h4>
 						<br />
-						<img src={formImage} />
+						<img src={formImage} alt="" />
 						<Col
 							sm="12"
 							style={{ alignItems: "center", justifyContent: "center" }}
@@ -803,7 +798,7 @@ export default function TableExample(props) {
 					>
 						<h4 style={{ textAlign: "center" }}>Update Career Point</h4>
 						<br />
-						<img src={formImage} />
+						<img src={formImage} alt=""/>
 						<Col
 							sm="12"
 							style={{ alignItems: "center", justifyContent: "center" }}
@@ -914,7 +909,7 @@ export default function TableExample(props) {
 					>
 						<h4 style={{ textAlign: "center" }}>Update Career Point</h4>
 						<br />
-						<img src={formImage} />
+						<img src={formImage} alt="" />
 						<Col
 							sm="12"
 							style={{ alignItems: "center", justifyContent: "center" }}

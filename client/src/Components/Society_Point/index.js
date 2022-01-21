@@ -7,7 +7,6 @@ import {
   CardTitle,
   CardGroup,
   Input,
-  InputGroup,
   Button,
   Form,
   FormGroup,
@@ -16,7 +15,6 @@ import {
   ModalBody,
   ModalFooter,
   Alert,
-  CardHeader,
   Table,
 } from "reactstrap";
 import logo1 from "../../Images/logo1.png";
@@ -36,9 +34,7 @@ import {
   deleteEvents,
   downloadReport,
   getEvents,
-  participateEvent,
   reloadParticipatedEvents,
-  searchAction,
   uploadEvents,
   uploadReport,
   uploadGrievances,
@@ -88,7 +84,7 @@ const Example = (props) => {
 
   const user = useSelector((state) => state.userDetails.user);
 
-  const imageInput = React.useRef(null);
+  const imageInput = useRef(null);
 
   const [nameEvent, setNameEvent] = useState(null);
   const [startDate, setStartDate] = useState(null);
@@ -97,8 +93,6 @@ const Example = (props) => {
   const [description, setDescription] = useState(null);
   const [image, setImage] = useState(null);
   const [reportUpload, setReportUpload] = useState(null);
-  const [searchString, setSearch] = useState("");
-  const [isPressed, setPressed] = useState(false);
   const [alartView, setalartView] = useState(false);
   const scrollForm = useRef(null);
   const [eventId, setEventId] = useState(null);
@@ -249,11 +243,6 @@ const Example = (props) => {
   const [isExtended, setExtendedModalOpen] = useState(false);
   const [isParticipateModal, setParticipateModal] = useState(false);
   const s = useSelector((state) => state.userDetails.user);
-  console.log(s);
-
-  const participatedEvents = useSelector(
-    (state) => state.userDetails.user.tsgParticipatedEvents
-  );
   const socialParticipatedEvents = useSelector(
     (state) => state.userDetails.user.societyParticipatedEvents
   );
@@ -478,7 +467,7 @@ const Example = (props) => {
                           );
                         }}
                       >
-                        <img src={deleteImg} style={{ width: "20px" }} />
+                        <img src={deleteImg} style={{ width: "20px" }} alt="delete"/>
                       </Button>
                       <Button
                         style={{
@@ -524,7 +513,7 @@ const Example = (props) => {
                           console.log(event.students);
                         }}
                       >
-                        <img src={editImg} style={{ width: "20px" }} />
+                        <img src={editImg} style={{ width: "20px" }} alt="edit"/>
                       </Button>{" "}
                     </div>
                   </div>

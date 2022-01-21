@@ -1,4 +1,4 @@
-import { ADD_EVENTS_SOCIETY, GET_EVENTS_SOCIETY, DELETE_EVENT_SOCIETY, UPDATE_EVENT_SOCIETY,SEARCH_BAR, PARTICIPATED_EVENTS } from "../../actions/types";
+import { ADD_EVENTS_SOCIETY, GET_EVENTS_SOCIETY, DELETE_EVENT_SOCIETY, UPDATE_EVENT_SOCIETY } from "../../actions/types";
 
 const initialState = {
 	social_events: [],

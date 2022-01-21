@@ -1,9 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState} from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useHistory, useParams } from 'react-router-dom'
-import { Card, CardBody, CardHeader, CardImg, CardTitle } from 'reactstrap'
-import { getEventsById } from './actions'
+import { useParams } from 'react-router-dom'
+import { Card, CardBody, CardImg, CardTitle } from 'reactstrap'
 
 export default function EventSingle(props) {
     const { id } = useParams()

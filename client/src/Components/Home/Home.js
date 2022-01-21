@@ -8,7 +8,6 @@ import {
   Row,
   Col,
   Button,
-  CardGroup,
   CardTitle,
   CardBody,
   CardImg,
@@ -136,9 +135,6 @@ export default function Home() {
 
   // console.log(news)
 
-  const [chartDataLabels, setChartDataLabels] = useState([]);
-  const [chartData, setChartData] = useState([]);
-  const [chart, setChart] = useState({});
 
   const carouselItem_One =
     "COVID tests have been initiated and are currently being conducted on a primary contact basis. If any boarder has symptoms mentioned below,they are advised to contact their HP/SSM/Hall Council Member immediately to get tested. If someone is showing any of these signs, seek emergency medical care immediately (BC Roy Technology Hospital): Trouble breathing, persistent pain or pressure in the chest, inability to wake or stay awake, pale, gray, or blue-coloured skin, lips, or nail beds, depending on skin tone.";
@@ -452,7 +448,7 @@ export default function Home() {
               <marquee behaviour="alternate" style={{ margin: "4% 12%" }}>
                 <b>Upcoming Events: </b>
                 {events.map((event) => (
-                  <a>
+                  <a href={()=>false}>
                     {new Date(event.eventStartTime).getDate()}{" "}
                     {months[new Date(event.eventStartTime).getMonth()]}{" "}
                     {event.name} |{" "}

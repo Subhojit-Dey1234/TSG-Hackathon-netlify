@@ -1,4 +1,4 @@
-import { SET_ID, USER_TYPE } from "./types";
+import { USER_TYPE } from "./types";
 import axios from 'axios'
 
 export const loginStudent = (data,callback) =>{

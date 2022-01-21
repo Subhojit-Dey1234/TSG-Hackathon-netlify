@@ -1,4 +1,4 @@
-import { ADD_NEWS, DELETE_NEWS, GET_NEWS, UPDATE_NEWS } from "../../actions/types";
+import { ADD_NEWS, DELETE_NEWS, GET_NEWS, SEARCH_BAR_NEWS, UPDATE_NEWS } from "../../actions/types";
 
 const initialState = {
 	news: [],
@@ -11,6 +11,12 @@ export default function newsDetails(state = initialState, action) {
 				...state,
 				news: action.payload,
 			};
+		case SEARCH_BAR_NEWS : {
+			return {
+				...state,
+				news : action.payload
+			}
+		}
 		case ADD_NEWS:
 			return {
 				...state,

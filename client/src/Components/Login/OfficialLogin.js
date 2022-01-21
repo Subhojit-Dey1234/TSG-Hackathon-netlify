@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./style.css";
 import {
 	Card,
@@ -25,19 +25,13 @@ export default function OfficialLogin() {
 
 	console.log(st)
 
-	useEffect(()=>{
-		dispatch({
-			type : "USER_TYPE_POINTER",
-			payload : "student"
-		})
-	},[])
-
 
 	function Login(e) {
+		//"123#abc%$pq"
 		e.preventDefault();
 		let data = {
 			mail: email,
-			password: "123#abc%$pq",
+			password: password,
 		};
 
 		dispatch(

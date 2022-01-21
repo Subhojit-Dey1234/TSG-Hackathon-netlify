@@ -1,4 +1,4 @@
-import { ADD_EVENTS, GET_EVENTS, DELETE_EVENT, UPDATE_EVENT,SEARCH_BAR, EVENTBYID, GET_ACHIEVEMENTS, ADD_ACHIEVEMENTS, UPDATE_ACHIEVEMENTS } from "../../actions/types";
+import { GET_ACHIEVEMENTS, ADD_ACHIEVEMENTS, UPDATE_ACHIEVEMENTS } from "../../actions/types";
 
 const initialState = {
 	events: [],

@@ -18,7 +18,7 @@ import logo1 from "../../Images/logo1.png";
 import logo2 from "../../Images/logo2.png";
 import logo4 from "../../Images/logo4.png";
 import formImage from "../../Images/FormImage.png";
-import { deleteNews, getNews, updateNews, uploadNewsFunc } from "./actions";
+import { deleteNews, getNews, searchNews, updateNews, uploadNewsFunc } from "./actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col } from "reactstrap";
 import deleteImg from "../../Images/delete.svg";
@@ -103,6 +103,29 @@ const Example = (props) => {
     );
   }
 
+  const debounce = function (fn, d) {
+		let timer;
+		return function () {
+			let context = this,
+				args = arguments;
+			clearTimeout(timer);
+			timer = setTimeout(() => {
+				fn.apply(context, args);
+			}, d);
+		};
+	};
+
+  function search(e) {
+		debounce(
+			dispatch(
+				searchNews(e.target.value, (res) => {
+					console.log(res);
+				}),
+			),
+			500,
+		);
+	}
+
   var host = window.location.origin;
 
   return (
@@ -141,6 +164,19 @@ const Example = (props) => {
       >
         Want to Create A News Now?
       </a>
+      <Input
+						style={{
+							borderRadius: "10px",
+							border: "6px solid #eaeaea",
+							margin: "5%",
+							width: "87.5%",
+						}}
+						placeholder="Search News By Typing..."
+						type="text"
+						onChange={(e) => {
+							search(e);
+						}}
+					/>
       <Modal centered isOpen={uploadNews} toggle={() => setUploadNews(false)}>
         <ModalBody>
           <Row
@@ -447,7 +483,7 @@ const Example = (props) => {
                   }}
                   color="danger"
                 >
-                  <img src={deleteImg} style={{ width: "20px" }} />
+                  <img src={deleteImg} style={{ width: "20px" }} alt="delete"/>
                 </Button>
                 <Button
                   onClick={() => {
@@ -467,7 +503,7 @@ const Example = (props) => {
                   }}
                   color="warning"
                 >
-                  <img src={editImg} style={{ width: "20px" }} />
+                  <img src={editImg} style={{ width: "20px" }} alt="edit"/>
                 </Button>
               </CardBody>
             </Col>
