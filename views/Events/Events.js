@@ -36,7 +36,7 @@ const obj = (req, res) => {
 			events.eventStartTime = req.body.eventStartTime;
 			events.eventEndTime = req.body.eventEndTime;
 			if (req.files.reports)
-				events.reports = "/public/events/" + req.files.reports[0].filename;
+				events.reports = req.files.reports;
 			if (req.files.images)
 				events.images = "/public/events/" + req.files.images[0].filename;
 
@@ -78,7 +78,7 @@ router.patch("/:id", async (req, res) => {
 				? req.body.eventEndTime
 				: events.eventEndTime;
 			if (req.files.reports)
-				events.reports = "/public/events/" + req.files.reports[0].filename;
+				events.reports = req.files.reports;
 			if (req.files.images)
 				events.images = "/public/events/" + req.files.images[0].filename;
 			events.save().then(() => {
@@ -104,8 +104,8 @@ router.delete("/:id", async (req, res) => {
 
 router.get("/downloads/:id", async (req, res) => {
 	try {
-		let events = await Events.find({ _id: req.params.id });
-		res.download(events[0].reports[0].path);
+		let events = await Events.findOne({ _id: req.params.id });
+		res.download(events.reports[0].path,events.reports[0].filename);
 	} catch (err) {
 		res.json(err);
 	}

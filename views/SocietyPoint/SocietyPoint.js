@@ -33,10 +33,11 @@ const obj = (req, res) => {
 			societyPoint.eventStartTime = req.body.eventStartTime;
 			societyPoint.eventEndTime = req.body.eventEndTime;
 			if (req.files.reports)
-				societyPoint.reports =
-					 "/public/events/" + req.files.reports[0].filename;
+				societyPoint.reports = req.files.reports;
 			if (req.files.images)
 				societyPoint.images = "/public/events/" + req.files.images[0].filename;
+			
+			// console.log(societyPoint)
 			societyPoint.save().then(() => {
 				res.send({ events: societyPoint, message: "uploaded successfully" });
 			});
@@ -70,10 +71,11 @@ router.patch("/:id", async (req, res) => {
 				? req.body.eventEndTime
 				: societyPoint.eventEndTime;
 			if (req.files.reports)
-				societyPoint.reports =
-					"/public/events/" + req.files.reports[0].filename;
+				societyPoint.reports = req.files.reports;
 			if (req.files.images)
 				societyPoint.images = "/public/events/" + req.files.images[0].filename;
+
+			console.log(req.files,societyPoint)
 			societyPoint.save().then(() => {
 				res.send({
 					message: "uploaded successfully",
@@ -97,8 +99,8 @@ router.delete("/:id", async (req, res) => {
 
 router.get("/downloads/:id", async (req, res) => {
 	try {
-		let societyPoint = await SocietyPoint.find({ _id: req.params.id });
-		res.download(societyPoint[0].reports[0].path);
+		let societyPoint = await SocietyPoint.findOne({ _id: req.params.id });
+		res.download(societyPoint.reports[0].path,societyPoint.reports[0].filename);
 	} catch (err) {
 		res.json(err);
 	}
