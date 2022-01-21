@@ -405,7 +405,7 @@ const Example = (props) => {
                               downloadReport(event._id, (res) => {
                                 downloadReportFrontend(
                                   res,
-                                  `${host} + ${event.reports[0].filename}`
+                                  `${event.reports[0].filename}`
                                 );
                               })
                             );
