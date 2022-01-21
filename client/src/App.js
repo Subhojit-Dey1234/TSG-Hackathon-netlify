@@ -21,10 +21,10 @@ import { Alert} from "reactstrap";
 import { useEffect, useState } from "react";
 
 var socket = io("https://hackathon-tsg.herokuapp.com/");
-var styleConsole = "color:red;font-size:50px;font-weight:bolder;text-shadow: 3px 3px blue,7px 7px orange;"
+// var styleConsole = "color:red;font-size:50px;font-weight:bolder;text-shadow: 3px 3px blue,7px 7px orange;"
+// // console.log("%cHi Welcome to the Console of our Website",styleConsole)
+// // console.log("%c HELLO",styleImageConsole.join(';'))
 // console.log("%cHi Welcome to the Console of our Website",styleConsole)
-// console.log("%c HELLO",styleImageConsole.join(';'))
-
 
 (function(url) {
 	var image = new Image();
@@ -42,7 +42,11 @@ var styleConsole = "color:red;font-size:50px;font-weight:bolder;text-shadow: 3px
 	image.src = url;
   })('https://media.giphy.com/media/7kn27lnYSAE9O/giphy.gif');
 
+
+var styleConsole = "color:red;font-size:50px;font-weight:bolder;text-shadow: 3px 3px blue,7px 7px orange;"
 console.log("%cHi Welcome to the Console of our Website",styleConsole)
+
+
 function App() {
 	const [notification, setNotification] = useState(null);
 	
