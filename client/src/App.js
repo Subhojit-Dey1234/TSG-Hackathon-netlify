@@ -22,16 +22,6 @@ import { useEffect, useState } from "react";
 
 var socket = io("https://hackathon-tsg.herokuapp.com/");
 var styleConsole = "color:red;font-size:50px;font-weight:bolder;text-shadow: 3px 3px blue,7px 7px orange;"
-var styleImageConsole =  [
-	'background: url("https://media.giphy.com/media/7kn27lnYSAE9O/giphy.gif")',
-	'background-size: cover',
-	'width : 100px',
-	'padding: 10px 20px',
-	'color: white',
-	'height: 100px',
-	"font-size : 100px",
-	'line-height: 400px',
-  ];
 // console.log("%cHi Welcome to the Console of our Website",styleConsole)
 // console.log("%c HELLO",styleImageConsole.join(';'))
 
