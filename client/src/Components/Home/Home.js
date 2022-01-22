@@ -135,7 +135,6 @@ export default function Home() {
 
   // console.log(news)
 
-
   const carouselItem_One =
     "COVID tests have been initiated and are currently being conducted on a primary contact basis. If any boarder has symptoms mentioned below,they are advised to contact their HP/SSM/Hall Council Member immediately to get tested. If someone is showing any of these signs, seek emergency medical care immediately (BC Roy Technology Hospital): Trouble breathing, persistent pain or pressure in the chest, inability to wake or stay awake, pale, gray, or blue-coloured skin, lips, or nail beds, depending on skin tone.";
   const carouselItem_Two =
@@ -207,6 +206,10 @@ export default function Home() {
               backgroundColor: "#727dbd",
               color: "white",
               border: "none",
+            }}
+            onClick={() => {
+              window.location.href =
+                "https://docs.google.com/forms/d/e/1FAIpQLSft9FXZYvLiNt3oy0K3Iu4d6HoE830RhNWFHMXx1R4IjlhHKA/viewform";
             }}
           >
             Get Started
@@ -448,7 +451,7 @@ export default function Home() {
               <marquee behaviour="alternate" style={{ margin: "4% 12%" }}>
                 <b>Upcoming Events: </b>
                 {events.map((event) => (
-                  <a href={()=>false}>
+                  <a href={() => false}>
                     {new Date(event.eventStartTime).getDate()}{" "}
                     {months[new Date(event.eventStartTime).getMonth()]}{" "}
                     {event.name} |{" "}
