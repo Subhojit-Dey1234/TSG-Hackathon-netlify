@@ -56,7 +56,7 @@ export default function Otp() {
 		}
 	}
 	return (
-		<div>
+		<div style={{marginBottom:"20%"}}>
 			<div className="loader" style={{ display: load ? "block" : "none" }}>
 				<img src={loader} alt="loader" />
 			</div>
@@ -105,6 +105,8 @@ export default function Otp() {
 					</CardBody>
 				</Card>
 			</div>
+			<br/>
+			<br/>
 		</div>
 	);
 }

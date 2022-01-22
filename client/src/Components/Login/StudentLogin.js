@@ -63,7 +63,7 @@ export default function StudentLogin() {
 	}
 
 	return (
-		<div>
+		<div style={{marginBottom:"20%"}}>
 			<div className="loader" style={{ display: load ? "block" : "none" }}>
 				<img src={loader} alt="loader" />
 			</div>

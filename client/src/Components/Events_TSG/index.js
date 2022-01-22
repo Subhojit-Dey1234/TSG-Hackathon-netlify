@@ -466,7 +466,7 @@ const Example = (props) => {
 														}
 													}}
 												>
-													Download Report
+													Download Rep./Certi.
 												</Button>{" "}
 												<Button
 													href={() => false}
@@ -482,7 +482,7 @@ const Example = (props) => {
 														display: userType === "student" ? "none" : "",
 													}}
 												>
-													Upload Report
+													Upload Rep./Certi.
 												</Button>{" "}
 												<Button
 													onClick={(e) => {

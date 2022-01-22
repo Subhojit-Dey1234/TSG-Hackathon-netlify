@@ -32,10 +32,10 @@ export default function Footer() {
 						<Card className="footer-card" style={{border:"none"}}>
 							<CardBody>
 								<CardTitle className="footer-header">Reach Us</CardTitle>
-								<CardSubtitle style={{cursor:"pointer"}}>Counselling Centre</CardSubtitle>
-								<CardSubtitle style={{cursor:"pointer"}}>Your Dost</CardSubtitle>
-								<CardSubtitle style={{cursor:"pointer"}}>Hall Management Centre</CardSubtitle>
-								<CardSubtitle style={{cursor:"pointer"}}>Yellow Pages</CardSubtitle>
+								<CardSubtitle style={{cursor:"pointer"}}><a href="http://www.counsellingcentre.iitkgp.ac.in/" style={{textDecoration:"none", color:"white"}}>Counselling Centre</a></CardSubtitle>
+								<CardSubtitle style={{cursor:"pointer"}}><a href="https://wiki.metakgp.org/w/Yellow_pages/" style={{textDecoration:"none", color:"white"}}>Your Dost</a></CardSubtitle>
+								<CardSubtitle style={{cursor:"pointer"}}><a href="http://www.hmc.iitkgp.ac.in/web/" style={{textDecoration:"none", color:"white"}}>Hall Management Centre</a></CardSubtitle>
+								<CardSubtitle style={{cursor:"pointer"}}><a href="https://wiki.metakgp.org/w/Yellow_pages" style={{textDecoration:"none", color:"white"}}>Yellow Pages</a></CardSubtitle>
 							</CardBody>
 						</Card>
 					</Col>
@@ -43,10 +43,10 @@ export default function Footer() {
 						<Card className="footer-card" style={{border:"none"}}>
 							<CardBody>
 								<CardTitle className="footer-header">Quick Link</CardTitle>
-								<CardSubtitle style={{cursor:"pointer"}}>Website</CardSubtitle>
-								<CardSubtitle style={{cursor:"pointer"}}>ERP</CardSubtitle>
-								<CardSubtitle style={{cursor:"pointer"}}>Zimbra</CardSubtitle>
-								<CardSubtitle style={{cursor:"pointer"}}>Grievance Form</CardSubtitle>
+								<CardSubtitle style={{cursor:"pointer"}}><a href="http://www.iitkgp.ac.in/" style={{textDecoration:"none", color:"white"}}>Website</a></CardSubtitle>
+								<CardSubtitle style={{cursor:"pointer"}}><a href="https://erp.iitkgp.ernet.in/" style={{textDecoration:"none", color:"white"}}>ERP</a></CardSubtitle>
+								<CardSubtitle style={{cursor:"pointer"}}><a href="https://iitkgpmail.iitkgp.ac.in/" style={{textDecoration:"none", color:"white"}}>Zimbra</a></CardSubtitle>
+								<CardSubtitle style={{cursor:"pointer"}}><a href="https://docs.google.com/forms/d/e/1FAIpQLSft9FXZYvLiNt3oy0K3Iu4d6HoE830RhNWFHMXx1R4IjlhHKA/viewform" style={{textDecoration:"none", color:"white"}}>Grievance Form</a></CardSubtitle>
 							</CardBody>
 						</Card>
 					</Col>
