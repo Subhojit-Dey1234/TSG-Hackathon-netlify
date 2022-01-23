@@ -38,7 +38,7 @@ export default function StudentLogin() {
 						setMsg(true);
 						setInterval(() => {
 							window.location.href = "/otp";
-						}, 1000);
+						}, 200);
 					}
 					let interval;
 					if (res.status === 400) {
