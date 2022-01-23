@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import main from "../../Images/MainImage.png";
 import Chart from "chart.js/auto";
 import { Bar, Pie } from "react-chartjs-2";
@@ -191,6 +191,8 @@ export default function Home() {
 		},
 		[setValue],
 	);
+
+	const getStarted = useRef(null)
 	return (
 		<div>
 			<Row
@@ -223,8 +225,10 @@ export default function Home() {
 							border: "none",
 						}}
 						onClick={() => {
-							window.location.href =
-								"https://docs.google.com/forms/d/e/1FAIpQLSft9FXZYvLiNt3oy0K3Iu4d6HoE830RhNWFHMXx1R4IjlhHKA/viewform";
+							window.scrollTo({
+								behavior:"smooth",
+								top:getStarted.current.offsetTop
+							})
 						}}
 					>
 						Get Started
@@ -236,6 +240,7 @@ export default function Home() {
 					<img src={main} alt="MainImage" style={{ width: "100%" }} />
 				</Col>
 			</Row>
+			<div>
 			<Carousel responsive={responsive} style={{ backgroundColor: "#7882bd" }}>
 				<div
 					style={{
@@ -276,8 +281,8 @@ export default function Home() {
 						? carouselItem_Three
 						: carouselItem_Three.slice(0, 70) + "..."}
 				</div>
-			</Carousel>
-			<div style={{ padding: "3% 5%" }}>
+			</Carousel></div>
+			<div ref={getStarted} style={{ padding: "3% 5%" }}>
 				{/* <CardGroup style={{ padding: "3%" }}>
           <Card
             style={{
