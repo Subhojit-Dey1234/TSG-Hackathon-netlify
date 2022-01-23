@@ -620,7 +620,7 @@ const Example = (props) => {
                 participateEventSocio(
                   eventId,
                   {
-                    rollNumber: "19ME10087",
+                    rollNumber: user.rollNumber,
                   },
                   (res) => {
                     if (res.status === 200) {

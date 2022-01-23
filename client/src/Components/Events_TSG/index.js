@@ -673,7 +673,7 @@ const Example = (props) => {
 								participateEvent(
 									eventId,
 									{
-										rollNumber: "19ME10087",
+										rollNumber: user.rollNumber,
 									},
 									(res) => {
 										if (res.status === 200) {
