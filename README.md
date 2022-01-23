@@ -10,12 +10,15 @@ Some basic Git commands are:
 ```
 git clone https://github.com/Subhojit-Dey1234/WH_WinDiesel.git
 cd WH_WinDiesel
+cd client
+```
+Install the Node modules
+```
+npm install
 ```
 
 Then for start the frontend
 ```
-cd client
-npm install
 npm start
 ```
 Link to Youtube Video for presentation: 
