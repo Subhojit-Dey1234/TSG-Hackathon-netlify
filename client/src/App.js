@@ -22,30 +22,6 @@ import { Alert} from "reactstrap";
 import { useEffect, useState } from "react";
 
 var socket = io("https://hackathon-tsg.herokuapp.com/");
-// var styleConsole = "color:red;font-size:50px;font-weight:bolder;text-shadow: 3px 3px blue,7px 7px orange;"
-// // console.log("%cHi Welcome to the Console of our Website",styleConsole)
-// // console.log("%c HELLO",styleImageConsole.join(';'))
-// console.log("%cHi Welcome to the Console of our Website",styleConsole)
-
-(function(url) {
-	var image = new Image();
-  
-	image.onload = function() {
-	  var style = [
-		'font-size: 1px;',
-		'line-height: ' + this.height + 'px;',
-		'padding: ' + this.height * .5 + 'px ' + this.width * .5 + 'px;',
-		'background-size: ' + this.width + 'px ' + this.height + 'px;',
-		'background: url('+ url +') no-repeat;'
-	   ].join(' ');
-	   console.log('%c ', style);
-	};
-	image.src = url;
-  })('https://media.giphy.com/media/7kn27lnYSAE9O/giphy.gif');
-
-
-var styleConsole = "color:red;font-size:50px;font-weight:bolder;text-shadow: 3px 3px blue,7px 7px orange;"
-console.log("%cHi Welcome to the Console of our Website",styleConsole)
 
 
 function App() {
