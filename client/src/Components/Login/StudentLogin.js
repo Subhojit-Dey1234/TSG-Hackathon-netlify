@@ -36,9 +36,9 @@ export default function StudentLogin() {
 					if (res.status === 200) {
 						setLoad(false);
 						setMsg(true);
-						setTimeout(() => {
+						setInterval(() => {
 							window.location.href = "/otp";
-						}, 200);
+						}, 1000);
 					}
 					let interval;
 					if (res.status === 400) {
