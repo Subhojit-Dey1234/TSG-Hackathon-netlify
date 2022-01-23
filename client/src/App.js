@@ -15,6 +15,7 @@ import ProtectedNotAuth from "./ProtectedNotAuth";
 import Dashboard from "./Components/Dashboard/index";
 import Events_TSG from "./Components/Events_TSG/index";
 import Society_Point from "./Components/Society_Point/index";
+import Calender from './Components/Calender/index'
 import NotFound from "./NotFound";
 import io from "socket.io-client";
 import { Alert} from "reactstrap";
@@ -102,6 +103,7 @@ function App() {
 						<Route path="/events-tsg" element={<Events_TSG />} />
 					</Route>
 					<Route path="/society-point-new" element={<Society_Point />} />
+					<Route path="/calender" element={<Calender/>}/>
 				</Routes>
 			</Router>
 			<br />

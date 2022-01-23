@@ -5,268 +5,280 @@ import { Bar, Pie } from "react-chartjs-2";
 import "./style.css";
 import logo from "./logo.svg";
 import {
-  Row,
-  Col,
-  Button,
-  CardTitle,
-  CardBody,
-  CardImg,
-  Card,
+	Row,
+	Col,
+	Button,
+	CardTitle,
+	CardBody,
+	CardImg,
+	Card,
 } from "reactstrap";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useSelector, useDispatch } from "react-redux";
-import "react-calendar/dist/Calendar.css";
-import { Calendar } from "@natscale/react-calendar";
 import "@natscale/react-calendar/dist/main.css";
 import Gallery from "react-photo-gallery";
 import { photos } from "./Photos";
 import { getEvents } from "../Events_TSG/actions";
 import { getNews } from "../News/actions";
+import Calendar from "react-awesome-calendar";
 const responsive = {
-  superLargeDesktop: {
-    // the naming can be any, depends on you.
-    breakpoint: { max: 4000, min: 3000 },
-    items: 1,
-  },
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 1,
-  },
-  tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 1,
-  },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1,
-  },
+	superLargeDesktop: {
+		// the naming can be any, depends on you.
+		breakpoint: { max: 4000, min: 3000 },
+		items: 1,
+	},
+	desktop: {
+		breakpoint: { max: 3000, min: 1024 },
+		items: 1,
+	},
+	tablet: {
+		breakpoint: { max: 1024, min: 464 },
+		items: 1,
+	},
+	mobile: {
+		breakpoint: { max: 464, min: 0 },
+		items: 1,
+	},
 };
 
 export default function Home() {
-  const dispatch = useDispatch();
-  const [value, setValue] = useState();
-  let events = useSelector((state) => state.eventDetails.events);
-  events = events.slice(0, 3);
+	const dispatch = useDispatch();
+	const [value, setValue] = useState();
+	let events = useSelector((state) => state.eventDetails.events);
+	events = events.slice(0, 3);
 
-  const news = useSelector((state) => state.news.news);
+	const news = useSelector((state) => state.news.news);
 
-  let data = {
-    placementReport: {
-      reports: [
-        {
-          dept: "AE",
-          count: 6,
-        },
-        {
-          dept: "AG",
-          count: 6,
-        },
-        {
-          dept: "AR",
-          count: 6,
-        },
-        {
-          dept: "BT",
-          count: 1,
-        },
-        {
-          dept: "CH",
-          count: 21,
-        },
-        {
-          dept: "CY",
-          count: 4,
-        },
-        {
-          dept: "CE",
-          count: 11,
-        },
-        {
-          dept: "CS",
-          count: 46,
-        },
-        {
-          dept: "EE",
-          count: 11,
-        },
-        {
-          dept: "ECE",
-          count: 0,
-        },
-        {
-          dept: "GG",
-          count: 7,
-        },
-        {
-          dept: "EX",
-          count: 9,
-        },
-        {
-          dept: "MA",
-          count: 15,
-        },
-        {
-          dept: "ME",
-          count: 16,
-        },
-        {
-          dept: "MI",
-          count: 11,
-        },
-        {
-          dept: "MT",
-          count: 5,
-        },
-        {
-          dept: "NA",
-          count: 4,
-        },
-        {
-          dept: "PH",
-          count: 2,
-        },
-      ],
-      _id: "61e2d1682b1f2a3a7fd927f3",
-      __v: 0,
-    },
-    message: "uploaded successfully",
-  };
+	let data = {
+		placementReport: {
+			reports: [
+				{
+					dept: "AE",
+					count: 6,
+				},
+				{
+					dept: "AG",
+					count: 6,
+				},
+				{
+					dept: "AR",
+					count: 6,
+				},
+				{
+					dept: "BT",
+					count: 1,
+				},
+				{
+					dept: "CH",
+					count: 21,
+				},
+				{
+					dept: "CY",
+					count: 4,
+				},
+				{
+					dept: "CE",
+					count: 11,
+				},
+				{
+					dept: "CS",
+					count: 46,
+				},
+				{
+					dept: "EE",
+					count: 11,
+				},
+				{
+					dept: "ECE",
+					count: 0,
+				},
+				{
+					dept: "GG",
+					count: 7,
+				},
+				{
+					dept: "EX",
+					count: 9,
+				},
+				{
+					dept: "MA",
+					count: 15,
+				},
+				{
+					dept: "ME",
+					count: 16,
+				},
+				{
+					dept: "MI",
+					count: 11,
+				},
+				{
+					dept: "MT",
+					count: 5,
+				},
+				{
+					dept: "NA",
+					count: 4,
+				},
+				{
+					dept: "PH",
+					count: 2,
+				},
+			],
+			_id: "61e2d1682b1f2a3a7fd927f3",
+			__v: 0,
+		},
+		message: "uploaded successfully",
+	};
 
-  // console.log(news)
+	// console.log(news)
 
-  const carouselItem_One =
-    "COVID tests have been initiated and are currently being conducted on a primary contact basis. If any boarder has symptoms mentioned below,they are advised to contact their HP/SSM/Hall Council Member immediately to get tested. If someone is showing any of these signs, seek emergency medical care immediately (BC Roy Technology Hospital): Trouble breathing, persistent pain or pressure in the chest, inability to wake or stay awake, pale, gray, or blue-coloured skin, lips, or nail beds, depending on skin tone.";
-  const carouselItem_Two =
-    "Makar Sakranti embodies the incessant movement in life. Sakranti means movement and this day signify the transit of sun into a new Zodiac symbolising the evolution of nature. Around the country it is celebrated pompously as a harvest festival with auspicious belief of tenacity and gratuity.";
-  const carouselItem_Three =
-    "As we step into another year, let us embrace it with joy, hope and belief. Ink a new chapter with renewed beliefs, redirected path, revived attitude and rejuvenated actions. Let this year be the year you seek progress rather than perfection and enjoy every victory you win along the way to your goals.";
-  useEffect(() => {
-    dispatch(
-      getNews((res) => {
-        // console.log(res)
-      })
-    );
-    dispatch(
-      getEvents((res) => {
-        // console.log(res)
-      })
-    );
-  }, []);
+	const carouselItem_One =
+		"COVID tests have been initiated and are currently being conducted on a primary contact basis. If any boarder has symptoms mentioned below,they are advised to contact their HP/SSM/Hall Council Member immediately to get tested. If someone is showing any of these signs, seek emergency medical care immediately (BC Roy Technology Hospital): Trouble breathing, persistent pain or pressure in the chest, inability to wake or stay awake, pale, gray, or blue-coloured skin, lips, or nail beds, depending on skin tone.";
+	const carouselItem_Two =
+		"Makar Sakranti embodies the incessant movement in life. Sakranti means movement and this day signify the transit of sun into a new Zodiac symbolising the evolution of nature. Around the country it is celebrated pompously as a harvest festival with auspicious belief of tenacity and gratuity.";
+	const carouselItem_Three =
+		"As we step into another year, let us embrace it with joy, hope and belief. Ink a new chapter with renewed beliefs, redirected path, revived attitude and rejuvenated actions. Let this year be the year you seek progress rather than perfection and enjoy every victory you win along the way to your goals.";
+	useEffect(() => {
+		dispatch(
+			getNews((res) => {
+				// console.log(res)
+			}),
+		);
+		dispatch(
+			getEvents((res) => {
+				// console.log(res)
+			}),
+		);
+	}, []);
 
+	const calendarData = [];
+	let color = ["#fd3153", "#1ccb9e", "#3694DF"];
+	for (let event of events) {
+		let d = {
+			id: event._id,
+			color: color[events.indexOf(event) % 3],
+			from: event.eventStartTime.slice(0, event.eventStartTime.length - 1),
+			to: event.eventEndTime.slice(0, event.eventEndTime.length - 1),
+			// title: event.name,
+		};
 
-  var host = window.location.origin;
+		calendarData.push(d);
+	}
 
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "June",
-    "July",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
+	var host = window.location.origin;
 
-  var delayed;
-  const onChange = useCallback(
-    (value) => {
-      setValue(value);
-    },
-    [setValue]
-  );
-  return (
-    <div>
-      <Row
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "5%",
-        }}
-      >
-        <Col sm="6">
-          <h1 style={{ color: "#727dbd", fontWeight: "bolder" }}>
-            Welcome To TSG Site
-          </h1>
-          <p
-            style={{
-              borderLeft: "4px solid #727dbd",
-              padding: "2%",
-              color: "black",
-            }}
-          >
-            A Hub of the numerous extra-curricular and co-curricular activities
-            in IIT Kharagpur ranging from sports to socio-cultural
-          </p>
-          <Button
-            style={{
-              width: "200px",
-              height: "50px",
-              backgroundColor: "#727dbd",
-              color: "white",
-              border: "none",
-            }}
-            onClick={() => {
-              window.location.href =
-                "https://docs.google.com/forms/d/e/1FAIpQLSft9FXZYvLiNt3oy0K3Iu4d6HoE830RhNWFHMXx1R4IjlhHKA/viewform";
-            }}
-          >
-            Get Started
-          </Button>
-          <br />
-        </Col>
-        <Col sm="6">
-          <br />
-          <img src={main} alt="MainImage" style={{ width: "100%" }} />
-        </Col>
-      </Row>
-      <Carousel responsive={responsive} style={{ backgroundColor: "#7882bd" }}>
-        <div
-          style={{
-            backgroundColor: "#7882bd",
-            alignItems: "center",
-            textAlign: "center",
-            padding: "5%",
-            color: "white",
-          }}
-        >
-          {window.innerWidth > 900
-            ? carouselItem_One
-            : carouselItem_One.slice(0, 70) + "..."}
-        </div>
-        <div
-          style={{
-            backgroundColor: "#7882bd",
-            alignItems: "center",
-            textAlign: "center",
-            padding: "5%",
-            color: "white",
-          }}
-        >
-          {window.innerWidth > 900
-            ? carouselItem_Two
-            : carouselItem_Two.slice(0, 70) + "..."}
-        </div>
-        <div
-          style={{
-            backgroundColor: "#7882bd",
-            alignItems: "center",
-            textAlign: "center",
-            padding: "5%",
-            color: "white",
-          }}
-        >
-          {window.innerWidth > 900
-            ? carouselItem_Three
-            : carouselItem_Three.slice(0, 70) + "..."}
-        </div>
-      </Carousel>
-      <div style={{ padding: "3% 5%" }}>
-        {/* <CardGroup style={{ padding: "3%" }}>
+	const months = [
+		"Jan",
+		"Feb",
+		"Mar",
+		"Apr",
+		"May",
+		"June",
+		"July",
+		"Aug",
+		"Sep",
+		"Oct",
+		"Nov",
+		"Dec",
+	];
+
+	var delayed;
+	const onChange = useCallback(
+		(value) => {
+			setValue(value);
+		},
+		[setValue],
+	);
+	return (
+		<div>
+			<Row
+				style={{
+					alignItems: "center",
+					justifyContent: "center",
+					padding: "5%",
+				}}
+			>
+				<Col sm="6">
+					<h1 style={{ color: "#727dbd", fontWeight: "bolder" }}>
+						Welcome To TSG Site
+					</h1>
+					<p
+						style={{
+							borderLeft: "4px solid #727dbd",
+							padding: "2%",
+							color: "black",
+						}}
+					>
+						A Hub of the numerous extra-curricular and co-curricular activities
+						in IIT Kharagpur ranging from sports to socio-cultural
+					</p>
+					<Button
+						style={{
+							width: "200px",
+							height: "50px",
+							backgroundColor: "#727dbd",
+							color: "white",
+							border: "none",
+						}}
+						onClick={() => {
+							window.location.href =
+								"https://docs.google.com/forms/d/e/1FAIpQLSft9FXZYvLiNt3oy0K3Iu4d6HoE830RhNWFHMXx1R4IjlhHKA/viewform";
+						}}
+					>
+						Get Started
+					</Button>
+					<br />
+				</Col>
+				<Col sm="6">
+					<br />
+					<img src={main} alt="MainImage" style={{ width: "100%" }} />
+				</Col>
+			</Row>
+			<Carousel responsive={responsive} style={{ backgroundColor: "#7882bd" }}>
+				<div
+					style={{
+						backgroundColor: "#7882bd",
+						alignItems: "center",
+						textAlign: "center",
+						padding: "5%",
+						color: "white",
+					}}
+				>
+					{window.innerWidth > 900
+						? carouselItem_One
+						: carouselItem_One.slice(0, 70) + "..."}
+				</div>
+				<div
+					style={{
+						backgroundColor: "#7882bd",
+						alignItems: "center",
+						textAlign: "center",
+						padding: "5%",
+						color: "white",
+					}}
+				>
+					{window.innerWidth > 900
+						? carouselItem_Two
+						: carouselItem_Two.slice(0, 70) + "..."}
+				</div>
+				<div
+					style={{
+						backgroundColor: "#7882bd",
+						alignItems: "center",
+						textAlign: "center",
+						padding: "5%",
+						color: "white",
+					}}
+				>
+					{window.innerWidth > 900
+						? carouselItem_Three
+						: carouselItem_Three.slice(0, 70) + "..."}
+				</div>
+			</Carousel>
+			<div style={{ padding: "3% 5%" }}>
+				{/* <CardGroup style={{ padding: "3%" }}>
           <Card
             style={{
               alignItems: "center",
@@ -388,231 +400,246 @@ export default function Home() {
             </CardBody>
           </Card>
         </CardGroup> */}
-        <br />
-        <br />
-        <br />
-        <br />
-        <Row style={{ alignItems: "center", justifyContent: "center" }}>
-          <Col sm="8">
-            {news.slice(0, 1).map((ne) => (
-              <Card
-                style={{
-                  textAlign: "left",
-                  boxShadow: "2px grey",
-                  margin: "0",
-                }}
-              >
-                <Row
-                  style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    textAlign: "justify",
-                  }}
-                >
-                  <Col
-                    sm="4"
-                    style={{
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <CardImg
-                      src={host + ne.image}
-                      alt="Card image cap"
-                      style={{
-                        objectFit: "cover",
-                        width: "20vw",
-                        height: "20vw",
-                        display: window.innerWidth < 900 ? "none" : "block",
-                      }}
-                    />
-                  </Col>
-                  <Col sm="8">
-                    <CardBody>
-                      <h5>Highlighting News</h5>
-                      <p>{ne.name}</p>
-                      <CardTitle>
-                        {ne.description.slice(0, 500)}
-                        {ne.description.length > 500 ? "..." : ""}
-                      </CardTitle>
-                    </CardBody>
-                  </Col>
-                </Row>
-              </Card>
-            ))}
-          </Col>
-          <Col sm="4">
-            <Card
-              style={{
-                alignItems: "center",
-                border: "none",
-                justifyContent: "center",
-              }}
-            >
-              <br />
-              <Calendar value={value} onChange={onChange} />
-              <marquee behaviour="alternate" style={{ margin: "4% 12%" }}>
-                <b>Upcoming Events: </b>
-                {events.map((event) => (
-                  <a href={() => false}>
-                    {new Date(event.eventStartTime).getDate()}{" "}
-                    {months[new Date(event.eventStartTime).getMonth()]}{" "}
-                    {event.name} |{" "}
-                  </a>
-                ))}
-              </marquee>
-              {/* <marquee behavior="alternate"><span class="marquee">This is a marquee!</span></marquee> */}
-            </Card>
-          </Col>
-        </Row>
-        <br />
-        <br />
-        <br />
-        <br />
-        <center>
-          <h2
-            style={{ color: "#7882bd", textDecoration: "none" }}
-            className="cdchover"
-          >
-            CDC Statistics
-          </h2>
-          <Row>
-            <Col xl="6">
-              <Bar
-                data={{
-                  labels: data.placementReport.reports.map((e) => {
-                    return e.dept;
-                  }),
-                  datasets: [
-                    {
-                      label: "Total",
-                      data: data.placementReport.reports.map((e) => {
-                        return e.count;
-                      }),
-                      backgroundColor: [
-                        "rgba(255, 0, 0, 0.4)",
-                        "rgba(0, 255, 0, 0.4)",
-                        "rgba(0, 0, 255, 0.4)",
-                      ],
-                      borderWidth: 2,
-                      borderColor: [
-                        "rgba(255, 0, 0, 1)",
-                        "rgba(0, 255, 0, 1)",
-                        "rgba(0, 0, 255, 1)",
-                      ],
-                    },
-                  ],
-                }}
-                options={{
-                  plugins: {
-                    title: {
-                      display: true,
-                      text: "PLACEMENT DATA",
-                    },
-                    legend: {
-                      display: true,
-                      position: "top",
-                    },
-                  },
-                  animation: {
-                    onComplete: () => {
-                      delayed = true;
-                    },
-                    delay: (context) => {
-                      let delay = 0;
-                      if (
-                        context.type === "data" &&
-                        context.mode === "default" &&
-                        !delayed
-                      ) {
-                        delay =
-                          context.dataIndex * 150 + context.datasetIndex * 50;
-                      }
-                      return delay;
-                    },
-                  },
-                }}
-              />
-            </Col>
-            <Col
-              onScroll={(e) => {
-                console.log(e);
-              }}
-              xl="6"
-            >
-              <Bar
-                data={{
-                  labels: data.placementReport.reports.map((e) => {
-                    return e.dept;
-                  }),
-                  datasets: [
-                    {
-                      label: "Total",
-                      data: data.placementReport.reports.map((e) => {
-                        return e.count;
-                      }),
-                      backgroundColor: [
-                        "rgba(255, 0, 0, 0.4)",
-                        "rgba(0, 255, 0, 0.4)",
-                        "rgba(0, 0, 255, 0.4)",
-                      ],
-                      borderWidth: 2,
-                      borderColor: [
-                        "rgba(255, 0, 0, 1)",
-                        "rgba(0, 255, 0, 1)",
-                        "rgba(0, 0, 255, 1)",
-                      ],
-                    },
-                  ],
-                }}
-                options={{
-                  plugins: {
-                    title: {
-                      display: true,
-                      text: "INTERNSHIP DATA",
-                    },
-                    legend: {
-                      display: true,
-                      position: "top",
-                    },
-                  },
-                  animation: {
-                    onComplete: () => {
-                      delayed = true;
-                    },
-                    delay: (context) => {
-                      let delay = 0;
-                      if (
-                        context.type === "data" &&
-                        context.mode === "default" &&
-                        !delayed
-                      ) {
-                        delay =
-                          context.dataIndex * 150 + context.datasetIndex * 50;
-                      }
-                      return delay;
-                    },
-                  },
-                  responsive: true,
-                }}
-              />
-            </Col>
-          </Row>
-          <br />
-          <br />
-          <br />
-        </center>
-        <br />
-        {/* <center>
+				<br />
+				<br />
+				<br />
+				<br />
+				<Row style={{ alignItems: "center", justifyContent: "center" }}>
+					<Col sm="8">
+						{news.slice(0, 2).map((ne) => (
+							<Card
+								style={{
+									textAlign: "left",
+									boxShadow: "2px grey",
+									margin: "0",
+									marginBottom: "10px",
+								}}
+							>
+								<Row
+									style={{
+										alignItems: "center",
+										justifyContent: "center",
+										textAlign: "justify",
+									}}
+								>
+									<Col
+										sm="4"
+										style={{
+											alignItems: "center",
+											justifyContent: "center",
+										}}
+									>
+										<CardImg
+											src={host + ne.image}
+											alt="Card image cap"
+											style={{
+												objectFit: "cover",
+												width: "20vw",
+												height: "20vw",
+												display: window.innerWidth < 900 ? "none" : "block",
+											}}
+										/>
+									</Col>
+									<Col sm="8">
+										<CardBody>
+											<h5>Highlighting News</h5>
+											<p>{ne.name}</p>
+											<CardTitle>
+												{ne.description.slice(0, 500)}
+												{ne.description.length > 500 ? "..." : ""}
+											</CardTitle>
+										</CardBody>
+									</Col>
+								</Row>
+							</Card>
+						))}
+					</Col>
+					<Col sm="4">
+						<Card
+							style={{
+								alignItems: "center",
+								border: "none",
+								justifyContent: "center",
+							}}
+						>
+							<br />
+							<div
+								style={{ height: "100%", width: "100%" }}
+							>
+								<Calendar
+									onClickTimeLine={null}
+									onChange={null}
+									onClickEvent={null}
+									events={calendarData}
+									onClickEvent={null}
+									mode={"monthlyMode"}
+								/>
+                
+                <a href="/calender" style={{textAlign:"right",width:"100%",position:"absolute",textDecoration:"none",color:"black"}}>Full Screen View</a>
+                <br/>
+							</div>
+							<marquee behaviour="alternate" style={{ margin: "4% 12%" }}>
+								<b>Upcoming Events: </b>
+								{events.map((event) => (
+									<a href={() => false}>
+										{new Date(event.eventStartTime).getDate()}{" "}
+										{months[new Date(event.eventStartTime).getMonth()]}{" "}
+										{event.name} |{" "}
+									</a>
+								))}
+							</marquee>
+							{/* <marquee behavior="alternate"><span class="marquee">This is a marquee!</span></marquee> */}
+						</Card>
+					</Col>
+				</Row>
+				<br />
+				<br />
+				<br />
+				<br />
+				<center>
+					<h2
+						style={{ color: "#7882bd", textDecoration: "none" }}
+						className="cdchover"
+					>
+						CDC Statistics
+					</h2>
+					<Row>
+						<Col xl="6">
+							<Bar
+								data={{
+									labels: data.placementReport.reports.map((e) => {
+										return e.dept;
+									}),
+									datasets: [
+										{
+											label: "Total",
+											data: data.placementReport.reports.map((e) => {
+												return e.count;
+											}),
+											backgroundColor: [
+												"rgba(255, 0, 0, 0.4)",
+												"rgba(0, 255, 0, 0.4)",
+												"rgba(0, 0, 255, 0.4)",
+											],
+											borderWidth: 2,
+											borderColor: [
+												"rgba(255, 0, 0, 1)",
+												"rgba(0, 255, 0, 1)",
+												"rgba(0, 0, 255, 1)",
+											],
+										},
+									],
+								}}
+								options={{
+									plugins: {
+										title: {
+											display: true,
+											text: "PLACEMENT DATA",
+										},
+										legend: {
+											display: true,
+											position: "top",
+										},
+									},
+									animation: {
+										onComplete: () => {
+											delayed = true;
+										},
+										delay: (context) => {
+											let delay = 0;
+											if (
+												context.type === "data" &&
+												context.mode === "default" &&
+												!delayed
+											) {
+												delay =
+													context.dataIndex * 150 + context.datasetIndex * 50;
+											}
+											return delay;
+										},
+									},
+								}}
+							/>
+						</Col>
+						<Col
+							onScroll={(e) => {
+								console.log(e);
+							}}
+							xl="6"
+						>
+							<Bar
+								data={{
+									labels: data.placementReport.reports.map((e) => {
+										return e.dept;
+									}),
+									datasets: [
+										{
+											label: "Total",
+											data: data.placementReport.reports.map((e) => {
+												return e.count;
+											}),
+											backgroundColor: [
+												"rgba(255, 0, 0, 0.4)",
+												"rgba(0, 255, 0, 0.4)",
+												"rgba(0, 0, 255, 0.4)",
+											],
+											borderWidth: 2,
+											borderColor: [
+												"rgba(255, 0, 0, 1)",
+												"rgba(0, 255, 0, 1)",
+												"rgba(0, 0, 255, 1)",
+											],
+										},
+									],
+								}}
+								options={{
+									plugins: {
+										title: {
+											display: true,
+											text: "INTERNSHIP DATA",
+										},
+										legend: {
+											display: true,
+											position: "top",
+										},
+									},
+									animation: {
+										onComplete: () => {
+											delayed = true;
+										},
+										delay: (context) => {
+											let delay = 0;
+											if (
+												context.type === "data" &&
+												context.mode === "default" &&
+												!delayed
+											) {
+												delay =
+													context.dataIndex * 150 + context.datasetIndex * 50;
+											}
+											return delay;
+										},
+									},
+									responsive: true,
+								}}
+							/>
+						</Col>
+					</Row>
+					<br />
+					<br />
+					<br />
+				</center>
+				<br />
+				{/* <center>
           <h2 style={{ color: "#7882bd" }}>CDC Reports</h2>
         </center> */}
-        <center>
-          <h2 style={{ color: "#7882bd" }}>View Our Gallery</h2>
-        </center>
-        <br />
-        <br />
-        <Gallery photos={photos} direction={"row"} />
-      </div>
-    </div>
-  );
+				<center>
+					<h2 style={{ color: "#7882bd" }}>View Our Gallery</h2>
+				</center>
+				<br />
+				<br />
+				<Gallery photos={photos} direction={"row"} />
+			</div>
+		</div>
+	);
 }
