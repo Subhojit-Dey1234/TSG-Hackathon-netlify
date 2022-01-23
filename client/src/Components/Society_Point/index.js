@@ -23,6 +23,7 @@ import upload from "../../Images/upload.svg";
 // import logo3 from "../../Images/logo3.png";
 import deleteImg from "../../Images/delete.svg";
 import editImg from "../../Images/edit.svg";
+import personImg from "../../Images/person.png";
 import { Row, Col } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import loadingUpload from "../../Images/loader.gif";
@@ -513,7 +514,7 @@ const Example = (props) => {
                           console.log(event.students);
                         }}
                       >
-                        <img src={editImg} style={{ width: "20px" }} alt="edit"/>
+                        <img src={personImg} style={{ width: "20px" }} alt="edit"/>
                       </Button>{" "}
                     </div>
                   </div>
