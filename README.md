@@ -12,23 +12,23 @@
   <li>Students - Institute Mail ID Which Are Added In The Schema</li>
 </ul>
 
-<h4>Some Basic Git Commands</h4>
+<b>Some Basic Git Commands</b>
 ```
 git clone https://github.com/Subhojit-Dey1234/WH_WinDiesel.git
 cd WH_WinDiesel
 cd client
 ```
-<h4>Install The Node Modules</h4>
+<b>Install The Node Modules</b>
 ```
 npm install
 ```
 
-<h4>To Start The Frontend</h4>
+<b>To Start The Frontend</b>
 ```
 npm start
 ```
 
-<h4>To Check The Hosted Version</h4>
+<b>To Check The Hosted Version</b>
 ```
 https://hackathon-tsg.herokuapp.com/
 ```
