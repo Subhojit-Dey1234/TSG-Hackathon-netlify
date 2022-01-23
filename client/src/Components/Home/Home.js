@@ -154,6 +154,9 @@ export default function Home() {
     );
   }, []);
 
+
+  var host = window.location.origin;
+
   const months = [
     "Jan",
     "Feb",
@@ -414,7 +417,7 @@ export default function Home() {
                     }}
                   >
                     <CardImg
-                      src={ne.image}
+                      src={host + ne.image}
                       alt="Card image cap"
                       style={{
                         objectFit: "cover",
