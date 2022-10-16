@@ -33,5 +33,5 @@ npm start
 https://hackathon-tsg.herokuapp.com/
 ```
 
-Click [here](https://www.youtube.com/watch?v=9NO-dBeIY5M) To See The Video Presentation
+Click [here](https://youtu.be/gf7rx-j8yPk) To See The Video Presentation
 
